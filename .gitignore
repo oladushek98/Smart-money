@@ -1,0 +1,8 @@
+Diplom/settings.py
+.idea/
+venv/*
+main/migrations/*
+Scripts/*
+Lib/*
+Diplom/__pycache__/*
+*.cfg
