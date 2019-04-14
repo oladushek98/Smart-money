@@ -2,25 +2,49 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
     <meta charset="UTF-8">
     <title>Title</title>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto"
+          rel="stylesheet">
 
-    <link type="text/css" rel="stylesheet" href="{% static 'main/stylesheet/styles.css' %}">
+    <link type="text/css" rel="stylesheet"
+          href="{% static 'main/stylesheet/styles.css' %}">
+
 
 </head>
 <body>
-    <header>
+    <div class="background"></div>
 
+    <header class="header-sm">
+        <div class="header-container">
+            <div class="header-left">
+                <a class="header-logo" href="/"></a>
+                <div class="header-title"></div>
+            </div>
+            <div class="header-right">
+                <button>Login</button>
+                <span>USER NAME</span>
+            </div>
+        </div>
     </header>
-    <main class="container">
+
+    <main class="body-container sm-container">
         {% block content %}
         {% endblock %}
     </main>
 </body>
+<script>
+    {% block scrypt %}
+    {% endblock %}
+</script>
 </html>
