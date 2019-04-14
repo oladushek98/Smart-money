@@ -1,0 +1,508 @@
+.header-sm {
+    position: relative;
+    height: 70px;
+    z-index: 14;
+
+    background-color: #fff;
+    box-shadow: 0 2px 9px rgba(0, 0, 0, .13);
+}
+
+.header-container {
+    height: 100%;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: auto;
+    max-width: 1280px;
+    padding: 0 55px;
+}
+
+.header-title {
+    background-image: url("https://coinkeeper.me/content/img/sprites/spritesheet_1x.png");
+    background-position: 0 -188px;
+    width: 137px;
+    height: 25px;
+    background-repeat: no-repeat;
+}
+
+.header-logo {
+    background-image: url("https://coinkeeper.me/content/img/sprites/spritesheet_1x.png");
+
+    background-position: -271px -131px;
+    width: 54px;
+    height: 54px;
+    background-repeat: no-repeat;
+    border-radius: 11px;
+    box-shadow: 2px 2px 9px rgba(0, 0, 0, .13);
+    margin-right: 18px;
+}
+
+.header-left {
+    height: 100%;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.header-right {
+    position: relative;
+    right: -14px;
+    height: 100%;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.background {
+    background-image: url("https://coinkeeper.me/content/img/bg.png");
+    background-color: #efefec;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-size: 400px;
+    z-index: -1;
+}
+
+.sm-dashboard {
+    width: 100%;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+
+.sm-dashboard-top {
+    width: 100%;
+}
+
+.sm-dashboard-body {
+    width: 100%;
+    padding-top: 30px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+
+.sm-dashboard-column {
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.sm-category-block {
+    width: 540px;
+}
+
+.sm-category-card {
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 2px 2px 9px rgba(0, 0, 0, .13);
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.sm-category-block_header {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    max-height: 140px;
+    padding: 20px;
+    font-weight: 400;
+    font-size: 20px;
+    border-bottom: 1px solid #e8e7e7;
+    background-color: rgba(244, 244, 241, .4);
+    color: #797878;
+}
+
+.sm-category-block_body {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding: 15px 17px 0;
+}
+
+.sm-category-block_title {
+
+}
+
+.sm-category-block_name {
+    text-transform: uppercase;
+}
+
+.sm-category-block_date, .sm-category-block_stats-title {
+    margin-top: 0px;
+    text-transform: lowercase;
+    font-size: 12px;
+    color: #9a9898;
+}
+
+.sm-category-block_stats{
+    width: 310px;
+    text-align: right;
+}
+
+.sm-category-block_stats-item {
+    display: inline-block;
+    width: 130px;
+    margin: 0 0 16px 20px;
+    text-align: right;
+}
+
+.sm-category-block_stats-amount {
+
+}
+
+body {
+    font-family: 'Roboto',sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    color: #64635f;
+}
+
+.sm-category {
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 120px;
+    margin: 0 3px 15px;
+    z-index: 1;
+}
+
+.sm-category_add-category {
+    padding: 38px 0 40px;
+}
+
+.sm-category_icon-wrapper {
+    position: relative;
+    margin: 10px 0;
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #c1c5c9;
+    cursor: pointer;
+}
+
+.sm-category_fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.sm-category_icon-plus:before {
+    width: 20px;
+    height: 2px;
+}
+
+.sm-category_icon-plus:after {
+    width: 2px;
+    height: 20px;
+}
+
+.sm-category_icon-cash {
+    background-image: url("https://coinkeeper.me/content/img/sprites/web_1x.png");
+    background-position: -184px -46px;
+    width: 37px;
+    height: 37px;
+    background-repeat: no-repeat;
+    margin: auto;
+}
+
+.sm-category_add-category .sm-category_icon-wrapper:hover {
+    border-color: #b6b3b3;
+}
+
+.sm-category_add-category .sm-category_icon-wrapper:hover .sm-category_icon:before, .sm-category_add-category .sm-category_icon-wrapper:hover .sm-category_icon:after {
+    background-color: #b6b3b3;
+}
+
+.sm-category_add-category .sm-category_icon-wrapper {
+    background-color: transparent;
+    border: 2px solid #dedcdc;
+    box-shadow: none;
+}
+
+.sm-category_edit {
+    display: none;
+    position: absolute;
+    top: 45px;
+    right: 1px;
+    width: 18px;
+    height: 18px;
+    fill: #d5d5d5;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.sm-category_expense{
+
+}
+
+.sm-category_color_green .sm-category_fill {
+    background-color: #0ac38e;
+}
+
+.sm-category_expense .sm-category_fill {
+    background-color: #0ac38e;
+}
+
+.sm-category_color_green .sm-category_actual-amount {
+    color: #0ac38e;
+}
+
+.sm-category_expense .sm-category_actual-amount {
+    color: #03a879;
+}
+
+.sm-category_icon-car{
+    background-image: url("https://coinkeeper.me/content/img/sprites/web_1x.png");
+    background-position: -92px -138px;
+    width: 37px;
+    height: 37px;
+    background-repeat: no-repeat;
+    margin: auto;
+}
+
+.sm-category_icon-wrapper:hover {
+    background-color: #d6d6d6;
+}
+
+.sm-category_account .sm-category_fill, .sm-category_bankaccount .sm-category_fill, .sm-category_debtaccount .sm-category_fill, .sm-category_classicgoal .sm-category_fill {
+    background-color: #fc0;
+}
+
+.sm-category_account .sm-category_actual-amount, .sm-category_bankaccount .sm-category_actual-amount, .sm-category_debtaccount .sm-category_actual-amount, .sm-category_classicgoal .sm-category_actual-amount {
+    color: #f9a825;
+}
+
+.sm-category_icon-plus:before, .sm-category_icon-plus:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #dedcdc;
+    content: '';
+}
+
+.sm-category_icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 37px;
+    height: 37px;
+    margin: auto;
+    background-image: url("https://coinkeeper.me/content/img/sprites/web_1x.png");
+}
+
+.sm-category_icon-plant {
+    background-image: url("https://coinkeeper.me/content/img/sprites/web_1x.png");
+    background-position: -92px -322px;
+    width: 37px;
+    height: 37px;
+    background-repeat: no-repeat;
+    margin: auto;
+}
+
+.sm-category_amount {
+    padding: 4px 0;
+    height: 40px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.sm-category_actual-amount {
+    height: 16px;
+    line-height: 16px;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.sm-category_income .sm-category_actual-amount {
+    color: #0a93d1;
+}
+
+.sm-category_plan-amount {
+    font-size: 13px;
+    color: #9a9898;
+}
+
+.sm-category_income .sm-category_icon-wrapper {
+    background-color: #0491d1;
+}
+
+.sm-category_income .sm-category_icon-wrapper:hover {
+    background-color: #0b9ee1;
+}
+
+.sm-category_income .sm-category_fill {
+    background-color: #03bded;
+}
+
+.sm-category_icon-plus {
+    background-image: none;
+}
+
+.sm-category_income {
+
+}
+
+.sm-category_account {
+
+}
+
+
+.sm-category_title {
+    width: 100%;
+    height: 38px;
+    overflow: hidden;
+    line-height: 38px;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    color: #4f4f4f;
+}
+
+
+.add-transaction_wrapper {
+
+}
+
+.add-transaction_text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.sm-add-transaction_state_standby {
+
+}
+
+.add-transaction_placeholder {
+    margin: 0;
+}
+
+.sm-fade + .add-transaction {
+    z-index: 401;
+}
+
+.sm-add-transaction_submit::before {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -11px;
+    margin-top: -11px;
+    background-image: url("https://coinkeeper.me/content/img/sprites/spritesheet_1x.png");
+    background-position: -240px -138px;
+    width: 22px;
+    height: 22px;
+    background-repeat: no-repeat;
+    content: '';
+}
+
+.sm-add-transaction_submit[disabled] {
+    cursor: default;
+    opacity: .5;
+}
+
+.sm-add-transaction_submit {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 66px;
+    background-color: #0eac7f;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    cursor: pointer;
+}
+
+.add-transaction {
+    width: 100%;
+    height: 66px;
+    box-shadow: 2px 2px 9px rgba(0, 0, 0, .13);
+    background-color: #fff;
+    position: relative;
+    border-radius: 4px;
+    line-height: 66px;
+    padding: 0 86px 0 20px;
+    font-weight: 300;
+    color: #757474;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    font-size: 16px;
+    z-index: 3;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+}
+
+.sm-container {
+    margin: auto;
+    max-width: 1280px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+    position: relative;
+    padding: 30px 55px 90px;
+}
+
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+}
