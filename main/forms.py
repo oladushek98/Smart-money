@@ -1,14 +1,11 @@
 from django import forms
-from django.forms import Form, ModelForm
+from django.forms import Form
 from django.core.exceptions import ValidationError
 from django.conf import settings
 
 import json
 import string
 import os
-
-from main.models import UserAdditionalInfo
-from django.contrib.auth.models import User
 
 
 class EditBioForm(Form):
@@ -23,7 +20,7 @@ class EditBioForm(Form):
     last_name = forms.CharField(label='Last name', max_length=50)
     first_name = forms.CharField(label='First name', max_length=50)
     email = forms.EmailField(label='E-mail', max_length=30)
-    currency = forms.ChoiceField(choices=choices, initial='AUD')
+    currency = forms.ChoiceField(choices=choices)
 
     def clean_last_name(self):
         last = self.data.get('last_name')
