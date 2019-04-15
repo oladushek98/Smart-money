@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import views
 from django.urls import reverse_lazy
+import re
 
 from main.models import UserAdditionalInfo
 
@@ -17,6 +18,7 @@ class RegisterView(views.View):
 
     def post(self, request):
         form = UserCreationForm(request.POST)
+        args = {}
         if form.is_valid():
             form.save()
             username = request.POST.get('username')
@@ -33,10 +35,14 @@ class RegisterView(views.View):
             return redirect('/')
 
         else:
+            exp = r'[a-zA-Z0-9 \&#\;]*\.'
+            error = re.findall(exp, str(form.errors))[0]
+            error = error.replace('&#39;', '\'')
+            args['error'] = error
             form = UserCreationForm()
-        args = {'form': form, 'error': 'This nick is already used!'}
+            args['form'] = form
 
-        return render(request, 'register.html', args)
+            return render(request, 'register.html', args)
 
 
 class LoginView(views.View):
