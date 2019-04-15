@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+
+{% block buttons %}
+
+     {% if request.user.is_authenticated %}
+         <a href="{% url 'logout' %}" class="waves-effect waves-light btn" type="submit">LogOut, {{ user.username }}</a>
+     {% else %}
+         <a href="{% url 'login' %}" class="waves-effect waves-light btn" type="submit">Sign in</a>
+         <a href="{% url 'register' %}" class="waves-effect waves-light btn" type="submit">Sign up</a>
+     {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="sm-dashboard">
+        <div class="sm-dashboard-top">
+            <div class="add-transaction_wrapper">
+                <div class="add-transaction sm-add-transaction_state_standby">
+                <span class="add-transaction_text add-transaction_placeholder">
+                    из Кошелька в Продукты 1000 ₽ 12.04.2019 #метка комментарий
+                </span>
+                    <button class="sm-add-transaction_submit"></button>
+                    <a href="{% url 'edit_user' user.id %}">Edit bio</a>
+                </div>
+            </div>
+        </div>
+        <div class="sm-dashboard-body">
+            <div class="sm-dashboard-column">
+                <div class="sm-category-block sm-category-card">
+
+                    <div class="sm-category-block_header">
+                        <div class="sm-category-block_title">
+                            <div class="sm-category-block_name">Доходы</div>
+                            <div class="sm-category-block_date">апрель 2019
+                            </div>
+                        </div>
+                        <div class="sm-category-block_stats">
+                            <div class="sm-category-block_stats-item">
+                                <div class="sm-category-block_stats-amount"> Br‎
+                                    0
+                                </div>
+                                <div class="sm-category-block_stats-title">
+                                    получено
+                                </div>
+                            </div>
+                            <div class="sm-category-block_stats-item">
+                                <div class="sm-category-block_stats-amount"> Br‎
+                                    160
+                                </div>
+                                <div class="sm-category-block_stats-title">
+                                    бюджет доходов
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sm-category-block_body">
+                        <div class="sm-category sm-category_income">
+                            <div class="sm-category_title" title="доходы">
+                                доходы
+                            </div>
+                            <div class="sm-category_icon-wrapper">
+                                <div class="sm-category_fill"
+                                     style="height: 0%"></div>
+                                <div class="sm-category_icon sm-category_icon-plant"></div>
+                            </div>
+                            <div class="sm-category_amount">
+                                <div class="sm-category_actual-amount">Br 0
+                                </div>
+                                <div class="sm-category_plan-amount">160</div>
+                            </div>
+                            <div class="sm-category_edit">
+                                <svg viewBox="0 0 18 18">
+                                    <g fill-rule="evenodd">
+
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="sm-category sm-category_add-category">
+                            <a class="sm-category_icon-wrapper modal-trigger"
+                               href="#modal3">
+                                <div class="sm-category_fill"></div>
+                                <div class="sm-category_icon sm-category_icon-plus"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sm-category-block sm-category-card">
+                    <div class="sm-category-block_header">
+                        <div class="sm-category-block_title">
+                            <div class="sm-category-block_name">Счета</div>
+                        </div>
+                        <div class="sm-category-block_stats">
+                            <div class="sm-category-block_stats-item">
+                                <div class="sm-category-block_stats-amount"> Br‎
+                                    109
+                                </div>
+                                <div class="sm-category-block_stats-title">в
+                                    наличии
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sm-category-block_body">
+                        <div class="sm-category sm-category_account">
+                            <div class="sm-category_title" title="кошелек">
+                                кошелек
+                            </div>
+                            <div class="sm-category_icon-wrapper">
+                                <div class="sm-category_fill"></div>
+                                <div class="sm-category_icon sm-category_icon-cash"></div>
+                            </div>
+                            <div class="sm-category_amount">
+                                <div class="sm-category_actual-amount">Br 109
+                                </div>
+                            </div>
+                            <div class="sm-category_edit">
+                                <svg viewBox="0 0 18 18">
+                                    <g fill-rule="evenodd">
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="sm-category sm-category_add-category">
+                            <a class="sm-category_icon-wrapper modal-trigger"
+                               href="#modal2">
+                                <div class="sm-category_fill"></div>
+                                <div class="sm-category_icon sm-category_icon-plus"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sm-category-block sm-category-card">
+                    <div class="sm-category-block_header">
+                        <div class="sm-category-block_title">
+                            <div class="sm-category-block_name">расходы</div>
+                            <div class="sm-category-block_date">апрель 2019
+                            </div>
+                        </div>
+
+                        <div class="sm-category-block_stats">
+                            <div class="sm-category-block_stats-item">
+                                <div class="sm-category-block_stats-amount"> Br‎
+                                    26
+                                </div>
+                                <div class="sm-category-block_stats-title">
+                                    протрачено
+                                </div>
+                            </div>
+                            <div class="sm-category-block_stats-item">
+                                <div class="sm-category-block_stats-amount"> Br‎
+                                    0
+                                </div>
+                                <div class="sm-category-block_stats-title">
+                                    бюджет расходов
+                                </div>
+                            </div>
+                            <div class="sm-category-block_stats-item">
+                                <div class="sm-category-block_stats-amount"> Br‎
+                                    0
+                                </div>
+                                <div class="sm-category-block_stats-title">в
+                                    планах
+                                </div>
+                            </div>
+                            <div class="sm-category-block_stats-item">
+                                <div class="sm-category-block_stats-amount">
+                                    скоро
+                                </div>
+                                <div class="sm-category-block_stats-title">
+                                    прогноз расходов
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sm-category-block_body">
+                        <div class="sm-category sm-category_expense sm-category_color_green">
+                            <div class="sm-category_title" title="машина">
+                                машина
+                            </div>
+                            <div class="sm-category_icon-wrapper">
+                                <div class="sm-category_fill"
+                                     style="height: 100%"></div>
+                                <div class="sm-category_icon sm-category_icon-car"></div>
+                            </div>
+                            <div class="sm-category_amount">
+                                <div class="sm-category_actual-amount">Br 109
+                                </div>
+                            </div>
+                            <div class="sm-category_edit">
+                                <svg viewBox="0 0 18 18">
+                                    <g fill-rule="evenodd">
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="sm-category sm-category_add-category">
+                            <a class="sm-category_icon-wrapper modal-trigger"
+                               href="#modal3">
+                                <!-- Modal Trigger -->
+                                <div class="sm-category_fill"></div>
+                                <div class="sm-category_icon sm-category_icon-plus"></div>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="sm-dashboard-column"></div>
+        </div>
+    </div>
+
+    <!-- Modal Доходы -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Modal Доходы</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        </div>
+    </div>
+
+    <!-- Modal Счета -->
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <h4>Modal Счета</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        </div>
+    </div>
+
+    <!-- Modal Расходы -->
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+            <h4>Modal Расходы</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block scrypt %}
+    $(document).ready(function(){
+    $('.modal').modal();
+    });
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 ICON_LENGTH = 10
@@ -69,3 +70,10 @@ class Transaction(models.Model):
     data_from = models.DateField()
     data_to = models.DateField(null=True, blank=True)
     comment = models.CharField(max_length=100, default='')
+
+
+class UserAdditionalInfo(models.Model):
+
+    currency = models.CharField(max_length=3, default='BYN')
+    user = models.ForeignKey(User, related_name='additonal', on_delete=models.CASCADE)
+

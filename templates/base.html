@@ -28,12 +28,12 @@
     <header class="header-sm">
         <div class="header-container">
             <div class="header-left">
-                <a class="header-logo" href="/"></a>
+                <a class="header-logo" {% if user.is_authenticated %}href="{% url 'userpage' user.id %}" {% else %} href="{% url 'main' %}" {% endif %}></a>
                 <div class="header-title"></div>
             </div>
             <div class="header-right">
-                <button>Login</button>
-                <span>USER NAME</span>
+               {% block buttons %}
+                {% endblock %}
             </div>
         </div>
     </header>
