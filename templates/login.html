@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block buttons %}
+
+    <a href="{% url 'register' %}" class="waves-effect waves-light btn" type="submit">Sign up</a>
+
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="row">
+        <div style="margin-top: 20px;" class="col s4 offset-s4">
+            <form action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                <label for="username">Username</label>
+                <input type="text" name="username">
+                <label for="password">Password</label>
+                <input type="password" name="password">
+                {% if login_error %}
+                    {{ login_error }}
+                {% endif %}
+            <div class="row">
+                    <input class="waves-effect waves-light btn" type="submit"
+                           style="left: 50%; margin-right: -50%; transform: translate(-50%, 10%);  "
+                           value="Sign In">
+            </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
