@@ -1,0 +1,54 @@
+<div>
+    <div class="sm-modal-income">
+        <div class="sm-modal_header">
+
+        </div>
+
+        <div class="sm-modal_body">
+            <div class="sm-modal_input-line">
+                <div style="width: 100%;">
+                    <input class="sm-input"
+                           placeholder="Откуда вы получаете доход? *">
+                    <div class="sm-input_underline"></div>
+                </div>
+                <div class="z-depth-3 sm-modal-icon">
+
+                </div>
+            </div>
+            <div class="sm-modal_input-line">
+                <input class="sm-input" type="number"
+                       placeholder="Планируете получать в месяц">
+            </div>
+            <div class="sm-modal_input-line sm-modal_input-currency">
+                <div class="currency-input-label">Валюта</div>
+                {#                <section class="input-filed sm-modal-select-currency">#}
+                <select>
+                    <option value="1" selected>Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                    <option value="3">Option 3</option>
+                    <option value="3">Option 3</option>
+                    <option value="3">Option 3</option>
+                    <option value="3">Option 3</option>
+                    <option value="3">Option 3</option>
+                    <option value="3">Option 3</option>
+                    <option value="3">Option 3</option>
+                    <option value="3">Option 3</option>
+                </select>
+                {#                    <label></label>#}
+                </section>
+            </div>
+            <div class="sm-modal-footer">
+                <input id="add-income" class="sm-modal_submit-button" type="button"
+                       value="добавить">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(() => {
+        $('#add-income').on('click', (event) => {alert('income added successful')})
+    });
+
+</script>

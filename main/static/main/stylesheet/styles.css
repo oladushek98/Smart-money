@@ -165,7 +165,7 @@
     color: #9a9898;
 }
 
-.sm-category-block_stats{
+.sm-category-block_stats {
     width: 310px;
     text-align: right;
 }
@@ -182,7 +182,7 @@
 }
 
 body {
-    font-family: 'Roboto',sans-serif;
+    font-family: 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
@@ -270,7 +270,7 @@ body {
     z-index: 3;
 }
 
-.sm-category_expense{
+.sm-category_expense {
 
 }
 
@@ -290,7 +290,7 @@ body {
     color: #03a879;
 }
 
-.sm-category_icon-car{
+.sm-category_icon-car {
     background-image: url("https://coinkeeper.me/content/img/sprites/web_1x.png");
     background-position: -92px -138px;
     width: 37px;
@@ -506,3 +506,122 @@ body {
     -webkit-appearance: none;
     -webkit-border-radius: 0;
 }
+
+
+/* INCOME MODAL STYLES*/
+
+.sm-modal {
+    width: 30%;
+    border-radius: 10px;
+}
+
+.sm-modal-income {
+
+}
+
+.sm-modal_header {
+
+}
+
+.sm-modal_body {
+
+}
+
+.sm-modal_input-line {
+    height: 100px;
+    padding: 30px 40px 0px 40px;
+    border: none;
+    border-bottom: 1px solid #4f4f4f;
+    display: flex;
+    justify-content: space-between;
+}
+
+.sm-modal-icon {
+    border-radius: 40px;
+    height: 80px;
+    width: 100px;
+    margin: -20px 0px 0px 0px;
+}
+
+.sm-input {
+
+}
+
+input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
+    border-bottom: none;
+    margin-bottom: 0px;
+    font-size: 18px;
+}
+
+input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.sm-modal_input-currency {
+    display: flex;
+    flex-flow: row;
+}
+
+.currency-input-label {
+    padding: 10px 30px 30px 0px;
+    font-size: 18px;
+}
+
+.caret {
+    display: none;
+}
+
+div .select-wrapper input {
+    text-align: end;
+}
+
+.select-wrapper input.select-dropdown:focus {
+    border-bottom: none;
+}
+
+.dropdown-content li > a, .dropdown-content li > span {
+    font-size: 16px;
+    color: #000000;
+    display: block;
+    line-height: 22px;
+    padding: 14px 16px;
+    text-align: end;
+}
+
+.select-dropdown {
+}
+
+select {
+    display: block;
+    background-color: unset;
+    width: 50%;
+    padding: 5px;
+    border: none;
+    height: 3rem;
+    text-align-last: end;
+}
+
+* {
+    outline: none !important;
+}
+
+.sm-modal_submit-button{
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    height: 80px;
+    line-height: 80px;
+}
+
+.sm-modal-footer{
+    height: 80px;
+    border: none;
+}
+
+/* INCOME MODAL STYLE END*/

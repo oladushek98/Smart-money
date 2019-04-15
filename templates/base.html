@@ -32,7 +32,7 @@
                 <div class="header-title"></div>
             </div>
             <div class="header-right">
-                <button>Login</button>
+                <button onclick="clickLogin()">Login</button>
                 <span>USER NAME</span>
             </div>
         </div>
@@ -46,5 +46,10 @@
 <script>
     {% block scrypt %}
     {% endblock %}
+    function clickLogin(){
+        console.log("ALERT!:");
+    }
+
 </script>
 </html>
+

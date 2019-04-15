@@ -67,7 +67,7 @@
                         </div>
                         <div class="sm-category sm-category_add-category">
                             <a class="sm-category_icon-wrapper modal-trigger"
-                               href="#modal3">
+                               href="#modal1">
                                 <div class="sm-category_fill"></div>
                                 <div class="sm-category_icon sm-category_icon-plus"></div>
                             </a>
@@ -204,14 +204,8 @@
     </div>
 
     <!-- Modal Доходы -->
-    <div id="modal1" class="modal">
-        <div class="modal-content">
-            <h4>Modal Доходы</h4>
-            <p>A bunch of text</p>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-        </div>
+    <div id="modal1" class="modal sm-modal">
+        {% include 'income/create_modal.html' %}
     </div>
 
     <!-- Modal Счета -->
