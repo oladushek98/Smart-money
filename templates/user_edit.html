@@ -2,6 +2,10 @@
 
 {% block content %}
 
-   {% include 'form.html' with button_label='Save' %}
+   <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Edit</button>
+    </form>
 
 {% endblock %}
