@@ -16,6 +16,7 @@
 
 
 {% block content %}
+    {% csrf_token %}
     <div class="sm-dashboard">
         <div class="sm-dashboard-top">
             <div class="add-transaction_wrapper">
@@ -112,7 +113,7 @@
                             <div class="sm-category_title" title="кошелек">
                                 кошелек
                             </div>
-                            <div class="sm-category_icon-wrapper">
+                            <div id="account1" class="sm-category_icon-wrapper">
                                 <div class="sm-category_fill"></div>
                                 <div class="sm-category_icon sm-category_icon-cash"></div>
                             </div>
@@ -224,7 +225,7 @@
     </div>
 
     <!-- Modal Счета -->
-    <div id="modal2" class="modal">
+    <div id="modal2" class="modal sm-modal">
         <div class="modal-content">
             <h4>Modal Счета</h4>
             <p>A bunch of text</p>
@@ -251,5 +252,6 @@
 {% block scrypt %}
     $(document).ready(function(){
     $('.modal').modal();
+    $('#account1').on('click', (event) => alert(event));
     });
 {% endblock %}

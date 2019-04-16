@@ -7,7 +7,7 @@
         <div class="sm-modal_body">
             <div class="sm-modal_input-line">
                 <div style="width: 100%;">
-                    <input class="sm-input"
+                    <input id="title" class="sm-input"
                            placeholder="Откуда вы получаете доход? *">
                     <div class="sm-input_underline"></div>
                 </div>
@@ -16,26 +16,24 @@
                 </div>
             </div>
             <div class="sm-modal_input-line">
-                <input class="sm-input" type="number"
+                <input id="plan" class="sm-input" type="number"
                        placeholder="Планируете получать в месяц">
             </div>
             <div class="sm-modal_input-line sm-modal_input-currency">
                 <div class="currency-input-label">Валюта</div>
-                {#                <section class="input-filed sm-modal-select-currency">#}
-                <select>
-                    <option value="1" selected>Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3">Option 3</option>
-                    <option value="3">Option 3</option>
-                    <option value="3">Option 3</option>
-                    <option value="3">Option 3</option>
-                    <option value="3">Option 3</option>
-                    <option value="3">Option 3</option>
-                    <option value="3">Option 3</option>
-                    <option value="3">Option 3</option>
-                    <option value="3">Option 3</option>
+                <select id="select">
+                    <option value="n 1" selected>n 1</option>
+                    <option value="n 2">n 2</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 4">n 4</option>
+                    <option value="n 5">n 5</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 3">n 3</option>
                 </select>
-                {#                    <label></label>#}
                 </section>
             </div>
             <div class="sm-modal-footer">
@@ -47,8 +45,34 @@
 </div>
 
 <script>
+    let incomeCreate = async (event) => {
+        let body = {
+            name: $('#title').val(),
+            monthly_plan: $('#plan').val(),
+            currency: $('#select').val(),
+        };
+
+        const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
+        let header = new Headers();
+        header.append('X-CSRFToken', csrftoken);
+
+        let response = await fetch('{% url 'create_income' pk=user.id %}',
+            {
+                method: 'PUT',
+                body: JSON.stringify(body),
+                headers: header,
+                credentials: 'same-origin'
+            }
+        );
+        if(response.ok){
+            $('#modal1').modal('close');
+            alert('OK');
+        }
+    };
+
+
     $(document).ready(() => {
-        $('#add-income').on('click', (event) => {alert('income added successful')})
+        $('#add-income').on('click', incomeCreate)
     });
 
 </script>
