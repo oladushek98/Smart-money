@@ -9,7 +9,7 @@ import os
 
 
 class EditBioForm(Form):
-    with open(os.path.join(settings.BASE_DIR, 'main/static/main/other/currencies.json')) as f:
+    with open(os.path.join(settings.BASE_DIR, 'main/static/main/other/currencies.json'), 'r') as f:
         currencies = json.load(f)
 
     choices = []

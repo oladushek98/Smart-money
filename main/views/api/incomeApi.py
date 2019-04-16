@@ -14,7 +14,7 @@ class IncomeCreate(View):
         body = json.loads(request.body)
         plan = body['monthly_plan']
         body['monthly_plan'] = int(plan) if plan else 0
-        income = Income(**body)
+        income = Income(**body, user_id=request.user.id)
         income.save()
 
         return JsonResponse({'status': True})
