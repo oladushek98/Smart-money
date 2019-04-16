@@ -17,21 +17,31 @@ class FinancialNode(models.Model):
     currency = models.CharField(max_length=CURRENCY_LENGTH, null=True,
                                 blank=True, verbose_name='валюта')
     delete = models.BooleanField(default=False)
+    user = models.ForeignKey(User,
+                             related_name='financial_nodes',
+                             on_delete=models.CASCADE,
+                             default=2)
 
 
 # доходы
 class Income(FinancialNode):
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
-        return f'Доходы : {super()}'
+        return f'Доходы : {super().__str__()}'
 
     monthly_plan = models.IntegerField(null=True, blank=True)
 
 
 # счета
 class Account(FinancialNode):
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return f'Счет {"долговой" if self.is_debt_account else ""} : ' \
-            f'{super()}'
+            f'{super().__str__()}'
 
     amount = models.IntegerField(null=True, blank=True)
     is_debt_account = models.BooleanField()
@@ -40,16 +50,22 @@ class Account(FinancialNode):
 
 # расходы
 class Cost(FinancialNode):
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
-        return f'Расходы : {super()}'
+        return f'Расходы : {super().__str__()}'
 
     monthly_plan = models.IntegerField(null=True, blank=True)
 
 
 # цель
 class Goal(FinancialNode):
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
-        return f'Цели : {super()}'
+        return f'Цели : {super().__str__()}'
 
     plan = models.IntegerField(null=True, blank=True)
 
@@ -75,5 +91,7 @@ class Transaction(models.Model):
 class UserAdditionalInfo(models.Model):
 
     currency = models.CharField(max_length=3, default='BYN')
-    user = models.ForeignKey(User, related_name='additonal', on_delete=models.CASCADE)
+    user = models.ForeignKey(User,
+                             related_name='additonal',
+                             on_delete=models.CASCADE)
 
