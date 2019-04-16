@@ -101,7 +101,7 @@
                         </div>
                         <div class="sm-category-block_stats">
                             <div class="sm-category-block_stats-item">
-                                <div class="sm-category-block_stats-amount"> Br‎
+                                <div class="sm-category-block_stats-amount"> Br
                                     109
                                 </div>
                                 <div class="sm-category-block_stats-title">в
@@ -111,17 +111,18 @@
                         </div>
                     </div>
 
-                    <div class="sm-category-block_body">
+                    <div id="account_table" class="sm-category-block_body">
+                        {% for account in ACCOUNTS %}
                         <div class="sm-category sm-category_account">
                             <div class="sm-category_title" title="кошелек">
-                                кошелек
+                                {{ account.name }}
                             </div>
                             <div id="account1" class="sm-category_icon-wrapper">
                                 <div class="sm-category_fill"></div>
                                 <div class="sm-category_icon sm-category_icon-cash"></div>
                             </div>
                             <div class="sm-category_amount">
-                                <div class="sm-category_actual-amount">Br 109
+                                <div class="sm-category_actual-amount">{{account.currency}} {{account.amount}}
                                 </div>
                             </div>
                             <div class="sm-category_edit">
@@ -131,6 +132,7 @@
                                 </svg>
                             </div>
                         </div>
+                        {% endfor %}
                         <div class="sm-category sm-category_add-category">
                             <a class="sm-category_icon-wrapper modal-trigger"
                                href="#modal2">
@@ -246,6 +248,7 @@
         </div>
     </div>
     <script src="{% static 'main/scripts/addNewIncome.js' %}"></script>
+    <script src="{% static 'main/scripts/addNewAccount.js' %}"></script>
 {% endblock %}
 
 

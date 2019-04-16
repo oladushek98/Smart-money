@@ -74,9 +74,14 @@
                 body.amount = 0;
             }
             $('#modal2').modal('close');
+            addNewAccount(
+                body.name,
+                body.amount,
+                body.currency,
+                body.take_into_balance
+            );
         }
     };
-
 
     $(document).ready(() => {
         $('#add-account').on('click', accountCreate)
