@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block buttons %}
 
@@ -16,6 +17,7 @@
 
 
 {% block content %}
+    {% csrf_token %}
     <div class="sm-dashboard">
         <div class="sm-dashboard-top">
             <div class="add-transaction_wrapper">
@@ -39,7 +41,7 @@
                         </div>
                         <div class="sm-category-block_stats">
                             <div class="sm-category-block_stats-item">
-                                <div class="sm-category-block_stats-amount"> Br‎
+                                <div id="income_stat-income" class="sm-category-block_stats-amount"> Br‎
                                     0
                                 </div>
                                 <div class="sm-category-block_stats-title">
@@ -47,7 +49,7 @@
                                 </div>
                             </div>
                             <div class="sm-category-block_stats-item">
-                                <div class="sm-category-block_stats-amount"> Br‎
+                                <div id="income_stat-plan" class="sm-category-block_stats-amount"> Br‎
                                     160
                                 </div>
                                 <div class="sm-category-block_stats-title">
@@ -57,10 +59,11 @@
                         </div>
                     </div>
 
-                    <div class="sm-category-block_body">
+                    <div id="income_table" class="sm-category-block_body">
+                        {% for income in INCOMES %}
                         <div class="sm-category sm-category_income">
-                            <div class="sm-category_title" title="доходы">
-                                доходы
+                            <div class="sm-category_title" >
+                                {{ income.name }}
                             </div>
                             <div class="sm-category_icon-wrapper">
                                 <div class="sm-category_fill"
@@ -68,9 +71,9 @@
                                 <div class="sm-category_icon sm-category_icon-plant"></div>
                             </div>
                             <div class="sm-category_amount">
-                                <div class="sm-category_actual-amount">Br 0
+                                <div class="sm-category_actual-amount">{{ income.currency }} 0
                                 </div>
-                                <div class="sm-category_plan-amount">160</div>
+                                <div class="sm-category_plan-amount">{{ income.monthly_plan }}</div>
                             </div>
                             <div class="sm-category_edit">
                                 <svg viewBox="0 0 18 18">
@@ -80,6 +83,7 @@
                                 </svg>
                             </div>
                         </div>
+                        {% endfor %}
                         <div class="sm-category sm-category_add-category">
                             <a class="sm-category_icon-wrapper modal-trigger"
                                href="#modal1">
@@ -112,7 +116,7 @@
                             <div class="sm-category_title" title="кошелек">
                                 кошелек
                             </div>
-                            <div class="sm-category_icon-wrapper">
+                            <div id="account1" class="sm-category_icon-wrapper">
                                 <div class="sm-category_fill"></div>
                                 <div class="sm-category_icon sm-category_icon-cash"></div>
                             </div>
@@ -215,6 +219,9 @@
                 </div>
                 <div class="sm-dashboard-column"></div>
             </div>
+
+            <div class="sm-dashboard-column">
+            </div>
         </div>
     </div>
 
@@ -224,7 +231,7 @@
     </div>
 
     <!-- Modal Счета -->
-    <div id="modal2" class="modal">
+    <div id="modal2" class="modal sm-modal">
         <div class="modal-content">
             <h4>Modal Счета</h4>
             <p>A bunch of text</p>
@@ -244,12 +251,20 @@
             <a href="#" class="modal-close waves-effect waves-green btn-flat">Agree</a>
         </div>
     </div>
-
+    <script src="{% static 'main/scripts/addNewIncome.js' %}"></script>
 {% endblock %}
 
 
 {% block scrypt %}
     $(document).ready(function(){
     $('.modal').modal();
+    $('#account1').on('click', (event) => alert(event));
+
+    // add statistic for income
+
+    updateIncomeStatistic();
+    // add statistic for income end
+
+
     });
 {% endblock %}
