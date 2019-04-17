@@ -13,7 +13,7 @@ class IndexView(View):
         return render(request, 'index.html', context={})
 
     def get_success_url(self, request, **kwargs):
-        return reverse_lazy('userpage', args=[request.user.id])
+        return reverse_lazy('userpage')
 
 
 class UserpageView(LoginRequiredMixin, View):

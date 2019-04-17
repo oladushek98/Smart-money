@@ -15,7 +15,17 @@ class IncomeCreate(View):
         plan = body['monthly_plan']
         body['monthly_plan'] = int(plan) if plan else 0
         income = Income(**body)
+        income.user = request.user.id
         income.save()
+        body['id'] = income.id
 
-        return JsonResponse({'status': True})
+        return JsonResponse(body)
 
+
+class IncomeDelete(View):
+    def put(self, request):
+        body = json.loads(request.body)
+        income = Income.objects.filter(id=int(body.get('id'))).first()
+        income.delete = True
+        income.save()
+        return reverse_lazy('userpage')

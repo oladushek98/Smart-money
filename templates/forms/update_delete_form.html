@@ -1,19 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <div class="btn-box">
         <button class="btn waves-effect waves-light"
-                type="submit">{{ button_label }}
+                type="submit">Сохранить
             <i class="material-icons right"></i>
+        </button>
+        <button onclick="deleteNode({{ id }})" class="btn waves-effect waves-light"
+                type="submit">Удалить
         </button>
     </div>
 </form>
-</body>
-</html>
+
+
+

@@ -56,7 +56,7 @@
         let header = new Headers();
         header.append('X-CSRFToken', csrftoken);
 
-        let response = await fetch('{% url 'create_income' pk=user.id %}',
+        let response = await fetch('{% url 'create_income' %}',
             {
                 method: 'PUT',
                 body: JSON.stringify(body),
@@ -65,14 +65,14 @@
             }
         );
         if(response.ok){
-            if(body.monthly_plan == ''){
-                body.monthly_plan = 0;
-            }
+            const resp_body = await response.json();
+
             $('#modal1').modal('close');
-            addNewIncome(body.name,
-                         body.currency,
+            addNewIncome(resp_body.id,
+                         resp_body.name,
+                         resp_body.currency,
                          0,
-                         body.monthly_plan);
+                         resp_body.monthly_plan);
         }
     };
 

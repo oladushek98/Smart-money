@@ -81,7 +81,7 @@ class LoginView(views.View):
         return render(request, 'login.html', args)
 
     def get_success_url(self, request, **kwargs):
-        return reverse_lazy('userpage', args=[request.user.id])
+        return reverse_lazy('userpage')
 
 
 class LogoutView(views.View):
