@@ -51,7 +51,14 @@ let updateIncomeStatistic = () => {
     let plan_count = 0;
     const plans = $('.sm-category_income .sm-category_amount .sm-category_plan-amount');
     for(i=0; i < plans.length; i++){
-        plan_count += parseInt(plans[i].textContent, 10)
+        plan_count += parseInt(plans[i].textContent, 10);
     }
-    plan[0].textContent = plan_count
+    let income_count = 0;
+    const incomes = $('.sm-category_income .sm-category_amount .sm-category_actual-amount');
+    for(i=0; i < plans.length; i++){
+        income_count += parseInt(plans[i].textContent, 10);
+    }
+    plan[0].textContent = plan_count;
+    income[0].textContent = income_count;
+
 };

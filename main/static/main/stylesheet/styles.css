@@ -633,11 +633,11 @@ select {
     padding: 30px 60px 30px 60px;
 }
 
-form p input[type=text]:not(.browser-default), form p input[type=number]:not(.browser-default) {
+form p input[type=text]:not(.browser-default), form p input[type=number]:not(.browser-default),form p input[type=email]:not(.browser-default) {
     border-bottom: 1px solid #9e9e9e;
 }
 
-form p input[type=number]:not(.browser-default):focus:not([readonly]), form p input[type=text]:not(.browser-default):focus:not([readonly]) {
+form p input[type=number]:not(.browser-default):focus:not([readonly]), form p input[type=text]:not(.browser-default):focus:not([readonly]), form p input[type=email]:not(.browser-default):focus:not([readonly]) {
     border-bottom: 1px solid #26a69a;
     -webkit-box-shadow: 0 1px 0 0 #26a69a;
     box-shadow: 0 1px 0 0 #26a69a;
@@ -650,4 +650,11 @@ form p input[type=number]:not(.browser-default):focus:not([readonly]), form p in
 
 .btn {
     margin-top: 20px;
+}
+
+form p select {
+    width: 40%;
+    text-align-last: center;
+    margin: 0 30% 0 30%;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
 }
