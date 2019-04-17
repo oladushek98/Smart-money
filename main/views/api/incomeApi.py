@@ -23,9 +23,10 @@ class IncomeCreate(View):
 
 
 class IncomeDelete(View):
-    def put(self, request):
+
+    def put(self, request, **kwargs):
         body = json.loads(request.body)
-        income = Income.objects.filter(id=int(body.get('id'))).first()
+        income = Income.objects.filter(id=int(body['id'])).first()
         income.delete = True
         income.save()
-        return reverse_lazy('userpage')
+        return JsonResponse({'ok': True})

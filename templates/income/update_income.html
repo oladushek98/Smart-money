@@ -25,7 +25,7 @@
         let header = new Headers();
         header.append('X-CSRFToken', csrftoken);
 
-        let response = await fetch('{% url 'delete_income'  %}',
+        let response = await fetch('{% url 'delete_income' %}',
             {
                 method: 'PUT',
                 body: JSON.stringify(body),
@@ -35,7 +35,7 @@
         );
 
         if(response.ok){
-            alert("0");
+            window.location.href = 'http://localhost:8000/user'
         }
     }
 {% endblock %}
