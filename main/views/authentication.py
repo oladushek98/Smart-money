@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import views
 from django.urls import reverse_lazy
+from django.core import management
 
 import re
 
@@ -68,6 +69,9 @@ class LoginView(views.View):
         if user is not None:
             auth.login(request, user)
             args = {'username': username}
+
+            # management.call_command('update_currencies')
+
             print(user)
             if username == 'admin':
                 print(1)
@@ -82,7 +86,7 @@ class LoginView(views.View):
         return render(request, 'login.html', args)
 
     def get_success_url(self, request, **kwargs):
-        return reverse_lazy('userpage', args=[request.user.id])
+        return reverse_lazy('userpage')
 
 
 class LogoutView(views.View):
