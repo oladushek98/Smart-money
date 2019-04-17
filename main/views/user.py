@@ -51,4 +51,4 @@ class UserUpdateBioView(LoginRequiredMixin, FormView):
         return super().form_invalid(form)
 
     def get_success_url(self):
-        return reverse_lazy('userpage', args=[self.request.user.id])
+        return reverse_lazy('userpage')
