@@ -28,7 +28,7 @@ class AccountDelete(View):
 
     def put(self, request, **kwargs):
         body = json.loads(request.body)
-        income = Account.objects.filter(id=int(body['id'])).first()
-        income.delete = True
-        income.save()
+        account = Account.objects.filter(id=int(body['id'])).first()
+        account.delete = True
+        account.save()
         return JsonResponse({'ok': True})
