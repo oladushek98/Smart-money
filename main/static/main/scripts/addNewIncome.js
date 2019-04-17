@@ -1,4 +1,4 @@
-let createNewIncomeCategory = (name, currency, amount, monthly_plan) => {
+let createNewIncomeCategory = (id, name, currency, amount, monthly_plan) => {
     let container = document.createElement('div');
     container.setAttribute('class', 'sm-category sm-category_income');
     let title = document.createElement('div');
@@ -6,6 +6,7 @@ let createNewIncomeCategory = (name, currency, amount, monthly_plan) => {
     title.textContent = name;
     let icon_wrapper = document.createElement('div');
     icon_wrapper.setAttribute('class', 'sm-category_icon-wrapper');
+    icon_wrapper.setAttribute('id', 'income_' + id);
     let fill = document.createElement('div');
     let icon = document.createElement('div');
     fill.setAttribute('class', 'sm-category_fill');
@@ -33,13 +34,15 @@ let createNewIncomeCategory = (name, currency, amount, monthly_plan) => {
     return container
 };
 
-let addNewIncome = (name, currency, amount, monthly_plan) => {
-    let container = createNewIncomeCategory(name, currency, amount, monthly_plan);
+let addNewIncome = (id, name, currency, amount, monthly_plan) => {
+    let container = createNewIncomeCategory(id, name, currency, amount, monthly_plan);
     const table = $('#income_table');
     const add_item = table.children()[table.children().length - 1];
     table.children()[table.children().length - 1].remove();
     table.append(container);
-    table.append(add_item)
+    table.append(add_item);
+    $('#income_' + id).on('click', (event) => alert(id));
+    updateIncomeStatistic();
 };
 
 let updateIncomeStatistic = () => {

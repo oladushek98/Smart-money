@@ -5,4 +5,7 @@ main/migrations/*
 Scripts/*
 Lib/*
 Diplom/__pycache__/*
+main/__pycache__/*
+main/views/__pycache__/*
 *.cfg
+__pycache__/*

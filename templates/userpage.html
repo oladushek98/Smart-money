@@ -65,7 +65,7 @@
                             <div class="sm-category_title" >
                                 {{ income.name }}
                             </div>
-                            <div class="sm-category_icon-wrapper">
+                            <div id="income_{{ income.id }}" class="sm-category_icon-wrapper">
                                 <div class="sm-category_fill"
                                      style="height: 0%"></div>
                                 <div class="sm-category_icon sm-category_icon-plant"></div>
@@ -83,6 +83,9 @@
                                 </svg>
                             </div>
                         </div>
+                        <script>
+                            $('#income_' + {{ income.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'income/' + {{ income.id }});
+                        </script>
                         {% endfor %}
                         <div class="sm-category sm-category_add-category">
                             <a class="sm-category_icon-wrapper modal-trigger"
