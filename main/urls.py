@@ -1,7 +1,7 @@
 from django.urls import path, include
 
-from main.views.api import incomeApi
-from main.views import index, authentication, user, income
+from main.views.api import incomeApi, accountApi
+from main.views import index, authentication, user, income, account
 
 urlpatterns = [
     path('', index.IndexView.as_view(), name='main'),
@@ -17,4 +17,10 @@ urlpatterns = [
          name='delete_income'),
     path('income/<int:pk>', income.IncomeUpdateView.as_view(),
          name='update_income'),
+    path('api/account/create', accountApi.AccountCreate.as_view(),
+         name='create_account'),
+    path('account/<int:pk>', account.AccountUpdateView.as_view(),
+         name='update_account'),
+    path('api/account/delete', accountApi.AccountDelete.as_view(),
+         name='delete_account'),
 ]

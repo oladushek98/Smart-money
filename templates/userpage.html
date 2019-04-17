@@ -104,7 +104,7 @@
                         </div>
                         <div class="sm-category-block_stats">
                             <div class="sm-category-block_stats-item">
-                                <div class="sm-category-block_stats-amount"> Br
+                                <div id="accounts_stat" class="sm-category-block_stats-amount"> Br
                                     109
                                 </div>
                                 <div class="sm-category-block_stats-title">в
@@ -120,13 +120,14 @@
                             <div class="sm-category_title" title="кошелек">
                                 {{ account.name }}
                             </div>
-                            <div id="account1" class="sm-category_icon-wrapper">
+                            <div id="account_{{ account.id }}" class="sm-category_icon-wrapper">
                                 <div class="sm-category_fill"></div>
                                 <div class="sm-category_icon sm-category_icon-cash"></div>
                             </div>
-                            <div class="sm-category_amount">
-                                <div class="sm-category_actual-amount">{{account.currency}} {{account.amount}}
+                             <div class="sm-category_amount">
+                                <div class="sm-category_actual-amount">{{ account.currency }}
                                 </div>
+                                <div class="sm-category_plan-amount">{{ account.amount }}</div>
                             </div>
                             <div class="sm-category_edit">
                                 <svg viewBox="0 0 18 18">
@@ -135,6 +136,9 @@
                                 </svg>
                             </div>
                         </div>
+                        <script>
+                        $('#account_' + {{ account.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'account/' + {{ account.id }});
+                        </script>
                         {% endfor %}
                         <div class="sm-category sm-category_add-category">
                             <a class="sm-category_icon-wrapper modal-trigger"
@@ -258,11 +262,12 @@
 {% block scrypt %}
     $(document).ready(function(){
     $('.modal').modal();
-    $('#account1').on('click', (event) => alert(event));
+    <!--$('#account1').on('click', (event) => alert(event));-->
 
     // add statistic for income
 
     updateIncomeStatistic();
+    updateAccountStatistic();
     // add statistic for income end
 
 

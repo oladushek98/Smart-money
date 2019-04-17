@@ -17,7 +17,18 @@ class AccountCreate(View):
         body['amount'] = int(amount) if amount else 0
         is_take = body['take_into_balance']
         body['take_into_balance'] = True if is_take == '1' else False
-        income = Account(**body, user_id=request.user.id)
-        income.save()
+        account = Account(**body, user_id=request.user.id)
+        account.save()
+        body['id'] = account.id
 
-        return JsonResponse({'status': True})
+        return JsonResponse(body)
+
+
+class AccountDelete(View):
+
+    def put(self, request, **kwargs):
+        body = json.loads(request.body)
+        income = Account.objects.filter(id=int(body['id'])).first()
+        income.delete = True
+        income.save()
+        return JsonResponse({'ok': True})
