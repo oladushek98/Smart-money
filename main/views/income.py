@@ -42,14 +42,3 @@ class IncomeUpdateView(FormView):
         context = super().get_context_data(**kwargs)
         context['id'] = self.object.id
         return context
-
-
-class IncomeCreateView(CreateView):
-    model = Income
-    form_class = IncomeForm
-
-    def form_valid(self, form):
-        super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse_lazy('userpage')
