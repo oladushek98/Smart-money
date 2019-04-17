@@ -1,26 +1,26 @@
 from django.shortcuts import render
 
-from main.forms import UpdateIncomeForm
+from main.forms import IncomeForm
 from main.models import Income
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, FormView
+from django.views.generic import UpdateView, FormView, CreateView
 
 
 class IncomeUpdateView(FormView):
-    form_class = UpdateIncomeForm
+    form_class = IncomeForm
     template_name = 'income/update_income.html'
 
     def get(self, request, *args, **kwargs):
-
-        income = Income.objects.filter(user_id=request.user.id, ).first()
+        income_id = int(request.path.split('/')[-1])
+        income = Income.objects.filter(id=income_id).first()
 
         name = income.name
         monthly_plan = income.monthly_plan
         currency = income.currency
 
-        form = UpdateIncomeForm(initial={'name': name,
-                                         'monthly_plan': monthly_plan,
-                                         'currency': currency})
+        form = IncomeForm(initial={'name': name,
+                                   'monthly_plan': monthly_plan,
+                                   'currency': currency})
 
         return render(request, template_name=self.template_name, context={'form': form})
 
@@ -42,3 +42,14 @@ class IncomeUpdateView(FormView):
         context = super().get_context_data(**kwargs)
         context['id'] = self.object.id
         return context
+
+
+class IncomeCreateView(CreateView):
+    model = Income
+    form_class = IncomeForm
+
+    def form_valid(self, form):
+        super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('userpage')

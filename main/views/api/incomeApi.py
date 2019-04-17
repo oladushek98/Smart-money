@@ -25,7 +25,8 @@ class IncomeDelete(View):
 
     def put(self, request, **kwargs):
         body = json.loads(request.body)
-        income = Income.objects.filter(id=int(body['id'])).first()
+        income_id = int(self.request.headers._store['referer'][1].split('/')[-1])
+        income = Income.objects.filter(id=income_id).first()
         income.delete = True
         income.save()
         return JsonResponse({'ok': True})

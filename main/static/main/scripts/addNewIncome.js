@@ -41,7 +41,7 @@ let addNewIncome = (id, name, currency, amount, monthly_plan) => {
     table.children()[table.children().length - 1].remove();
     table.append(container);
     table.append(add_item);
-    $('#income_' + id).on('click', (event) => alert(id));
+    $('#income_' + id).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'income/' + id);
     updateIncomeStatistic();
 };
 
@@ -55,10 +55,13 @@ let updateIncomeStatistic = () => {
     }
     let income_count = 0;
     const incomes = $('.sm-category_income .sm-category_amount .sm-category_actual-amount');
-    for(i=0; i < plans.length; i++){
-        income_count += parseInt(plans[i].textContent, 10);
+    for(i=0; i < incomes.length; i++){
+        income_count += parseInt(incomes[i].textContent.split(' ')[1], 10);
+    }
+    if(isNaN(income_count)){
+        income_count = 0;
     }
     plan[0].textContent = plan_count;
-    income[0].textContent = income_count;
+    income[0].textContent = income[0].textContent.split(' ')[0] + ' ' + income_count;
 
 };

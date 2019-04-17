@@ -41,7 +41,7 @@ class EditBioForm(Form):
         return first
 
 
-class UpdateIncomeForm(Form):
+class IncomeForm(Form):
     with open(os.path.join(settings.BASE_DIR, 'main/static/main/other/currencies.json'), 'r') as f:
         currencies = json.load(f)
 
@@ -53,3 +53,4 @@ class UpdateIncomeForm(Form):
     name = forms.CharField(label='Название', max_length=50)
     monthly_plan = forms.IntegerField(label='Планирую получать в месяц')
     currency = forms.ChoiceField(choices=choices, label='Валюта')
+
