@@ -1,27 +1,28 @@
 <div>
-    <div class="sm-modal-income">
+    <div class="sm-modal-cost">
         <div class="sm-modal_header">
 
         </div>
 
         <div class="sm-modal_body">
+
             <div class="sm-modal_input-line">
-                <div style="width: 100%;">
-                    <input id="title" class="sm-input"
-                           placeholder="Откуда вы получаете доход? *">
+                    <input id="title2" class="sm-input"
+                           placeholder="На что вы тратите деньги? *">
                     <div class="sm-input_underline"></div>
-                </div>
                 <div class="z-depth-3 sm-modal-icon">
 
                 </div>
             </div>
+
             <div class="sm-modal_input-line">
-                <input id="plan" class="sm-input" type="number"
-                       placeholder="Планируете получать в месяц">
+                <input id="cost_plan" class="sm-input" type="number"
+                       placeholder="Планируете тратить в месяц">
             </div>
+
             <div class="sm-modal_input-line sm-modal_input-currency">
                 <div class="currency-input-label">Валюта</div>
-                <select id="select">
+                <select id="cost_currency">
                     <option value="n 1" selected>n 1</option>
                     <option value="n 2">n 2</option>
                     <option value="n 3">n 3</option>
@@ -34,10 +35,9 @@
                     <option value="n 3">n 3</option>
                     <option value="n 3">n 3</option>
                 </select>
-                </section>
             </div>
             <div class="sm-modal-footer">
-                <input id="add-income" class="sm-modal_submit-button" type="button"
+                <input id="add-cost" class="sm-modal_submit-button" type="button"
                        value="добавить">
             </div>
         </div>
@@ -45,18 +45,18 @@
 </div>
 
 <script>
-    let incomeCreate = async (event) => {
+    let costCreate = async (event) => {
         let body = {
-            name: $('#title').val(),
-            monthly_plan: $('#plan').val(),
-            currency: $('#select').val(),
+            name: $('#title2').val(),
+            monthly_plan: $('#cost_plan').val(),
+            currency: $('#cost_currency').val(),
         };
 
         const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
         let header = new Headers();
         header.append('X-CSRFToken', csrftoken);
 
-        let response = await fetch('{% url 'create_income' %}',
+        let response = await fetch('{% url 'create_cost' %}',
             {
                 method: 'PUT',
                 body: JSON.stringify(body),
@@ -66,20 +66,22 @@
         );
         if(response.ok){
             const resp_body = await response.json();
-            $('#title').val('');
-            $('#plan').val('');
-            $('#modal1').modal('close');
-            addNewIncome(resp_body.id,
-                         resp_body.name,
-                         resp_body.currency,
-                         0,
-                         resp_body.monthly_plan);
+
+            $('#modal3').modal('close');
+            $('#title2').val('');
+            $('#cost_plan').val('');
+            addNewCost(
+                resp_body.id,
+                resp_body.name,
+                resp_body.currency,
+                resp_body.monthly_plan
+            );
         }
     };
 
 
     $(document).ready(() => {
-        $('#add-income').on('click', incomeCreate)
+        $('#add-cost').on('click', costCreate)
     });
 
 </script>
