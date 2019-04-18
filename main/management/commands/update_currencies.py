@@ -18,9 +18,9 @@ class UpdateCurrenciesWithNBRBApi:
 
         if currencies.status_code == 200:
             content = currencies.json()
-            to_json_file = {}
+            to_json_file = {'BYN': 'BYN'}
 
-            with open(os.path.join(settings.BASE_DIR, cls.FILE_URL)) as f:
+            with open(os.path.join(settings.BASE_DIR, cls.FILE_URL), 'w+') as f:
                 for item in content:
                     to_json_file[item['Cur_Abbreviation']] = item['Cur_Abbreviation']
 
