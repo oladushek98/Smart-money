@@ -25,7 +25,7 @@ class CostDelete(View):
 
     def put(self, request, **kwargs):
         body = json.loads(request.body)
-        account = Cost.objects.filter(id=int(body['id'])).first()
-        account.delete = True
-        account.save()
+        cost = Cost.objects.filter(id=int(body['id'])).first()
+        cost.delete = True
+        cost.save()
         return JsonResponse({'ok': True})
