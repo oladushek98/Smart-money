@@ -5,37 +5,75 @@
                   class="add-transaction_text add-transaction_placeholder">
                 из Кошелька в Продукты 1000 ₽ 12.04.2019 #метка комментарий
             </span>
-
-            <div id="step_1" class="add-transaction_step">
-                <span>из </span>
-                <div class="autocomplete-wrapper">
-                    <input id="transaction_source" placeholder="доход">
-                    <div class="sm-dropdown">
-                    <div class="sm-dropdown__list">
-                        <div class="sm-dropdown-list__item">кошелек</div>
-                        <div class="sm-dropdown-list__item">доходы</div>
-                        <div class="sm-dropdown-list__item">ссуда</div>
-                        <div class="sm-dropdown-list__item">залупа</div>
-                    </div>
+            <div id="steps" class="transaction-steps">
+                <div id="step_1" class="add-transaction_step">
+                    <span>из </span>
+                    {{ ADD_TRANSACTION_FORM.transaction_from }}
                 </div>
+                <div id="step_2" class="add-transaction_step">
+                    <span>в </span>
+                    {{ ADD_TRANSACTION_FORM.transaction_to }}
                 </div>
-
+                <div id="step_3" class="add-transaction_step">
+                    <span>сколько: </span>
+                    {{ ADD_TRANSACTION_FORM.amount }}
+                </div>
+                <div id="step_4" class="add-transaction_step">
+                    <span>дата: </span>
+                    {{ ADD_TRANSACTION_FORM.data_from }}
+                </div>
             </div>
-
-            <button id="add" disabled
-                    class="sm-add-transaction_submit"></button>
         </div>
+
+        <button id="add" disabled
+                class="sm-add-transaction_submit"></button>
     </div>
 </div>
 
 
 <script>
+    const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
+    let header = new Headers();
+    header.append('X-CSRFToken', csrftoken);
 
-    let showDropdown = (event) => {
-
+    let getTransactionSourse = async () => {
+        fetch('{% url 'get_transaction_source' %}', {
+            method: "GET",
+            headers: header,
+            credentials: 'same-origin'
+        }).then(r => r.json().then(data => ({
+            status: r.status, body: data.body
+        }))).then(obj => {
+            let option = null;
+            source_select.children().remove();
+            for (i = 0; i < obj.body.length; i++) {
+                option = document.createElement('option');
+                option.setAttribute('value', obj.body[i].id);
+                option.textContent = obj.body[i].name;
+                source_select.append(option);
+            }
+        });
     };
 
-    $('#transaction_source').on('focus', showDropdown)
+    let getTransactionDestination = (id) => {
+        fetch('api/transaction/getdest/' + id, {
+            method: "GET",
+            headers: header,
+            credentials: 'same-origin'
+        }).then(r => r.json().then(data => ({
+            status: r.status, body: data.body
+        }))).then(obj => {
+            let option = null;
+            destination_select.children().remove();
+            for (i = 0; i < obj.body.length; i++) {
+                option = document.createElement('option');
+                option.setAttribute('value', obj.body[i].id);
+                option.textContent = obj.body[i].name;
+                destination_select.append(option);
+            }
+        });
+    };
+
 </script>
 
 <script>
@@ -48,7 +86,15 @@
     wrapper.children()[0].remove();
     const add_transaction_container = $('.add-transaction');
 
-    const step_1 = $('#step_1');
+    const step_1 = $('#steps');
+
+    const source_select = $('#id_transaction_from');
+    const destination_select = $('#id_transaction_to');
+
+    getTransactionSourse();
+
+    $('#id_amount').val(100);
+    fade.remove();
     step_1.remove();
 
     const span = $('#add-transaction_placeholder');
@@ -70,7 +116,10 @@
     };
 
     $(document).ready(function () {
-
+        source_select.on('click', (event) => {
+            getTransactionDestination(event.target.value)
+        });
+        getTransactionDestination('1');
     });
 
 </script>

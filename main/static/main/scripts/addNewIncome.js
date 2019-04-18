@@ -43,6 +43,7 @@ let addNewIncome = (id, name, currency, amount, monthly_plan) => {
     table.append(add_item);
     $('#income_' + id).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'income/' + id);
     updateIncomeStatistic();
+    getTransactionSourse();
 };
 
 let updateIncomeStatistic = () => {

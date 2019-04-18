@@ -638,7 +638,7 @@ select {
     padding: 30px 60px 30px 60px;
 }
 
-form p input[type=text]:not(.browser-default), form p input[type=number]:not(.browser-default),form p input[type=email]:not(.browser-default) {
+form p input[type=text]:not(.browser-default), form p input[type=number]:not(.browser-default), form p input[type=email]:not(.browser-default) {
     border-bottom: 1px solid #9e9e9e;
 }
 
@@ -661,16 +661,16 @@ form p select {
     width: 40%;
     text-align-last: center;
     margin: 0 30% 0 30%;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
 }
 
-.sm-fade+.sm-add-transaction {
+.sm-fade + .sm-add-transaction {
     z-index: 401;
 }
 
 .sm-fade {
     position: fixed;
-    background-color: rgba(242,242,242,.8);
+    background-color: rgba(242, 242, 242, .8);
     width: 100%;
     height: 100%;
     top: 0;
@@ -685,6 +685,13 @@ form p select {
     height: 100%;
     display: inline-block;
     vertical-align: middle;
+    display: flex;
+    flex-flow: row;
+}
+
+.transaction-steps {
+    display: flex;
+    flex-flow: row;
 }
 
 .sm-add-transaction input {
@@ -711,7 +718,7 @@ form p select {
     position: absolute;
     background-color: #fff;
     border-radius: 3px;
-    box-shadow: 0 0 14px 0 rgba(0,0,0,.17);
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, .17);
     font-family: "Roboto", sans-serif;
     z-index: 2;
 }
@@ -734,6 +741,27 @@ form p select {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.add-transaction_step select {
+    width: 100%;
+    height: 100%;
+    margin: auto 10px auto 10px;
+    text-align-last: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+#id_amount {
+    margin: auto 10px auto;
+    border-bottom: 1px solid #9e9e9e;
+    text-align-last: center;
+}
+
+#id_amount:focus {
+    border-bottom: 1px solid #26a69a;
+    -webkit-box-shadow: 0 1px 0 0 #26a69a;
+    box-shadow: 0 1px 0 0 #26a69a;
+}
+
 /* ADD TRANSACTION END */
 
 form .switch {
@@ -746,3 +774,4 @@ form {
     display: flex;
     flex-direction: column;
 }
+

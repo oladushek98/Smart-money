@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from main.views.api import incomeApi, accountApi, costApi
+from main.views.api import incomeApi, accountApi, costApi, transactionApi
 from main.views import index, authentication, user, income, account, cost
 
 urlpatterns = [
@@ -29,4 +29,10 @@ urlpatterns = [
          name='update_cost'),
     path('api/cost/delete', costApi.CostDelete.as_view(),
          name='delete_cost'),
+    path('api/transaction/getsourse',
+         transactionApi.GetTransactionSource.as_view(),
+         name='get_transaction_source'),
+    path('api/transaction/getdest/<int:pk>',
+         transactionApi.GetTransactionDestination.as_view(),
+         name='get_transaction_destination'),
 ]

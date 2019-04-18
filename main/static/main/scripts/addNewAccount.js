@@ -48,6 +48,7 @@ let addNewAccount = (id, name, currency, amount, taka_into_balance) => {
     $('#account_' + id).on('click',
         (event) => window.location.href = 'http://localhost:8000/' + 'account/' + id);
     updateAccountStatistic();
+    getTransactionSourse();
 };
 
 let updateAccountStatistic = () => {

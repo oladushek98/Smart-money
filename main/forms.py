@@ -91,7 +91,6 @@ class CostForm(Form):
 
 
 class TransactionForm(Form):
-
     transaction_from = forms.ChoiceField(choices=[])
     transaction_to = forms.ChoiceField(choices=[])
     amount = forms.IntegerField()
