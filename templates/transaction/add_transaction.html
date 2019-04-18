@@ -1,0 +1,76 @@
+<div class="sm-dashboard-top">
+    <div class="add-transaction_wrapper">
+        <div class="add-transaction sm-add-transaction_state_standby">
+            <span id="add-transaction_placeholder"
+                  class="add-transaction_text add-transaction_placeholder">
+                из Кошелька в Продукты 1000 ₽ 12.04.2019 #метка комментарий
+            </span>
+
+            <div id="step_1" class="add-transaction_step">
+                <span>из </span>
+                <div class="autocomplete-wrapper">
+                    <input id="transaction_source" placeholder="доход">
+                    <div class="sm-dropdown">
+                    <div class="sm-dropdown__list">
+                        <div class="sm-dropdown-list__item">кошелек</div>
+                        <div class="sm-dropdown-list__item">доходы</div>
+                        <div class="sm-dropdown-list__item">ссуда</div>
+                        <div class="sm-dropdown-list__item">залупа</div>
+                    </div>
+                </div>
+                </div>
+
+            </div>
+
+            <button id="add" disabled
+                    class="sm-add-transaction_submit"></button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    let showDropdown = (event) => {
+
+    };
+
+    $('#transaction_source').on('focus', showDropdown)
+</script>
+
+<script>
+    const btn_add = $('#add');
+    let fade = document.createElement('div');
+    fade.setAttribute('class', 'sm-fade');
+
+    const wrapper = $('.add-transaction_wrapper');
+    wrapper.append(fade, wrapper.children()[0]);
+    wrapper.children()[0].remove();
+    const add_transaction_container = $('.add-transaction');
+
+    const step_1 = $('#step_1');
+    step_1.remove();
+
+    const span = $('#add-transaction_placeholder');
+
+    add_transaction_container.on('click', (event) => {
+        if (add_transaction_container.children()[0] == span[0]) {
+            wrapper.append(fade, wrapper.children()[0]);
+            span.remove();
+            add_transaction_container.append(step_1, btn_add);
+        }
+    });
+
+    window.onclick = function (event) {
+        if (event.target == fade) {
+            fade.remove();
+            step_1.remove();
+            add_transaction_container.append(span, btn_add);
+        }
+    };
+
+    $(document).ready(function () {
+
+    });
+
+</script>
