@@ -25,7 +25,7 @@
                 <span class="add-transaction_text add-transaction_placeholder">
                     из Кошелька в Продукты 1000 ₽ 12.04.2019 #метка комментарий
                 </span>
-                    <button class="sm-add-transaction_submit"></button>
+                    <button disabled class="sm-add-transaction_submit"></button>
                 </div>
             </div>
         </div>
@@ -41,36 +41,47 @@
                         </div>
                         <div class="sm-category-block_stats">
                             <div class="sm-category-block_stats-item">
-                                <div id="income_stat-income" class="sm-category-block_stats-amount">Br‎ 0</div>
-                                <div class="sm-category-block_stats-title">получено</div>
+                                <div id="income_stat-income"
+                                     class="sm-category-block_stats-amount">Br‎
+                                    0
+                                </div>
+                                <div class="sm-category-block_stats-title">
+                                    получено
+                                </div>
                             </div>
                             <div class="sm-category-block_stats-item">
 
-                                <div id="income_stat-plan" class="sm-category-block_stats-amount">Br‎ 160</div>
-                                <div class="sm-category-block_stats-title">бюджет доходов</div>
+                                <div id="income_stat-plan"
+                                     class="sm-category-block_stats-amount">Br‎
+                                    160
+                                </div>
+                                <div class="sm-category-block_stats-title">
+                                    бюджет доходов
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div id="income_table" class="sm-category-block_body">
                         {% for income in INCOMES %}
-                        <div class="sm-category sm-category_income">
-                            <div class="sm-category_title" >
-                                {{ income.name }}
+                            <div class="sm-category sm-category_income">
+                                <div class="sm-category_title">
+                                    {{ income.name }}
+                                </div>
+                                <div id="income_{{ income.id }}"
+                                     class="sm-category_icon-wrapper">
+                                    <div class="sm-category_fill"
+                                         style="height: 0%"></div>
+                                    <div class="sm-category_icon sm-category_icon-plant"></div>
+                                </div>
+                                <div class="sm-category_amount">
+                                    <div class="sm-category_actual-amount">{{ income.currency }} {{ income.amount }}</div>
+                                    <div class="sm-category_plan-amount">{{ income.monthly_plan }}</div>
+                                </div>
                             </div>
-                            <div id="income_{{ income.id }}" class="sm-category_icon-wrapper">
-                                <div class="sm-category_fill"
-                                     style="height: 0%"></div>
-                                <div class="sm-category_icon sm-category_icon-plant"></div>
-                            </div>
-                            <div class="sm-category_amount">
-                                <div class="sm-category_actual-amount">{{ income.currency }} {{ income.amount }}</div>
-                                <div class="sm-category_plan-amount">{{ income.monthly_plan }}</div>
-                            </div>
-                        </div>
-                        <script>
-                            $('#income_' + {{ income.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'income/' + {{ income.id }});
-                        </script>
+                            <script>
+                                $('#income_' + {{ income.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'income/' + {{ income.id }});
+                            </script>
                         {% endfor %}
                         <div class="sm-category sm-category_add-category">
                             <a class="sm-category_icon-wrapper modal-trigger"
@@ -240,6 +251,24 @@
         </div>
     </div>
     <script src="{% static 'main/scripts/addNewIncome.js' %}"></script>
+    <script>
+        let fade = document.createElement('div');
+        fade.setAttribute('class', 'sm-fade');
+
+        const wrapper = $('.add-transaction_wrapper');
+        wrapper.append(fade, wrapper.children()[0]);
+        wrapper.children()[0].remove();
+        const add = $('.add-transaction');
+
+        add.on('click', (event) => {
+            wrapper.append(fade, wrapper.children()[0]);
+        });
+        window.onclick = function (event) {
+            if (event.target == fade) {
+                fade.remove()
+            }
+        }
+    </script>
 {% endblock %}
 
 
