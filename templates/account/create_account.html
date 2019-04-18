@@ -74,6 +74,8 @@
                 body.amount = 0;
             }
             const resp_body = await response.json();
+            $('#title1').val('');
+            $('#amount').val('');
             $('#modal2').modal('close');
             addNewAccount(
                 resp_body.id,
