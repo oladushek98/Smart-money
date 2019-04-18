@@ -19,3 +19,13 @@ class CostCreate(View):
         body['id'] = cost.id
 
         return JsonResponse(body)
+
+
+class CostDelete(View):
+
+    def put(self, request, **kwargs):
+        body = json.loads(request.body)
+        account = Cost.objects.filter(id=int(body['id'])).first()
+        account.delete = True
+        account.save()
+        return JsonResponse({'ok': True})

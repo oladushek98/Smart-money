@@ -168,7 +168,7 @@
                                 </div>
                             </div>
                             <div class="sm-category-block_stats-item">
-                                <div class="sm-category-block_stats-amount"> Br‎
+                                <div id="costs_stat" class="sm-category-block_stats-amount"> Br‎
                                     0
                                 </div>
                                 <div class="sm-category-block_stats-title">
@@ -217,6 +217,9 @@
                                 </svg>
                             </div>
                         </div>
+                        <script>
+                        $('#cost_' + {{ cost.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'cost/' + {{ cost.id }});
+                        </script>
                         {% endfor %}
                         <div class="sm-category sm-category_add-category">
                             <a class="sm-category_icon-wrapper modal-trigger"
@@ -260,12 +263,12 @@
 {% block scrypt %}
     $(document).ready(function(){
     $('.modal').modal();
-    <!--$('#account1').on('click', (event) => alert(event));-->
 
     // add statistic for income
 
     updateIncomeStatistic();
     updateAccountStatistic();
+    updateCostStatistic();
     // add statistic for income end
 
 

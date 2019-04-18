@@ -68,6 +68,8 @@
             const resp_body = await response.json();
 
             $('#modal3').modal('close');
+            $('#title2').val('');
+            $('#cost_plan').val('');
             addNewCost(
                 resp_body.id,
                 resp_body.name,

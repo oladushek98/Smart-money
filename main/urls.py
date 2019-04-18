@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 from main.views.api import incomeApi, accountApi, costApi
-from main.views import index, authentication, user, income, account
+from main.views import index, authentication, user, income, account, cost
 
 urlpatterns = [
     path('', index.IndexView.as_view(), name='main'),
@@ -25,4 +25,8 @@ urlpatterns = [
          name='delete_account'),
     path('api/cost/create', costApi.CostCreate.as_view(),
          name='create_cost'),
+    path('cost/<int:pk>', cost.CostUpdateView.as_view(),
+         name='update_cost'),
+    path('api/cost/delete', costApi.CostDelete.as_view(),
+         name='delete_cost'),
 ]

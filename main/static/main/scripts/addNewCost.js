@@ -41,4 +41,15 @@ let addNewCost = (id, name, currency, monthly_plan) => {
     table.children()[table.children().length - 1].remove();
     table.append(container);
     table.append(add_item);
+    updateCostStatistic();
+};
+
+let updateCostStatistic = () => {
+    let plan = $('#costs_stat');
+    let plan_count = 0;
+    const plans = $('.sm-category_expense .sm-category_amount .sm-category_plan-amount');
+    for(i=0; i < plans.length; i++){
+        plan_count += parseInt(plans[i].textContent, 10)
+    }
+    plan[0].textContent = plan_count
 };
