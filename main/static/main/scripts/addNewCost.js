@@ -41,6 +41,8 @@ let addNewCost = (id, name, currency, monthly_plan) => {
     table.children()[table.children().length - 1].remove();
     table.append(container);
     table.append(add_item);
+    $('#cost_' + id).on('click',
+        (event) => window.location.href = 'http://localhost:8000/' + 'cost/' + id);
     updateCostStatistic();
 };
 

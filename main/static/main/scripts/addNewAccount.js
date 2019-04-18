@@ -45,6 +45,8 @@ let addNewAccount = (id, name, currency, amount, taka_into_balance) => {
     table.children()[table.children().length - 1].remove();
     table.append(container);
     table.append(add_item);
+    $('#account_' + id).on('click',
+        (event) => window.location.href = 'http://localhost:8000/' + 'account/' + id);
     updateAccountStatistic();
 };
 
