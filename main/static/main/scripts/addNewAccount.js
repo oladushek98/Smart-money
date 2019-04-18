@@ -35,8 +35,11 @@ let createNewAccountCategory = (id, name, currency, amount) => {
     return container
 };
 
-let addNewAccount = (id, name, currency, amount) => {
+let addNewAccount = (id, name, currency, amount, taka_into_balance) => {
     let container = createNewAccountCategory(id, name, currency, amount);
+    if (taka_into_balance == '0') {
+        container.setAttribute('class', 'sm-category sm-category_account excluded');
+    }
     const table = $('#account_table');
     const add_item = table.children()[table.children().length - 1];
     table.children()[table.children().length - 1].remove();
@@ -48,7 +51,7 @@ let addNewAccount = (id, name, currency, amount) => {
 let updateAccountStatistic = () => {
     let plan = $('#accounts_stat');
     let plan_count = 0;
-    const plans = $('.sm-category_account .sm-category_amount .sm-category_plan-amount');
+    const plans = $('.sm-category_account:not(.excluded) .sm-category_amount .sm-category_plan-amount');
     for(i=0; i < plans.length; i++){
         plan_count += parseInt(plans[i].textContent, 10)
     }

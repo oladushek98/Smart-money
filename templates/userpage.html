@@ -116,7 +116,7 @@
 
                     <div id="account_table" class="sm-category-block_body">
                         {% for account in ACCOUNTS %}
-                        <div class="sm-category sm-category_account">
+                        <div class="sm-category sm-category_account {%if not account.take_into_balance%} excluded {%endif%}">
                             <div class="sm-category_title" title="кошелек">
                                 {{ account.name }}
                             </div>
