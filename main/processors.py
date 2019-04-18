@@ -1,5 +1,4 @@
-from main.models import Income
-from main.models import Account
+from main.models import Income, Account, Cost
 
 
 ITEM_AMOUNT = 0
@@ -13,4 +12,7 @@ def processor(request):
     accounts = list(Account.objects.filter(delete=False,
                                            user_id=request.user.id).all())
 
-    return {'INCOMES': incoms, 'ACCOUNTS': accounts}
+    costs = list(Cost.objects.filter(delete=False,
+                                     user_id=request.user.id).all())
+
+    return {'INCOMES': incoms, 'ACCOUNTS': accounts, 'COSTS': costs}

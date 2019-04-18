@@ -194,19 +194,21 @@
                         </div>
                     </div>
 
-                    <div class="sm-category-block_body">
+                    <div id="cost_table" class="sm-category-block_body">
+                        {% for cost in COSTS %}
                         <div class="sm-category sm-category_expense sm-category_color_green">
-                            <div class="sm-category_title" title="машина">
-                                машина
+                            <div class="sm-category_title">
+                                {{ cost.name }}
                             </div>
-                            <div class="sm-category_icon-wrapper">
+                            <div id="cost_{{ cost.id }}" class="sm-category_icon-wrapper">
                                 <div class="sm-category_fill"
                                      style="height: 100%"></div>
                                 <div class="sm-category_icon sm-category_icon-car"></div>
                             </div>
                             <div class="sm-category_amount">
-                                <div class="sm-category_actual-amount">Br 109
+                                <div class="sm-category_actual-amount">{{ cost.currency }}
                                 </div>
+                                <div class="sm-category_plan-amount">{{ cost.monthly_plan }}</div>
                             </div>
                             <div class="sm-category_edit">
                                 <svg viewBox="0 0 18 18">
@@ -215,6 +217,7 @@
                                 </svg>
                             </div>
                         </div>
+                        {% endfor %}
                         <div class="sm-category sm-category_add-category">
                             <a class="sm-category_icon-wrapper modal-trigger"
                                href="#modal3">
@@ -245,17 +248,12 @@
     </div>
 
     <!-- Modal Расходы -->
-    <div id="modal3" class="modal">
-        <div class="modal-content">
-            <h4>Modal Расходы</h4>
-            <p>A bunch of text</p>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-        </div>
+    <div id="modal3" class="modal sm-modal">
+        {% include 'cost/create_cost.html' %}
     </div>
     <script src="{% static 'main/scripts/addNewIncome.js' %}"></script>
     <script src="{% static 'main/scripts/addNewAccount.js' %}"></script>
+    <script src="{% static 'main/scripts/addNewCost.js' %}"></script>
 {% endblock %}
 
 
