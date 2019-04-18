@@ -19,16 +19,7 @@
 {% block content %}
     {% csrf_token %}
     <div class="sm-dashboard">
-        <div class="sm-dashboard-top">
-            <div class="add-transaction_wrapper">
-                <div class="add-transaction sm-add-transaction_state_standby">
-                <span class="add-transaction_text add-transaction_placeholder">
-                    из Кошелька в Продукты 1000 ₽ 12.04.2019 #метка комментарий
-                </span>
-                    <button disabled class="sm-add-transaction_submit"></button>
-                </div>
-            </div>
-        </div>
+        {% include 'transaction/add_transaction.html' %}
         <div class="sm-dashboard-body">
             <div class="sm-dashboard-column">
                 <div class="sm-category-block sm-category-card">
@@ -250,25 +241,6 @@
             <a href="#" class="modal-close waves-effect waves-green btn-flat">Agree</a>
         </div>
     </div>
-    <script src="{% static 'main/scripts/addNewIncome.js' %}"></script>
-    <script>
-        let fade = document.createElement('div');
-        fade.setAttribute('class', 'sm-fade');
-
-        const wrapper = $('.add-transaction_wrapper');
-        wrapper.append(fade, wrapper.children()[0]);
-        wrapper.children()[0].remove();
-        const add = $('.add-transaction');
-
-        add.on('click', (event) => {
-            wrapper.append(fade, wrapper.children()[0]);
-        });
-        window.onclick = function (event) {
-            if (event.target == fade) {
-                fade.remove()
-            }
-        }
-    </script>
 {% endblock %}
 
 
