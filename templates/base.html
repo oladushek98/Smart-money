@@ -6,14 +6,17 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
+
+    <script src="{% static 'main/scripts/addNewIncome.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
     <link href="https://fonts.googleapis.com/css?family=Roboto"
           rel="stylesheet">
 
@@ -23,33 +26,35 @@
 
 </head>
 <body>
-    <div class="background"></div>
+<div class="background"></div>
 
-    <header class="header-sm">
-        <div class="header-container">
-            <div class="header-left">
-                <a class="header-logo" {% if user.is_authenticated %}href="{% url 'userpage' %}" {% else %} href="{% url 'main' %}" {% endif %}></a>
-                <div class="header-title"></div>
-            </div>
-            <div class="header-right">
-               {% block buttons %}
-                {% endblock %}
-            </div>
+<header class="header-sm">
+    <div class="header-container">
+        <div class="header-left">
+            <a class="header-logo"
+               {% if user.is_authenticated %}href="{% url 'userpage' %}" {% else %}
+               href="{% url 'main' %}" {% endif %}></a>
+            <a class="header-title"
+               {% if user.is_authenticated %}href="{% url 'userpage' %}" {% else %}
+               href="{% url 'main' %}" {% endif %}></a>
         </div>
-    </header>
+        <div class="header-right">
+            {% block buttons %}
+            {% endblock %}
+        </div>
+    </div>
+</header>
 
-    <main class="body-container sm-container">
-        {% block content %}
-        {% endblock %}
-    </main>
+
+<main class="body-container sm-container">
+    {% block content %}
+    {% endblock %}
+</main>
 </body>
+
 <script>
     {% block scrypt %}
     {% endblock %}
-    function clickLogin(){
-        console.log("ALERT!:");
-    }
-
 </script>
 </html>
 

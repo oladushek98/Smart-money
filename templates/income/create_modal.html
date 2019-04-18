@@ -21,23 +21,11 @@
             </div>
             <div class="sm-modal_input-line sm-modal_input-currency">
                 <div class="currency-input-label">Валюта</div>
-                <select id="select">
-                    <option value="n 1" selected>n 1</option>
-                    <option value="n 2">n 2</option>
-                    <option value="n 3">n 3</option>
-                    <option value="n 4">n 4</option>
-                    <option value="n 5">n 5</option>
-                    <option value="n 3">n 3</option>
-                    <option value="n 3">n 3</option>
-                    <option value="n 3">n 3</option>
-                    <option value="n 3">n 3</option>
-                    <option value="n 3">n 3</option>
-                    <option value="n 3">n 3</option>
-                </select>
-                </section>
+                {{ INCOME_CREATE_FORM.currency }}
             </div>
             <div class="sm-modal-footer">
-                <input id="add-income" class="sm-modal_submit-button" type="button"
+                <input id="add-income" class="sm-modal_submit-button"
+                       type="button"
                        value="добавить">
             </div>
         </div>
@@ -49,7 +37,7 @@
         let body = {
             name: $('#title').val(),
             monthly_plan: $('#plan').val(),
-            currency: $('#select').val(),
+            currency: $('#id_currency').val(),
         };
 
         const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
@@ -64,16 +52,17 @@
                 credentials: 'same-origin'
             }
         );
-        if(response.ok){
+        if (response.ok) {
             const resp_body = await response.json();
             $('#title').val('');
             $('#plan').val('');
             $('#modal1').modal('close');
-            addNewIncome(resp_body.id,
-                         resp_body.name,
-                         resp_body.currency,
-                         0,
-                         resp_body.monthly_plan);
+            addNewIncome(
+                resp_body.id,
+                resp_body.name,
+                resp_body.currency,
+                0,
+                resp_body.monthly_plan);
         }
     };
 

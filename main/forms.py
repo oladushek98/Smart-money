@@ -9,7 +9,8 @@ import os
 
 
 class EditBioForm(Form):
-    with open(os.path.join(settings.BASE_DIR, 'main/static/main/other/currencies.json'), 'r') as f:
+    with open(os.path.join(settings.BASE_DIR,
+                           'main/static/main/other/currencies.json'), 'r') as f:
         currencies = json.load(f)
 
     choices = []
@@ -26,7 +27,8 @@ class EditBioForm(Form):
         last = self.data.get('last_name')
 
         for i in range(len(last)):
-            if last[i] not in set(string.ascii_lowercase).union(set(string.ascii_uppercase)):
+            if last[i] not in set(string.ascii_lowercase).union(
+                    set(string.ascii_uppercase)):
                 raise ValidationError('Only letters are allowed')
 
         return last
@@ -35,7 +37,31 @@ class EditBioForm(Form):
         first = self.data.get('first_name')
 
         for i in range(len(first)):
-            if first[i] not in set(string.ascii_lowercase).union(set(string.ascii_uppercase)):
+            if first[i] not in set(string.ascii_lowercase).union(
+                    set(string.ascii_uppercase)):
                 raise ValidationError('Only letters are allowed')
 
         return first
+
+
+class IncomeForm(Form):
+    with open(os.path.join(settings.BASE_DIR,
+                           'main/static/main/other/currencies.json'), 'r') as f:
+        currencies = json.load(f)
+
+    choices = []
+
+    for k, v in currencies.items():
+        choices.append((k, v))
+
+    name = forms.CharField(label='Название', max_length=50)
+    monthly_plan = forms.IntegerField(label='Планирую получать в месяц')
+    currency = forms.ChoiceField(choices=choices, label='Валюта')
+
+
+class TransactionForm(Form):
+
+    transaction_from = forms.ChoiceField(choices=[])
+    transaction_to = forms.ChoiceField(choices=[])
+    amount = forms.IntegerField()
+    data_from = forms.DateField(widget=forms.SelectDateWidget)
