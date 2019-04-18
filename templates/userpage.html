@@ -91,7 +91,7 @@
                         </div>
                         <div class="sm-category-block_stats">
                             <div class="sm-category-block_stats-item">
-                                <div class="sm-category-block_stats-amount"> Br‎
+                                <div id="accounts_stat" class="sm-category-block_stats-amount"> Br
                                     109
                                 </div>
                                 <div class="sm-category-block_stats-title">в
@@ -101,18 +101,20 @@
                         </div>
                     </div>
 
-                    <div class="sm-category-block_body">
-                        <div class="sm-category sm-category_account">
+                    <div id="account_table" class="sm-category-block_body">
+                        {% for account in ACCOUNTS %}
+                        <div class="sm-category sm-category_account {%if not account.take_into_balance%} excluded {%endif%}">
                             <div class="sm-category_title" title="кошелек">
-                                кошелек
+                                {{ account.name }}
                             </div>
-                            <div id="account1" class="sm-category_icon-wrapper">
+                            <div id="account_{{ account.id }}" class="sm-category_icon-wrapper">
                                 <div class="sm-category_fill"></div>
                                 <div class="sm-category_icon sm-category_icon-cash"></div>
                             </div>
-                            <div class="sm-category_amount">
-                                <div class="sm-category_actual-amount">Br 109
+                             <div class="sm-category_amount">
+                                <div class="sm-category_actual-amount">{{ account.currency }}
                                 </div>
+                                <div class="sm-category_plan-amount">{{ account.amount }}</div>
                             </div>
                             <div class="sm-category_edit">
                                 <svg viewBox="0 0 18 18">
@@ -121,6 +123,10 @@
                                 </svg>
                             </div>
                         </div>
+                        <script>
+                        $('#account_' + {{ account.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'account/' + {{ account.id }});
+                        </script>
+                        {% endfor %}
                         <div class="sm-category sm-category_add-category">
                             <a class="sm-category_icon-wrapper modal-trigger"
                                href="#modal2">
@@ -149,7 +155,7 @@
                                 </div>
                             </div>
                             <div class="sm-category-block_stats-item">
-                                <div class="sm-category-block_stats-amount"> Br‎
+                                <div id="costs_stat" class="sm-category-block_stats-amount"> Br‎
                                     0
                                 </div>
                                 <div class="sm-category-block_stats-title">
@@ -175,19 +181,21 @@
                         </div>
                     </div>
 
-                    <div class="sm-category-block_body">
+                    <div id="cost_table" class="sm-category-block_body">
+                        {% for cost in COSTS %}
                         <div class="sm-category sm-category_expense sm-category_color_green">
-                            <div class="sm-category_title" title="машина">
-                                машина
+                            <div class="sm-category_title">
+                                {{ cost.name }}
                             </div>
-                            <div class="sm-category_icon-wrapper">
+                            <div id="cost_{{ cost.id }}" class="sm-category_icon-wrapper">
                                 <div class="sm-category_fill"
                                      style="height: 100%"></div>
                                 <div class="sm-category_icon sm-category_icon-car"></div>
                             </div>
                             <div class="sm-category_amount">
-                                <div class="sm-category_actual-amount">Br 109
+                                <div class="sm-category_actual-amount">{{ cost.currency }}
                                 </div>
+                                <div class="sm-category_plan-amount">{{ cost.monthly_plan }}</div>
                             </div>
                             <div class="sm-category_edit">
                                 <svg viewBox="0 0 18 18">
@@ -196,6 +204,10 @@
                                 </svg>
                             </div>
                         </div>
+                        <script>
+                        $('#cost_' + {{ cost.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'cost/' + {{ cost.id }});
+                        </script>
+                        {% endfor %}
                         <div class="sm-category sm-category_add-category">
                             <a class="sm-category_icon-wrapper modal-trigger"
                                href="#modal3">
@@ -222,36 +234,30 @@
 
     <!-- Modal Счета -->
     <div id="modal2" class="modal sm-modal">
-        <div class="modal-content">
-            <h4>Modal Счета</h4>
-            <p>A bunch of text</p>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-        </div>
+        {% include 'account/create_account.html' %}
     </div>
 
     <!-- Modal Расходы -->
-    <div id="modal3" class="modal">
-        <div class="modal-content">
-            <h4>Modal Расходы</h4>
-            <p>A bunch of text</p>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-        </div>
+    <div id="modal3" class="modal sm-modal">
+        {% include 'cost/create_cost.html' %}
     </div>
+
+    <script src="{% static 'main/scripts/addNewIncome.js' %}"></script>
+    <script src="{% static 'main/scripts/addNewAccount.js' %}"></script>
+    <script src="{% static 'main/scripts/addNewCost.js' %}"></script>
+
 {% endblock %}
 
 
 {% block scrypt %}
     $(document).ready(function(){
     $('.modal').modal();
-    $('#account1').on('click', (event) => alert(event));
 
     // add statistic for income
 
     updateIncomeStatistic();
+    updateAccountStatistic();
+    updateCostStatistic();
     // add statistic for income end
 
 

@@ -1,0 +1,94 @@
+<div>
+    <div class="sm-modal-account">
+        <div class="sm-modal_header"></div>
+
+        <div class="sm-modal_body">
+            <div class="sm-modal_input-line">
+                <input id="title1" class="sm-input" placeholder="Где вы храните деньги? *">
+                <div class="sm-input_underline"></div>
+                <div class="z-depth-3 sm-modal-icon"></div>
+            </div>
+
+            <div class="sm-modal_input-line">
+                <input id="amount" class="sm-input" placeholder="Сколько там сейчас денег? ">
+            </div>
+
+            <div class="sm-modal_input-line sm-modal_input-currency">
+                <div class="currency-input-label">Валюта</div>
+                <select id="currency">
+                    <option value="n 1" selected>n 1</option>
+                    <option value="n 2">n 2</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 4">n 4</option>
+                    <option value="n 5">n 5</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 3">n 3</option>
+                </select>
+                </section>
+            </div>
+
+            <div class="sm-modal_input-line sm-modal_input-currency">
+            <div class="account-checkbox-label">Учитывать в общем балансе?</div>
+                <select id="take_into_balance">
+                    <option value=1>Да</option>
+                    <option value=0>Нет</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="sm-modal-footer">
+            <input id="add-account" class="sm-modal_submit-button" type="button" value="добавить">
+        </div>
+
+    </div>
+</div>
+
+<script>
+    let accountCreate = async (event) => {
+        let body = {
+            name: $('#title1').val(),
+            amount: $('#amount').val(),
+            currency: $('#currency').val(),
+            take_into_balance: $('#take_into_balance').val()
+        };
+
+        const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
+        let header = new Headers();
+        header.append('X-CSRFToken', csrftoken);
+
+        let response = await fetch('{% url 'create_account' %}',
+            {
+                method: 'PUT',
+                body: JSON.stringify(body),
+                headers: header,
+                credentials: 'same-origin'
+            }
+        );
+        if(response.ok){
+            if(body.amount == ''){
+                body.amount = 0;
+            }
+            const resp_body = await response.json();
+            $('#title1').val('');
+            $('#amount').val('');
+            $('#modal2').modal('close');
+            addNewAccount(
+                resp_body.id,
+                resp_body.name,
+                resp_body.amount,
+                resp_body.currency,
+                resp_body.take_into_balance
+            );
+        }
+    };
+
+    $(document).ready(() => {
+        $('#add-account').on('click', accountCreate)
+    });
+
+</script>

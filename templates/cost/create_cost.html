@@ -1,0 +1,87 @@
+<div>
+    <div class="sm-modal-cost">
+        <div class="sm-modal_header">
+
+        </div>
+
+        <div class="sm-modal_body">
+
+            <div class="sm-modal_input-line">
+                    <input id="title2" class="sm-input"
+                           placeholder="На что вы тратите деньги? *">
+                    <div class="sm-input_underline"></div>
+                <div class="z-depth-3 sm-modal-icon">
+
+                </div>
+            </div>
+
+            <div class="sm-modal_input-line">
+                <input id="cost_plan" class="sm-input" type="number"
+                       placeholder="Планируете тратить в месяц">
+            </div>
+
+            <div class="sm-modal_input-line sm-modal_input-currency">
+                <div class="currency-input-label">Валюта</div>
+                <select id="cost_currency">
+                    <option value="n 1" selected>n 1</option>
+                    <option value="n 2">n 2</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 4">n 4</option>
+                    <option value="n 5">n 5</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 3">n 3</option>
+                    <option value="n 3">n 3</option>
+                </select>
+            </div>
+            <div class="sm-modal-footer">
+                <input id="add-cost" class="sm-modal_submit-button" type="button"
+                       value="добавить">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let costCreate = async (event) => {
+        let body = {
+            name: $('#title2').val(),
+            monthly_plan: $('#cost_plan').val(),
+            currency: $('#cost_currency').val(),
+        };
+
+        const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
+        let header = new Headers();
+        header.append('X-CSRFToken', csrftoken);
+
+        let response = await fetch('{% url 'create_cost' %}',
+            {
+                method: 'PUT',
+                body: JSON.stringify(body),
+                headers: header,
+                credentials: 'same-origin'
+            }
+        );
+        if(response.ok){
+            const resp_body = await response.json();
+
+            $('#modal3').modal('close');
+            $('#title2').val('');
+            $('#cost_plan').val('');
+            addNewCost(
+                resp_body.id,
+                resp_body.name,
+                resp_body.currency,
+                resp_body.monthly_plan
+            );
+        }
+    };
+
+
+    $(document).ready(() => {
+        $('#add-cost').on('click', costCreate)
+    });
+
+</script>
