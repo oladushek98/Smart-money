@@ -59,6 +59,37 @@ class IncomeForm(Form):
     currency = forms.ChoiceField(choices=choices, label='Валюта')
 
 
+class AccountForm(Form):
+    with open(os.path.join(settings.BASE_DIR,
+                           'main/static/main/other/currencies.json'), 'r') as f:
+        currencies = json.load(f)
+
+    choices = []
+
+    for k, v in currencies.items():
+        choices.append((k, v))
+
+    name = forms.CharField(label='Название', max_length=50)
+    amount = forms.IntegerField(label='Сейчас на счете')
+    currency = forms.ChoiceField(choices=choices, label='Валюта')
+    take_into_balance = forms.BooleanField(label='Учитывать в общем балансе?')
+
+
+class CostForm(Form):
+    with open(os.path.join(settings.BASE_DIR,
+                           'main/static/main/other/currencies.json'), 'r') as f:
+        currencies = json.load(f)
+
+    choices = []
+
+    for k, v in currencies.items():
+        choices.append((k, v))
+
+    name = forms.CharField(label='Название', max_length=50)
+    monthly_plan = forms.IntegerField(label='Планируете тратить в месяц')
+    currency = forms.ChoiceField(choices=choices, label='Валюта')
+
+
 class TransactionForm(Form):
 
     transaction_from = forms.ChoiceField(choices=[])

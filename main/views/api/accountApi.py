@@ -16,7 +16,7 @@ class AccountCreate(View):
         amount = body['amount']
         body['amount'] = int(amount) if amount else 0
         is_take = body['take_into_balance']
-        body['take_into_balance'] = True if is_take == '1' else False
+        body['take_into_balance'] = False if is_take == 'false' else True
         account = Account(**body, user_id=request.user.id)
         account.save()
         body['id'] = account.id

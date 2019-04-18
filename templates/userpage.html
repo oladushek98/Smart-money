@@ -116,12 +116,6 @@
                                 </div>
                                 <div class="sm-category_plan-amount">{{ account.amount }}</div>
                             </div>
-                            <div class="sm-category_edit">
-                                <svg viewBox="0 0 18 18">
-                                    <g fill-rule="evenodd">
-                                    </g>
-                                </svg>
-                            </div>
                         </div>
                         <script>
                         $('#account_' + {{ account.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'account/' + {{ account.id }});
@@ -148,16 +142,14 @@
                         <div class="sm-category-block_stats">
                             <div class="sm-category-block_stats-item">
                                 <div class="sm-category-block_stats-amount"> Br‎
-                                    26
+                                    0
                                 </div>
                                 <div class="sm-category-block_stats-title">
                                     протрачено
                                 </div>
                             </div>
                             <div class="sm-category-block_stats-item">
-                                <div id="costs_stat" class="sm-category-block_stats-amount"> Br‎
-                                    0
-                                </div>
+                                <div id="costs_stat" class="sm-category-block_stats-amount"> Br‎ 0</div>
                                 <div class="sm-category-block_stats-title">
                                     бюджет расходов
                                 </div>
@@ -196,12 +188,6 @@
                                 <div class="sm-category_actual-amount">{{ cost.currency }}
                                 </div>
                                 <div class="sm-category_plan-amount">{{ cost.monthly_plan }}</div>
-                            </div>
-                            <div class="sm-category_edit">
-                                <svg viewBox="0 0 18 18">
-                                    <g fill-rule="evenodd">
-                                    </g>
-                                </svg>
                             </div>
                         </div>
                         <script>

@@ -4,45 +4,44 @@
 
         <div class="sm-modal_body">
             <div class="sm-modal_input-line">
-                <input id="title1" class="sm-input" placeholder="Где вы храните деньги? *">
+                <input id="title1" class="sm-input"
+                       placeholder="Где вы храните деньги? *">
                 <div class="sm-input_underline"></div>
                 <div class="z-depth-3 sm-modal-icon"></div>
             </div>
 
             <div class="sm-modal_input-line">
-                <input id="amount" class="sm-input" placeholder="Сколько там сейчас денег? ">
+                <input id="amount" class="sm-input"
+                       placeholder="Сколько там сейчас денег? ">
             </div>
 
             <div class="sm-modal_input-line sm-modal_input-currency">
                 <div class="currency-input-label">Валюта</div>
-                <select id="currency">
-                    <option value="n 1" selected>n 1</option>
-                    <option value="n 2">n 2</option>
-                    <option value="n 3">n 3</option>
-                    <option value="n 4">n 4</option>
-                    <option value="n 5">n 5</option>
-                    <option value="n 3">n 3</option>
-                    <option value="n 3">n 3</option>
-                    <option value="n 3">n 3</option>
-                    <option value="n 3">n 3</option>
-                    <option value="n 3">n 3</option>
-                    <option value="n 3">n 3</option>
-                </select>
-                </section>
+                {{ ACCOUNT_CREATE_FORM.currency }}
             </div>
 
             <div class="sm-modal_input-line sm-modal_input-currency">
-            <div class="account-checkbox-label">Учитывать в общем балансе?</div>
-                <select id="take_into_balance">
-                    <option value=1>Да</option>
-                    <option value=0>Нет</option>
-                </select>
+                <div class="account-checkbox-label">Учитывать в общем балансе?
+                </div>
+                <div class="switch">
+                    <label>
+                        Нет
+                        {{ ACCOUNT_CREATE_FORM.take_into_balance }}
+                        <span class="lever"></span>
+                        Дв
+                    </label>
+                </div>
+{#                <select id="take_into_balance">#}
+{#                    <option value=1>Да</option>#}
+{#                    <option value=0>Нет</option>#}
+{#                </select>#}
             </div>
 
         </div>
 
         <div class="sm-modal-footer">
-            <input id="add-account" class="sm-modal_submit-button" type="button" value="добавить">
+            <input id="add-account" class="sm-modal_submit-button" type="button"
+                   value="добавить">
         </div>
 
     </div>
@@ -54,7 +53,7 @@
             name: $('#title1').val(),
             amount: $('#amount').val(),
             currency: $('#currency').val(),
-            take_into_balance: $('#take_into_balance').val()
+            take_into_balance: String($('#id_take_into_balance')[0].checked)
         };
 
         const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
@@ -69,8 +68,8 @@
                 credentials: 'same-origin'
             }
         );
-        if(response.ok){
-            if(body.amount == ''){
+        if (response.ok) {
+            if (body.amount == '') {
                 body.amount = 0;
             }
             const resp_body = await response.json();

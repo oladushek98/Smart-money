@@ -735,3 +735,14 @@ form p select {
     text-overflow: ellipsis;
 }
 /* ADD TRANSACTION END */
+
+form .switch {
+    margin: 5px 30% 5px 30%;
+    display: flex;
+    justify-content: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}

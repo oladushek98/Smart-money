@@ -1,0 +1,29 @@
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="switch">
+        <label>
+            Нет
+            {{ form.take_into_balance }}
+            <span class="lever"></span>
+            Да
+        </label>
+    </div>
+    <div class="btn-box">
+        <button class="btn waves-effect waves-light"
+                type="submit">Сохранить
+            <i class="material-icons right"></i>
+        </button>
+        <button onclick="deleteNode({{ id }})"
+                class="btn waves-effect waves-light"
+                type="button">Удалить
+        </button>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#id_take_into_balance').remove()
+    });
+</script>
+
