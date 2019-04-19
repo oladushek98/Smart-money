@@ -78,7 +78,10 @@
 
 <script>
     const btn_add = $('#add');
+    btn_add[0].setAttribute("disabled", false);
+
     let fade = document.createElement('div');
+
     fade.setAttribute('class', 'sm-fade');
 
     const wrapper = $('.add-transaction_wrapper');
@@ -92,8 +95,17 @@
     const destination_select = $('#id_transaction_to');
 
     getTransactionSourse();
-
     $('#id_amount').val(100);
+
+    btn_add.on('click', (event)=> {
+        let body = {
+            transaction_from: $('#id_transaction_from').val(),
+            transaction_to: $('#id_transaction_to').val(),
+            amount: $('#id_amount').val(),
+        };
+        console.log(body)
+    });
+
     fade.remove();
     step_1.remove();
 
@@ -104,11 +116,13 @@
             wrapper.append(fade, wrapper.children()[0]);
             span.remove();
             add_transaction_container.append(step_1, btn_add);
+            btn_add.removeAttr('disabled');
         }
     });
 
     window.onclick = function (event) {
         if (event.target == fade) {
+            $('#add')[0].setAttribute("disabled", false);
             fade.remove();
             step_1.remove();
             add_transaction_container.append(span, btn_add);
