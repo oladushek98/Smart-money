@@ -37,7 +37,7 @@
         let body = {
             name: $('#title2').val(),
             monthly_plan: $('#cost_plan').val(),
-            currency: $('#id_currency').val(),
+            currency: $('#modal3 #id_currency').val(),
         };
 
         const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
