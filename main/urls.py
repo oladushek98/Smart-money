@@ -35,4 +35,7 @@ urlpatterns = [
     path('api/transaction/getdest/<int:pk>',
          transactionApi.GetTransactionDestination.as_view(),
          name='get_transaction_destination'),
+    path('api/transaction/create',
+         transactionApi.CreateTransaction.as_view(),
+         name='create_transaction'),
 ]

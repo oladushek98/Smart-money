@@ -2,8 +2,9 @@ import json
 
 from django.http import JsonResponse
 from django.views import View
+from datetime import datetime
 
-from main.models import FinancialNode, Income, Account, Cost
+from main.models import FinancialNode, Income, Account, Cost, Transaction
 
 
 class GetTransactionSource(View):
@@ -29,9 +30,28 @@ class GetTransactionDestination(View):
         )
 
         is_income = True if Income.objects.filter(
-            id=pk).first() != None else False
+            id=pk).first() is not None else False
 
         res = list(map(lambda x: {'id': x.id, 'name': x.name},
                        account_destination if is_income else cost_destination))
 
         return JsonResponse({'body': res if pk != 0 else []})
+
+
+class CreateTransaction(View):
+    def put(self, request):
+        body = json.loads(request.body)
+        transaction = Transaction()
+
+        transaction.transaction_from = FinancialNode.objects.filter(
+            id=int(body['transaction_from'])).first()
+        transaction.transaction_to = FinancialNode.objects.filter(
+            id=int(body['transaction_to'])).first()
+        transaction.amount = int(body['amount'])
+        transaction.data_from = datetime.strptime(body['date'],
+                                                  '%d.%m.%Y').date()
+        transaction.user = request.user
+        transaction.save()
+        body['id'] = transaction.id
+
+        return JsonResponse({'ok': True, 'body': body})

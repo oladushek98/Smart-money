@@ -745,21 +745,45 @@ form p select {
 .add-transaction_step select {
     width: 100%;
     height: 100%;
-    margin: auto 10px auto 10px;
+    margin: auto 5px auto 5px;
     text-align-last: center;
     font-family: 'Roboto', sans-serif;
+    color: #757474;
 }
 
 #id_amount {
     margin: auto 10px auto;
     border-bottom: 1px solid #9e9e9e;
     text-align-last: center;
+    color: #757474;
 }
 
 #id_amount:focus {
     border-bottom: 1px solid #26a69a;
     -webkit-box-shadow: 0 1px 0 0 #26a69a;
     box-shadow: 0 1px 0 0 #26a69a;
+}
+
+#step_4 > input {
+    width: 100%;
+    min-height: 46px;
+    margin: auto 5px auto 5px;
+    text-align-last: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    border-bottom: 1px solid #9e9e9e;
+    color: #757474;
+    font-size: 18px;
+}
+
+#step_4 > input:focus {
+    border-bottom: 1px solid #26a69a;
+    -webkit-box-shadow: 0 1px 0 0 #26a69a;
+    box-shadow: 0 1px 0 0 #26a69a;
+}
+
+.datepicker-select {
+    display: none;
 }
 
 /* ADD TRANSACTION END */
@@ -775,3 +799,61 @@ form {
     flex-direction: column;
 }
 
+/* TRANSACTION BLOCK */
+
+.sm-transaction-block {
+    display: flex;
+    flex-flow: column;
+    padding: 0px 17px 15px;
+}
+
+.transaction {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+    margin-top: 15px;
+}
+
+.transaction-from {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    margin: 26px 0px
+}
+
+.transaction-to {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    margin: 26px 0px
+}
+
+.transaction-icon-way_wrapper {
+    display: flex;
+}
+
+.transaction-date {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    margin: 26px 0px;
+    color: #9a9898;
+}
+
+.transaction-icon-way {
+    display: inline-block;
+    margin-left: -137px;
+    background-image: url('../img/pointer.png');
+    width: 137px;
+    height: 70px;
+    background-repeat: no-repeat;
+}
+
+.transaction-amount {
+    width: 137px;
+    min-height: 20px;
+    display: inline;
+    margin: 27px 10px auto 0;
+    text-align: center;
+}
+
+/* TRANSACTION BLOCK END */

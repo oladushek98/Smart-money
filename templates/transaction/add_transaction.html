@@ -1,3 +1,7 @@
+{% load static %}
+
+
+<script src="{% static 'main/scripts/api/transactionApi.js' %}"></script>
 <div class="sm-dashboard-top">
     <div class="add-transaction_wrapper">
         <div class="add-transaction sm-add-transaction_state_standby">
@@ -20,7 +24,8 @@
                 </div>
                 <div id="step_4" class="add-transaction_step">
                     <span>дата: </span>
-                    {{ ADD_TRANSACTION_FORM.data_from }}
+                    {#                    {{ ADD_TRANSACTION_FORM.data_from }}#}
+                    <input id="id_date" type="text" class="datepicker">
                 </div>
             </div>
         </div>
@@ -30,51 +35,6 @@
     </div>
 </div>
 
-
-<script>
-    const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
-    let header = new Headers();
-    header.append('X-CSRFToken', csrftoken);
-
-    let getTransactionSourse = async () => {
-        fetch('{% url 'get_transaction_source' %}', {
-            method: "GET",
-            headers: header,
-            credentials: 'same-origin'
-        }).then(r => r.json().then(data => ({
-            status: r.status, body: data.body
-        }))).then(obj => {
-            let option = null;
-            source_select.children().remove();
-            for (i = 0; i < obj.body.length; i++) {
-                option = document.createElement('option');
-                option.setAttribute('value', obj.body[i].id);
-                option.textContent = obj.body[i].name;
-                source_select.append(option);
-            }
-        });
-    };
-
-    let getTransactionDestination = (id) => {
-        fetch('api/transaction/getdest/' + id, {
-            method: "GET",
-            headers: header,
-            credentials: 'same-origin'
-        }).then(r => r.json().then(data => ({
-            status: r.status, body: data.body
-        }))).then(obj => {
-            let option = null;
-            destination_select.children().remove();
-            for (i = 0; i < obj.body.length; i++) {
-                option = document.createElement('option');
-                option.setAttribute('value', obj.body[i].id);
-                option.textContent = obj.body[i].name;
-                destination_select.append(option);
-            }
-        });
-    };
-
-</script>
 
 <script>
     const btn_add = $('#add');
@@ -97,13 +57,24 @@
     getTransactionSourse();
     $('#id_amount').val(100);
 
-    btn_add.on('click', (event)=> {
+    btn_add.on('click', async (event) => {
         let body = {
             transaction_from: $('#id_transaction_from').val(),
             transaction_to: $('#id_transaction_to').val(),
             amount: $('#id_amount').val(),
+            date: datepicker.val(),
         };
-        console.log(body)
+        res = await createTransaction(body);
+        console.log(res)
+    });
+
+    const date = new Date();
+    const datepicker = $('.datepicker');
+    datepicker.datepicker({
+        autoClose: true,
+        format: 'd.m.yyyy',
+        defaultDate: date,
+        setDefaultDate: true,
     });
 
     fade.remove();
@@ -117,6 +88,10 @@
             span.remove();
             add_transaction_container.append(step_1, btn_add);
             btn_add.removeAttr('disabled');
+            source_select.on('click', (event) => {
+                getTransactionDestination(event.target.value)
+            });
+
         }
     });
 
@@ -130,9 +105,6 @@
     };
 
     $(document).ready(function () {
-        source_select.on('click', (event) => {
-            getTransactionDestination(event.target.value)
-        });
         getTransactionDestination('1');
     });
 

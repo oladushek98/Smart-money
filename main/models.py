@@ -85,6 +85,11 @@ class Transaction(models.Model):
     data_from = models.DateField()
     data_to = models.DateField(null=True, blank=True)
     comment = models.CharField(max_length=100, default='')
+    delete = models.BooleanField(default=False)
+    user = models.ForeignKey(User,
+                             related_name='transactions',
+                             on_delete=models.CASCADE,
+                             null=True)
 
 
 class UserAdditionalInfo(models.Model):

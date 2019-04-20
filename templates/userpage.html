@@ -112,9 +112,8 @@
                                 <div class="sm-category_icon sm-category_icon-cash"></div>
                             </div>
                              <div class="sm-category_amount">
-                                <div class="sm-category_actual-amount">{{ account.currency }}
+                                <div class="sm-category_actual-amount">{{ account.currency }} {{ account.amount }}
                                 </div>
-                                <div class="sm-category_plan-amount">{{ account.amount }}</div>
                             </div>
                         </div>
                         <script>
@@ -185,7 +184,7 @@
                                 <div class="sm-category_icon sm-category_icon-car"></div>
                             </div>
                             <div class="sm-category_amount">
-                                <div class="sm-category_actual-amount">{{ cost.currency }}
+                                <div class="sm-category_actual-amount">{{ cost.currency }} {{ cost.amount }}
                                 </div>
                                 <div class="sm-category_plan-amount">{{ cost.monthly_plan }}</div>
                             </div>
@@ -205,10 +204,43 @@
                     </div>
 
                 </div>
-                <div class="sm-dashboard-column"></div>
+
             </div>
 
             <div class="sm-dashboard-column">
+                <div class="sm-category-block sm-category-card">
+
+                    <div class="sm-category-block_header">
+                        <div class="sm-category-block_title">
+                            <div class="sm-category-block_name">Транзакции</div>
+                        </div>
+                    </div>
+
+                    <div class="sm-transaction-block">
+                        {% for transaction in TRANSACTIONS %}
+                        <div class="transaction z-depth-1">
+                            <div class="transaction-from">
+                                {{ transaction.transaction_from.name }}
+                            </div>
+                            <div class="transaction-icon-way_wrapper">
+                                <div class="transaction-amount">
+                                    {{ transaction.amount }}
+                                </div>
+                                <div class="transaction-icon-way">
+
+                                </div>
+                            </div>
+                            <div class="transaction-to">
+                                {{ transaction.transaction_to.name }}
+                            </div>
+                            <div class="transaction-date">
+                                {{ transaction.date_from }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
