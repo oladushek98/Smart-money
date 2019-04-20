@@ -51,5 +51,5 @@ let createTransaction = async (body) => {
     });
     const json = await response.json();
 
-    return {ok: response.ok, body: json};
+    return json;
 };

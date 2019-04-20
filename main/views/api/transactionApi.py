@@ -53,5 +53,6 @@ class CreateTransaction(View):
         transaction.user = request.user
         transaction.save()
         body['id'] = transaction.id
-
+        body['transaction_from'] = transaction.transaction_from.name
+        body['transaction_to'] = transaction.transaction_to.name
         return JsonResponse({'ok': True, 'body': body})

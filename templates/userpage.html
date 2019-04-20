@@ -91,7 +91,8 @@
                         </div>
                         <div class="sm-category-block_stats">
                             <div class="sm-category-block_stats-item">
-                                <div id="accounts_stat" class="sm-category-block_stats-amount"> Br
+                                <div id="accounts_stat"
+                                     class="sm-category-block_stats-amount"> Br
                                     109
                                 </div>
                                 <div class="sm-category-block_stats-title">в
@@ -103,22 +104,23 @@
 
                     <div id="account_table" class="sm-category-block_body">
                         {% for account in ACCOUNTS %}
-                        <div class="sm-category sm-category_account {%if not account.take_into_balance%} excluded {%endif%}">
-                            <div class="sm-category_title" title="кошелек">
-                                {{ account.name }}
-                            </div>
-                            <div id="account_{{ account.id }}" class="sm-category_icon-wrapper">
-                                <div class="sm-category_fill"></div>
-                                <div class="sm-category_icon sm-category_icon-cash"></div>
-                            </div>
-                             <div class="sm-category_amount">
-                                <div class="sm-category_actual-amount">{{ account.currency }} {{ account.amount }}
+                            <div class="sm-category sm-category_account {% if not account.take_into_balance %} excluded {% endif %}">
+                                <div class="sm-category_title" title="кошелек">
+                                    {{ account.name }}
+                                </div>
+                                <div id="account_{{ account.id }}"
+                                     class="sm-category_icon-wrapper">
+                                    <div class="sm-category_fill"></div>
+                                    <div class="sm-category_icon sm-category_icon-cash"></div>
+                                </div>
+                                <div class="sm-category_amount">
+                                    <div class="sm-category_actual-amount">{{ account.currency }} {{ account.amount }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <script>
-                        $('#account_' + {{ account.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'account/' + {{ account.id }});
-                        </script>
+                            <script>
+                                $('#account_' + {{ account.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'account/' + {{ account.id }});
+                            </script>
                         {% endfor %}
                         <div class="sm-category sm-category_add-category">
                             <a class="sm-category_icon-wrapper modal-trigger"
@@ -148,7 +150,10 @@
                                 </div>
                             </div>
                             <div class="sm-category-block_stats-item">
-                                <div id="costs_stat" class="sm-category-block_stats-amount"> Br‎ 0</div>
+                                <div id="costs_stat"
+                                     class="sm-category-block_stats-amount"> Br‎
+                                    0
+                                </div>
                                 <div class="sm-category-block_stats-title">
                                     бюджет расходов
                                 </div>
@@ -174,24 +179,25 @@
 
                     <div id="cost_table" class="sm-category-block_body">
                         {% for cost in COSTS %}
-                        <div class="sm-category sm-category_expense sm-category_color_green">
-                            <div class="sm-category_title">
-                                {{ cost.name }}
-                            </div>
-                            <div id="cost_{{ cost.id }}" class="sm-category_icon-wrapper">
-                                <div class="sm-category_fill"
-                                     style="height: 100%"></div>
-                                <div class="sm-category_icon sm-category_icon-car"></div>
-                            </div>
-                            <div class="sm-category_amount">
-                                <div class="sm-category_actual-amount">{{ cost.currency }} {{ cost.amount }}
+                            <div class="sm-category sm-category_expense sm-category_color_green">
+                                <div class="sm-category_title">
+                                    {{ cost.name }}
                                 </div>
-                                <div class="sm-category_plan-amount">{{ cost.monthly_plan }}</div>
+                                <div id="cost_{{ cost.id }}"
+                                     class="sm-category_icon-wrapper">
+                                    <div class="sm-category_fill"
+                                         style="height: 100%"></div>
+                                    <div class="sm-category_icon sm-category_icon-car"></div>
+                                </div>
+                                <div class="sm-category_amount">
+                                    <div class="sm-category_actual-amount">{{ cost.currency }} {{ cost.amount }}
+                                    </div>
+                                    <div class="sm-category_plan-amount">{{ cost.monthly_plan }}</div>
+                                </div>
                             </div>
-                        </div>
-                        <script>
-                        $('#cost_' + {{ cost.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'cost/' + {{ cost.id }});
-                        </script>
+                            <script>
+                                $('#cost_' + {{ cost.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'cost/' + {{ cost.id }});
+                            </script>
                         {% endfor %}
                         <div class="sm-category sm-category_add-category">
                             <a class="sm-category_icon-wrapper modal-trigger"
@@ -218,25 +224,29 @@
 
                     <div class="sm-transaction-block">
                         {% for transaction in TRANSACTIONS %}
-                        <div class="transaction z-depth-1">
-                            <div class="transaction-from">
-                                {{ transaction.transaction_from.name }}
-                            </div>
-                            <div class="transaction-icon-way_wrapper">
-                                <div class="transaction-amount">
-                                    {{ transaction.amount }}
+                            <div class="transaction z-depth-1"
+                                 id="transaction_{{ transaction.id }}">
+                                <div class="transaction-from">
+                                    {{ transaction.transaction_from.name }}
                                 </div>
-                                <div class="transaction-icon-way">
+                                <div class="transaction-icon-way_wrapper">
+                                    <div class="transaction-amount">
+                                        {{ transaction.amount }}
+                                    </div>
+                                    <div class="transaction-icon-way">
 
+                                    </div>
+                                </div>
+                                <div class="transaction-to">
+                                    {{ transaction.transaction_to.name }}
+                                </div>
+                                <div class="transaction-date">
+                                    {{ transaction.date_from }}
                                 </div>
                             </div>
-                            <div class="transaction-to">
-                                {{ transaction.transaction_to.name }}
-                            </div>
-                            <div class="transaction-date">
-                                {{ transaction.date_from }}
-                            </div>
-                        </div>
+                            <script>
+                                $('#transaction_' + {{ transaction.id }}).on('click', (event) => alert({{ transaction.id }}));
+                            </script>
                         {% endfor %}
                     </div>
                 </div>
@@ -263,6 +273,7 @@
     <script src="{% static 'main/scripts/addNewIncome.js' %}"></script>
     <script src="{% static 'main/scripts/addNewAccount.js' %}"></script>
     <script src="{% static 'main/scripts/addNewCost.js' %}"></script>
+    <script src="{% static 'main/scripts/addNewTransaction.js' %}"></script>
 
 {% endblock %}
 

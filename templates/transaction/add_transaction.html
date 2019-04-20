@@ -65,6 +65,18 @@
             date: datepicker.val(),
         };
         res = await createTransaction(body);
+        if(res.ok){
+            addNewTransaction(res.body.id,
+                            res.body.transaction_from,
+                            res.body.transaction_to,
+                            res.body.amount,
+                            res.body.date);
+            $('#add')[0].setAttribute("disabled", false);
+            fade.remove();
+            step_1.remove();
+            add_transaction_container.append(span, btn_add);
+        }
+
         console.log(res)
     });
 

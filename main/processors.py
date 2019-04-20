@@ -10,13 +10,7 @@ def processor(request):
     incoms = list(Income.objects.filter(delete=False,
                                         user_id=request.user.id).all())
     for incom in incoms:
-        incom.amount = Income.objects.annotate(
-            sum_amount=Sum('source__amount',
-                           filter=(
-                               Q(source__transaction_from=incom)
-                           ))).first().sum_amount
-        if incom.amount is None:
-            incom.amount = 0
+        incom.amount = sum(map(lambda x: x.amount, incom.source.all()))
 
     income_create_from = IncomeForm()
     account_create_form = AccountForm()
@@ -27,21 +21,9 @@ def processor(request):
                                            user_id=request.user.id).all())
 
     for account in accounts:
-        amount_plus = Account.objects.annotate(
-            sum_amount_plus=Sum('destination__amount',
-                                filter=(
-                                    Q(destination__transaction_to=account)
-                                ))).first().sum_amount_plus
-        amount_minus = Account.objects.annotate(
-            sum_amount_minus=Sum('source__amount',
-                                 filter=(
-                                     Q(source__transaction_from=account)
-                                 ))).first().sum_amount_minus
+        amount_plus = sum(map(lambda x: x.amount, account.destination.all()))
+        amount_minus = sum(map(lambda x: x.amount, account.source.all()))
 
-        if amount_plus is None:
-            amount_plus = 0
-        if amount_minus is None:
-            amount_minus = 0
         account.amount += amount_plus - amount_minus
 
     costs = list(Cost.objects.filter(delete=False,
