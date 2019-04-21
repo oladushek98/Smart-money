@@ -1,20 +1,16 @@
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import render
+from django.template.loader import get_template
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, FormView
+from django.views.generic import FormView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from wkhtmltopdf.views import PDFTemplateResponse, PDFTemplateView
+
 from main.forms import EditBioForm
-from main.models import UserAdditionalInfo
-
-
-# class UserUpdateView(LoginRequiredMixin, UpdateView):
-#     model = User
-#     fields = ['last_name', 'first_name', 'email']
-#     template_name = 'user_edit.html'
-#
-#     def get_success_url(self):
-#         return reverse_lazy('userpage', args=[self.object.id])
+from main.models import UserAdditionalInfo, FinancialNode
+from main.utils import PDFConverter
 
 
 class UserUpdateBioView(LoginRequiredMixin, FormView):
@@ -52,3 +48,30 @@ class UserUpdateBioView(LoginRequiredMixin, FormView):
 
     def get_success_url(self):
         return reverse_lazy('userpage')
+
+
+class GeneratePDF(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        template = get_template('report.html')
+        operations = FinancialNode.objects.filter(user_id=request.user.id).prefetch_related('income')
+        context = {
+            'arg': 'Hello',
+            'operations': operations
+        }
+        pdf = PDFConverter.render_to_pdf('report.html', context)
+
+        if pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            filename = f'Report_{54}'
+            content = f'inline; filename=\'{filename}\''
+            download = request.GET.get("download")
+
+            if download:
+                content = f'attachment; filename=\'{filename}\''
+
+            response['Content-Disposition'] = content
+
+            return response
+
+        return HttpResponse('Not found!')

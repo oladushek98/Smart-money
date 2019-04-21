@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    {% for oper in operations %}
+        <h3>{{ oper.date }}: {{ oper.monthly_plan }} {{ oper.currency }}</h3>
+    {% endfor %}
+    <p>{{ arg }}</p>
+
+{% endblock %}
