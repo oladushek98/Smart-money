@@ -4,7 +4,7 @@
 
 
     {% for oper in operations %}
-        <h3>{{ oper.date }}: {{ oper.monthly_plan }} {{ oper.currency }}</h3>
+        <h1>{{ oper.data_from }}: {{ oper.transaction_from.name }} -> {{ oper.transaction_to.name }}  {{ oper.amount }} {{ oper.transaction_from.currency }}</h1>
     {% endfor %}
     <p>{{ arg }}</p>
 

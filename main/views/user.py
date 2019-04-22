@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from wkhtmltopdf.views import PDFTemplateResponse, PDFTemplateView
 
 from main.forms import EditBioForm
-from main.models import UserAdditionalInfo, FinancialNode
+from main.models import UserAdditionalInfo, FinancialNode, Transaction
 from main.utils import PDFConverter
 
 
@@ -54,7 +54,7 @@ class GeneratePDF(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         template = get_template('report.html')
-        operations = FinancialNode.objects.filter(user_id=request.user.id).prefetch_related('income')
+        operations = Transaction.objects.filter(user_id=request.user.id).prefetch_related('transaction_from', 'transaction_to').all()
         context = {
             'arg': 'Hello',
             'operations': operations
