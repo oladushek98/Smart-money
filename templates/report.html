@@ -2,10 +2,30 @@
 
 {% block content %}
 
-
-    {% for oper in operations %}
-        <h1>{{ oper.data_from }}: {{ oper.transaction_from.name }} -> {{ oper.transaction_to.name }}  {{ oper.amount }} {{ oper.transaction_from.currency }}</h1>
+    <h1>Transactions</h1>
+    {% for trans in transactions %}
+        <h2>{{ trans.data_from }}: {{ trans.transaction_from.name }} -> {{ trans.transaction_to.name }}  {{ trans.amount }} {{ trans.transaction_from.currency }}</h2>
     {% endfor %}
+    <br><br>
+
+    <h1>Incomes</h1>
+    {% for inc in incomes %}
+        <h2>{{ inc.name }}: {{ inc.monthly_plan }} {{ inc.currency }}</h2>
+    {% endfor %}
+    <br><br>
+
+    <h1>Accounts</h1>
+    {% for acc in accounts %}
+        <h2>{{ acc.name }}: {{ acc.amount }} {{ acc.currency }}</h2>
+    {% endfor %}
+    <br><br>
+
+    <h1>Costs</h1>
+    {% for cost in costs %}
+        <h2>{{ cost.name }}: {{ cost.monthly_plan }} {{ cost.currency }}</h2>
+    {% endfor %}
+    <br><br>
+
     <p>{{ arg }}</p>
 
 {% endblock %}
