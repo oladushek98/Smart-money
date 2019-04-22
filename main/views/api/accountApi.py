@@ -25,7 +25,6 @@ class AccountCreate(View):
 
 
 class AccountDelete(View):
-
     def put(self, request, **kwargs):
         account_id = int(self.request.headers._store['referer'][1].split('/')[-1])
         account = Account.objects.filter(id=account_id).first()
