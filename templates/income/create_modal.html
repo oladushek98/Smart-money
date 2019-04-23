@@ -37,6 +37,10 @@
 </div>
 
 <script>
+    let error = $('#income_name_error');
+
+    $('#title').on('input', (event) => error[0].textContent = event.target.value? '': '* обязательное поле');
+
     let incomeCreate = async (event) => {
         let body = {
             name: $('#title').val(),
@@ -45,7 +49,6 @@
         };
 
         if(!body.name){
-            let error = $('#income_name_error');
             error[0].textContent = '* обязательное поле';
             error[0].setAttribute('style', 'color: red;');
             return;

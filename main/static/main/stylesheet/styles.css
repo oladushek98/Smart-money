@@ -215,8 +215,24 @@ body {
     height: 60px;
     overflow: hidden;
     border-radius: 50%;
-    background: #c1c5c9;
+    /*background: #c1c5c9;*/
     cursor: pointer;
+}
+
+.sm-category_icon-wrapper:hover {
+    background-color: #d6d6d6;
+}
+
+.sm-modal-income .sm-category_icon-wrapper {
+    background-color: #0a93d1;
+}
+
+.sm-modal-account .sm-category_icon-wrapper {
+    background-color: #f9a825;
+}
+
+.sm-modal-cost .sm-category_icon-wrapper {
+    background-color: #03a879;
 }
 
 .sm-category_fill {
@@ -305,10 +321,6 @@ body {
     margin: 0px 0px 0px 0px;
     width: 80px;
     height: 80px;
-}
-
-.sm-category_icon-wrapper:hover {
-    background-color: #d6d6d6;
 }
 
 .sm-category_account .sm-category_fill, .sm-category_bankaccount .sm-category_fill, .sm-category_debtaccount .sm-category_fill, .sm-category_classicgoal .sm-category_fill {
@@ -410,7 +422,7 @@ body {
 
 
 .add-transaction_wrapper {
-
+    margin: 0 20px;
 }
 
 .add-transaction_text {
@@ -546,11 +558,11 @@ body {
     font-size: 18px;
 }
 
-.switch label input[type=checkbox]:checked+.lever:after {
+.switch label input[type=checkbox]:checked + .lever:after {
     background-color: #F44336;
 }
 
-.switch label input[type=checkbox]:checked+.lever {
+.switch label input[type=checkbox]:checked + .lever {
     background-color: #E57373;
 }
 
@@ -578,6 +590,7 @@ body {
     height: 80px;
     width: 100px;
     margin: -20px 0px 0px 0px;
+    background-color: #0b9ee1;
 }
 
 .sm-input {
@@ -673,7 +686,6 @@ select {
 
 .sm-update-form {
     border-radius: 10px;
-    /*border: 1px #4f4f4f solid;*/
     background-color: rgba(254, 250, 255, 0.33);
     padding: 30px 60px 30px 60px;
 }
@@ -803,12 +815,6 @@ form p select {
     color: #757474;
 }
 
-#id_amount:focus {
-    border-bottom: 1px solid #26a69a;
-    -webkit-box-shadow: 0 1px 0 0 #26a69a;
-    box-shadow: 0 1px 0 0 #26a69a;
-}
-
 #step_4 > input {
     width: 100%;
     min-height: 46px;
@@ -821,10 +827,28 @@ form p select {
     font-size: 18px;
 }
 
-#step_4 > input:focus {
-    border-bottom: 1px solid #26a69a;
-    -webkit-box-shadow: 0 1px 0 0 #26a69a;
-    box-shadow: 0 1px 0 0 #26a69a;
+.datepicker-table td.is-today {
+    color: #e57373;
+}
+
+.datepicker-table td.is-selected {
+    background-color: #e57373;
+    color: #fff;
+}
+
+.datepicker-date-display {
+    background-color: #e57373;
+}
+
+.datepicker-cancel, .datepicker-clear, .datepicker-today, .datepicker-done {
+    color: #e57373;
+    padding: 0 1rem;
+}
+
+#step_4 > input:focus, #step_3 > input:focus {
+    border-bottom: 1px solid #e57373;
+    -webkit-box-shadow: 0 1px 0 0 #e57373;
+    box-shadow: 0 1px 0 0 #e57373;
 }
 
 .datepicker-select {
@@ -889,18 +913,18 @@ form {
 
 .transaction-icon-way {
     display: inline-block;
-    margin-left: -137px;
-    background-image: url('../img/pointer.png');
-    width: 137px;
-    height: 70px;
+    margin-left: -117px;
+    background-image: url('../img/Волшебная_Палочка_2.png');
+    width: 117px;
+    height: 64px;
     background-repeat: no-repeat;
 }
 
 .transaction-amount {
-    width: 137px;
+    width: 117px;
     min-height: 20px;
     display: inline;
-    margin: 28px 10px auto 0;
+    margin: 15px 50px 0 0;
     text-align: center;
 }
 

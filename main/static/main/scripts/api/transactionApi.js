@@ -73,3 +73,46 @@ let compareCur = () => {
 
     }
 };
+
+let updateAmount = (id, value, opp) => {
+    switch(id.split('_')[0]){
+        case 'income': return updateIncomeAmount(id, value, opp);
+        case 'account': return updateAccountAmount(id, value, opp);
+        case 'cost': return updateCostAmount(id, value, opp);
+    }
+};
+
+let updateIncomeAmount= (id, value, opp) => {
+    let s = $('#'+id);
+    let old_value = s.parent().children()[2].children[0].textContent;
+    let cc;
+    if(opp){
+        cc = +old_value.split(' ')[1] + +value;
+    }else{
+        cc = +old_value.split(' ')[1] + +value;
+    }
+    let new_value = old_value.split(' ')[0] + ' ' +  cc;
+    s.parent().children()[2].children[0].textContent = new_value;
+};
+
+let updateAccountAmount= (id, value, opp) => {
+    let s = $('#'+id);
+    let old_value = s.parent().children()[2].children[0].textContent;
+    let cc;
+    if(opp){
+        cc = +old_value.split(' ')[1] - +value;
+    }else{
+        cc = +old_value.split(' ')[1] + +value;
+    }
+    let new_value = old_value.split(' ')[0] + ' ' +  cc;
+    s.parent().children()[2].children[0].textContent = new_value;
+};
+
+let updateCostAmount= (id, value, opp) => {
+    let s = $('#'+id);
+    let old_value = s.parent().children()[2].children[0].textContent;
+    let cc = +old_value.split(' ')[1] + +value;
+
+    let new_value = old_value.split(' ')[0] + ' ' +  cc;
+    s.parent().children()[2].children[0].textContent = new_value;
+};

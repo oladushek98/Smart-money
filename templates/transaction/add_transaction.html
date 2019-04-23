@@ -66,8 +66,8 @@
 
     btn_add.on('click', async (event) => {
         let body = {
-            transaction_from: $('#id_transaction_from').val().split('/')[1],
-            transaction_to: $('#id_transaction_to').val().split('/')[1],
+            transaction_from: source_select.val().split('/')[1],
+            transaction_to: destination_select.val().split('/')[1],
             amount: $('#id_amount').val(),
             date: datepicker.val(),
         };
@@ -78,10 +78,16 @@
                 res.body.transaction_to,
                 res.body.amount,
                 res.body.date);
-            $('#add')[0].setAttribute("disabled", false);
+            updateAmount(source_select.val().split('/')[2],
+                $('#id_amount').val(), true);
+            updateAmount(destination_select.val().split('/')[2],
+                $('#id_amount').val(), false);
+            btn_add[0].setAttribute("disabled", false);
             fade.remove();
             step_1.remove();
+
             add_transaction_container.append(span, btn_add);
+
         }
 
         console.log(res)
@@ -106,7 +112,7 @@
         compareCur();
     });
     add_transaction_container.on('click', (event) => {
-        if (add_transaction_container.children()[0] == span[0]) {
+        if (add_transaction_container.children()[0] === span[0]) {
             wrapper.append(fade, wrapper.children()[0]);
             span.remove();
             add_transaction_container.append(step_1, btn_add);
