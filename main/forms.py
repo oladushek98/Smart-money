@@ -93,5 +93,6 @@ class CostForm(Form):
 class TransactionForm(Form):
     transaction_from = forms.ChoiceField(choices=[])
     transaction_to = forms.ChoiceField(choices=[])
+    choice_currency = forms.ChoiceField(choices=[])
     amount = forms.IntegerField()
     data_from = forms.DateField(widget=forms.SelectDateWidget)

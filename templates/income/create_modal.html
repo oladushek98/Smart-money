@@ -9,10 +9,14 @@
                 <div style="width: 100%;">
                     <input id="title" class="sm-input"
                            placeholder="Откуда вы получаете доход? *">
-                    <div class="sm-input_underline"></div>
+                    <div id="income_name_error" class="sm-input_underline"></div>
                 </div>
                 <div class="z-depth-3 sm-modal-icon">
-
+                    <div class="sm-category_icon-wrapper">
+                        <div class="sm-category_fill"
+                             style="height: 0%"></div>
+                        <div class="sm-category_icon sm-category_icon-plant"></div>
+                    </div>
                 </div>
             </div>
             <div class="sm-modal_input-line">
@@ -39,6 +43,15 @@
             monthly_plan: $('#plan').val(),
             currency: $('#modal1 #id_currency').val(),
         };
+
+        if(!body.name){
+            let error = $('#income_name_error');
+            error[0].textContent = '* обязательное поле';
+            error[0].setAttribute('style', 'color: red;');
+            return;
+        }
+
+
 
         const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
         let header = new Headers();

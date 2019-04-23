@@ -43,7 +43,7 @@ let getTransactionDestination = (id) => {
 
 
 let createTransaction = async (body) => {
-    const response = await fetch('api/transaction/create',{
+    const response = await fetch('api/transaction/create', {
         method: 'PUT',
         body: JSON.stringify(body),
         headers: header,
@@ -52,4 +52,24 @@ let createTransaction = async (body) => {
     const json = await response.json();
 
     return json;
+};
+
+let compareCur = () => {
+    let cur_1 = source_select.val().split('/')[0];
+    let cur_2 = destination_select.val().split('/')[0];
+    if (cur_1 !== cur_2) {
+        cur_choice_container[0].setAttribute('style', 'display: block;');
+        let option = document.createElement('option');
+        option.setAttribute('value', cur_1);
+        option.textContent = cur_1;
+        currency.children().remove();
+        currency.append(option);
+        option = document.createElement('option');
+        option.setAttribute('value', cur_2);
+        option.textContent = cur_2;
+        currency.append(option);
+    } else {
+        cur_choice_container[0].setAttribute('style', 'display: none;')
+
+    }
 };

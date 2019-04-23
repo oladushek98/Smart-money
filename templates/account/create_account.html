@@ -7,7 +7,13 @@
                 <input id="title1" class="sm-input"
                        placeholder="Где вы храните деньги? *">
                 <div class="sm-input_underline"></div>
-                <div class="z-depth-3 sm-modal-icon"></div>
+                <div class="z-depth-3 sm-modal-icon">
+                    <div class="sm-category_icon-wrapper">
+                        <div class="sm-category_fill"
+                             style="height: 0%"></div>
+                        <div class="sm-category_icon sm-category_icon-cash"></div>
+                    </div>
+                </div>
             </div>
 
             <div class="sm-modal_input-line">
@@ -24,11 +30,11 @@
                 <div class="account-checkbox-label">Учитывать в общем балансе?
                 </div>
                 <div class="switch">
-                    <label>
+                    <label class="" style="font-size: 16px; color: #000000">
                         Нет
                         {{ ACCOUNT_CREATE_FORM.take_into_balance }}
-                        <span class="lever"></span>
-                        Дв
+                        <span class="lever "></span>
+                        Дa
                     </label>
                 </div>
 {#                <select id="take_into_balance">#}

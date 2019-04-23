@@ -7,11 +7,15 @@
         <div class="sm-modal_body">
 
             <div class="sm-modal_input-line">
-                    <input id="title2" class="sm-input"
-                           placeholder="На что вы тратите деньги? *">
-                    <div class="sm-input_underline"></div>
+                <input id="title2" class="sm-input"
+                       placeholder="На что вы тратите деньги? *">
+                <div class="sm-input_underline"></div>
                 <div class="z-depth-3 sm-modal-icon">
-
+                    <div class="sm-category_icon-wrapper">
+                        <div class="sm-category_fill"
+                             style="height: 0%"></div>
+                        <div class="sm-category_icon sm-category_icon-car"></div>
+                    </div>
                 </div>
             </div>
 
@@ -25,7 +29,8 @@
                 {{ COST_CREATE_FORM.currency }}
             </div>
             <div class="sm-modal-footer">
-                <input id="add-cost" class="sm-modal_submit-button" type="button"
+                <input id="add-cost" class="sm-modal_submit-button"
+                       type="button"
                        value="добавить">
             </div>
         </div>
@@ -52,7 +57,7 @@
                 credentials: 'same-origin'
             }
         );
-        if(response.ok){
+        if (response.ok) {
             const resp_body = await response.json();
 
             $('#modal3').modal('close');

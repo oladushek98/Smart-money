@@ -1,0 +1,23 @@
+<div class="transaction z-depth-1"
+     id="transaction_{{ transaction.id }}">
+    <div class="transaction-from">
+        {{ transaction.transaction_from.name }}
+    </div>
+    <div class="transaction-icon-way_wrapper">
+        <div class="transaction-amount">
+            {{ transaction.amount }}
+        </div>
+        <div class="transaction-icon-way">
+
+        </div>
+    </div>
+    <div class="transaction-to">
+        {{ transaction.transaction_to.name }}
+    </div>
+    <div class="transaction-date">
+        {{ transaction.date_from }}
+    </div>
+</div>
+<script>
+    $('#transaction_' + {{ transaction.id }}).on('click', (event) => alert({{ transaction.id }}));
+</script>

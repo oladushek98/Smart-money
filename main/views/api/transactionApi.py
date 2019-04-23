@@ -15,7 +15,7 @@ class GetTransactionSource(View):
         account_source = list(
             Account.objects.filter(delete=False, user_id=request.user.id).all()
         )
-        res = list(map(lambda x: {'id': x.id, 'name': x.name},
+        res = list(map(lambda x: {'id': f'{x.currency}/{x.id}', 'name': x.name},
                        income_source + account_source))
         return JsonResponse({'body': res})
 
@@ -32,7 +32,7 @@ class GetTransactionDestination(View):
         is_income = True if Income.objects.filter(
             id=pk).first() is not None else False
 
-        res = list(map(lambda x: {'id': x.id, 'name': x.name},
+        res = list(map(lambda x: {'id': f'{x.currency}/{x.id}', 'name': x.name},
                        account_destination if is_income else cost_destination))
 
         return JsonResponse({'body': res if pk != 0 else []})

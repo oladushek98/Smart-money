@@ -16,26 +16,31 @@
 {% endblock %}
 
 {% block scrypt %}
-    let deleteNode = async (id) => {
-        const body = {
-            'id': id
-        };
+    $(document).ready(function(){
+    $('.modal').modal();
+    });
 
-        const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
-        let header = new Headers();
-        header.append('X-CSRFToken', csrftoken);
+    let deleteNode = async (id, flag) => {
+    const body = {
+    'id': id,
+    'flag': flag,
+    };
 
-        let response = await fetch('{% url 'delete_income' %}',
-            {
-                method: 'PUT',
-                body: JSON.stringify(body),
-                headers: header,
-                credentials: 'same-origin'
-            }
-        );
+    const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
+    let header = new Headers();
+    header.append('X-CSRFToken', csrftoken);
 
-        if(response.ok){
-            window.location.href = 'http://localhost:8000/user'
-        }
+    let response = await fetch('{% url 'delete_income' %}',
+    {
+    method: 'PUT',
+    body: JSON.stringify(body),
+    headers: header,
+    credentials: 'same-origin'
+    }
+    );
+
+    if(response.ok){
+    window.location.href = 'http://localhost:8000/user'
+    }
     }
 {% endblock %}

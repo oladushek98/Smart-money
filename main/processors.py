@@ -41,7 +41,7 @@ def processor(request):
     return {'INCOMES': incoms,
             'ACCOUNTS': accounts,
             'COSTS': costs,
-            'TRANSACTIONS': transactions,
+            'TRANSACTIONS': transactions[:9],
             'INCOME_CREATE_FORM': income_create_from,
             'ADD_TRANSACTION_FORM': add_transaction,
             'ACCOUNT_CREATE_FORM': account_create_form,

@@ -71,6 +71,9 @@ class Goal(FinancialNode):
 
 # транзакция
 class Transaction(models.Model):
+    class Meta:
+        ordering = ['-data_from']
+
     def __str__(self):
         return f'Из {self.transaction_from} в ' \
             f'{self.transaction_to} дата : {self.data_from}'
