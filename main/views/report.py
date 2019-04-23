@@ -65,7 +65,7 @@ class ReportGenerationView(LoginRequiredMixin, View):
 
         if pdf:
             response = HttpResponse(pdf, content_type='application/pdf')
-            filename = f'Report_{54}'
+            filename = f'Report_{request.user.username}_{request.path.split("/")[-2]}'
             content = f'inline; filename=\'{filename}\''
             download = request.GET.get("download")
 
