@@ -18,4 +18,4 @@ class IndexView(View):
 
 class UserpageView(LoginRequiredMixin, View):
     def get(self, request, **kwargs):
-        return render(request, 'userpage.html', context={})
+        return render(request, 'user/userpage.html', context={})

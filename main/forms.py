@@ -95,3 +95,23 @@ class TransactionForm(Form):
     transaction_to = forms.ChoiceField(choices=[])
     amount = forms.IntegerField()
     data_from = forms.DateField(widget=forms.SelectDateWidget)
+
+
+class ReportGenerationForm(Form):
+
+    period_choices = [('day', 'Day'),
+                      ('week', 'Week'),
+                      ('month', 'Month'),
+                      ('year', 'Year')]
+
+    node_objects = [('incomes', 'Incomes'),
+                    ('costs', 'Costs'),
+                    ('accounts', 'Accounts')]
+
+    period = forms.ChoiceField(choices=period_choices, widget=forms.RadioSelect)
+    # nodes = forms.ChoiceField(choices=node_objects, widget=forms.CheckboxInput)
+    nodes = forms.MultipleChoiceField(
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+        choices=node_objects,
+    )

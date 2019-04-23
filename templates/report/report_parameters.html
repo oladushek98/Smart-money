@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% include 'form.html' with button_label='Generate' %}
+
+{% endblock %}
+
+{% block scrypt %}
+
+    radio = $('#id_period');
+    buttons = radio.children();
+
+    for (i = 0; i < 4; i++){
+	let span = document.createElement('span');
+	span.textContent = buttons[i].children[0].textContent;
+    let input = buttons[i].children[0].children[0];
+    buttons[i].children[0].innerText = '';
+    buttons[i].children[0].appendChild(input);
+    buttons[i].children[0].children[0].className = 'with-gap';
+    if (i == 0) {
+        buttons[i].children[0].children[0].checked = true;
+    }
+	buttons[i].children[0].appendChild(span);
+
+    }
+
+    checks = $('#id_nodes');
+    boxes = checks.children();
+
+    for (i = 0; i < 4; i++){
+	let span = document.createElement('span');
+	span.textContent = boxes[i].children[0].textContent;
+    let input = boxes[i].children[0].children[0];
+    boxes[i].children[0].innerText = '';
+    boxes[i].children[0].appendChild(input);
+    //boxes[i].children[0].children[0].className = 'with-gap';
+    /*if (i == 0) {
+        buttons[i].children[0].children[0].checked = true;
+    }*/
+	boxes[i].children[0].appendChild(span);
+
+}
+{% endblock %}
+
+

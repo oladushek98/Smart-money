@@ -16,7 +16,7 @@ class RegisterView(views.View):
         form = UserCreationForm()
         args = {'form': form}
 
-        return render(request, 'register.html', args)
+        return render(request, 'authentication/register.html', args)
 
     def post(self, request):
         form = UserCreationForm(request.POST)
@@ -44,7 +44,7 @@ class RegisterView(views.View):
             form = UserCreationForm()
             args['form'] = form
 
-            return render(request, 'register.html', args)
+            return render(request, 'authentication/register.html', args)
 
 
 class LoginView(views.View):
@@ -52,7 +52,7 @@ class LoginView(views.View):
         if request.user.is_authenticated:
             return redirect('/')
         else:
-            return render(request, 'login.html')
+            return render(request, 'authentication/login.html')
 
     def post(self, request):
         args = {}
@@ -83,7 +83,7 @@ class LoginView(views.View):
         else:
             args['login_error'] = 'User not found'
 
-        return render(request, 'login.html', args)
+        return render(request, 'authentication/login.html', args)
 
     def get_success_url(self, request, **kwargs):
         return reverse_lazy('userpage')

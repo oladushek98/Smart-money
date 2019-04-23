@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 from main.views.api import incomeApi, accountApi, costApi, transactionApi
-from main.views import index, authentication, user, income, account, cost
+from main.views import index, authentication, user, income, account, cost, report
 
 urlpatterns = [
     path('', index.IndexView.as_view(), name='main'),
@@ -38,5 +38,6 @@ urlpatterns = [
     path('api/transaction/create',
          transactionApi.CreateTransaction.as_view(),
          name='create_transaction'),
-    path('user/report/', user.GeneratePDF.as_view(), name='report'),
+    path('user/report/<str:period>/', report.ReportGenerationView.as_view(), name='report_generation'),
+    path('user/report/', report.ReportParameterView.as_view(), name='report_parameters'),
 ]

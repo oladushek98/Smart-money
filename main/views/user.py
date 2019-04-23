@@ -1,21 +1,16 @@
 from django.contrib.auth.models import User
-from django.http import HttpResponse
 from django.shortcuts import render
-from django.template.loader import get_template
 from django.urls import reverse_lazy
-from django.views.generic import FormView, View
+from django.views.generic import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from wkhtmltopdf.views import PDFTemplateResponse, PDFTemplateView
-
 from main.forms import EditBioForm
-from main.models import UserAdditionalInfo, FinancialNode, Transaction, Income, Account, Cost
-from main.utils import PDFConverter
+from main.models import UserAdditionalInfo
 
 
 class UserUpdateBioView(LoginRequiredMixin, FormView):
     form_class = EditBioForm
-    template_name = 'user_edit.html'
+    template_name = 'user/user_edit.html'
 
     def get(self, request, *args, **kwargs):
 
@@ -29,7 +24,7 @@ class UserUpdateBioView(LoginRequiredMixin, FormView):
 
         form = EditBioForm(initial={'last_name': last, 'first_name': first, 'email': email, 'currency': currency})
 
-        return render(request, template_name='user_edit.html', context={'form': form})
+        return render(request, template_name='user/user_edit.html', context={'form': form})
 
     def form_valid(self, form):
         last_name = form.cleaned_data.get('last_name').title()
@@ -48,37 +43,3 @@ class UserUpdateBioView(LoginRequiredMixin, FormView):
 
     def get_success_url(self):
         return reverse_lazy('userpage')
-
-
-class GeneratePDF(LoginRequiredMixin, View):
-
-    def get(self, request, *args, **kwargs):
-
-        transactions = Transaction.objects.filter(user_id=request.user.id).prefetch_related('transaction_from', 'transaction_to').all()
-        incomes = Income.objects.filter(user_id=request.user.id, delete=False)
-        accounts = Account.objects.filter(user_id=request.user.id, delete=False)
-        costs = Cost.objects.filter(user_id=request.user.id, delete=False)
-
-        context = {
-            'arg': 'Hello',
-            'transactions': transactions,
-            'incomes': incomes,
-            'accounts': accounts,
-            'costs': costs
-        }
-        pdf = PDFConverter.render_to_pdf('report.html', context)
-
-        if pdf:
-            response = HttpResponse(pdf, content_type='application/pdf')
-            filename = f'Report_{54}'
-            content = f'inline; filename=\'{filename}\''
-            download = request.GET.get("download")
-
-            if download:
-                content = f'attachment; filename=\'{filename}\''
-
-            response['Content-Disposition'] = content
-
-            return response
-
-        return HttpResponse('Not found!')
