@@ -38,6 +38,9 @@ def convert_currency(amount: int, main: str, secondary: str):
         byn_into_secondary = convert_from_byn(main_into_byn, secondary)
         result = byn_into_secondary
 
+    elif main == "BYN" and secondary == "BYN":
+        result = amount
+
     elif main != "BYN":
         main_into_byn = convert_into_byn(amount, main)
         result = main_into_byn
