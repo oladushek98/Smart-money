@@ -38,7 +38,7 @@ urlpatterns = [
     path('api/transaction/create',
          transactionApi.CreateTransaction.as_view(),
          name='create_transaction'),
-    path('api/convert/<int:amount>/<str:main>/<str:secondary>',
+    path('api/convert',
          convertApi.Converter.as_view(),
          name='convert_currency')
 ]
