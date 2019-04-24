@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from main.views.api import incomeApi, accountApi, costApi, transactionApi
+from main.views.api import incomeApi, accountApi, costApi, transactionApi, convertApi
 from main.views import index, authentication, user, income, account, cost
 
 urlpatterns = [
@@ -38,4 +38,7 @@ urlpatterns = [
     path('api/transaction/create',
          transactionApi.CreateTransaction.as_view(),
          name='create_transaction'),
+    path('api/convert/<int:amount>/<str:main>/<str:secondary>',
+         convertApi.Converter.as_view(),
+         name='convert_currency')
 ]
