@@ -6,6 +6,7 @@ from django.conf import settings
 import json
 import string
 import os
+import datetime
 
 
 class EditBioForm(Form):
@@ -115,3 +116,4 @@ class ReportGenerationForm(Form):
         widget=forms.CheckboxSelectMultiple,
         choices=node_objects,
     )
+    # exact_day = forms.DateField(initial=datetime.datetime.today().date(), widget=forms.SelectDateWidget)

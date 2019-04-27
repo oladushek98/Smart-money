@@ -12,31 +12,52 @@
     buttons = radio.children();
 
     for (i = 0; i < 4; i++){
-	let span = document.createElement('span');
-	span.textContent = buttons[i].children[0].textContent;
-    let input = buttons[i].children[0].children[0];
-    buttons[i].children[0].innerText = '';
-    buttons[i].children[0].appendChild(input);
-    buttons[i].children[0].children[0].className = 'with-gap';
-    if (i == 0) {
-        buttons[i].children[0].children[0].checked = true;
-    }
-	buttons[i].children[0].appendChild(span);
+	    let span = document.createElement('span');
+	    span.textContent = buttons[i].children[0].textContent;
+        let input = buttons[i].children[0].children[0];
+        buttons[i].children[0].innerText = '';
+        buttons[i].children[0].appendChild(input);
+        buttons[i].children[0].children[0].className = 'with-gap';
+        if (i == 0) {
+            buttons[i].children[0].children[0].checked = true;
+        }
+	    buttons[i].children[0].appendChild(span);
 
     }
-
+    console.log(5);
     checks = $('#id_nodes');
     boxes = checks.children();
 
-    for (i = 0; i < 4; i++){
-	let span = document.createElement('span');
-	span.textContent = boxes[i].children[0].textContent;
-    let input = boxes[i].children[0].children[0];
-    boxes[i].children[0].innerText = '';
-    boxes[i].children[0].appendChild(input);
-	boxes[i].children[0].appendChild(span);
+    for (i = 0; i < 3; i++){
+	    let span = document.createElement('span');
+	    span.textContent = boxes[i].children[0].textContent;
+        let input = boxes[i].children[0].children[0];
+        boxes[i].children[0].innerText = '';
+        boxes[i].children[0].appendChild(input);
+	    boxes[i].children[0].appendChild(span);
+        console.log('here');
+    }
+    console.log(1);
 
-}
+    form = $('form');
+    elements = form.children();
+
+    let input_calendar = document.createElement('input');
+    console.log('here');
+    input_calendar.className = 'datepicker';
+    input_calendar.type = 'text';
+    input_calendar.placeholder = 'Press here to choose the date';
+    input_calendar.id = 'exact_day';
+
+    form.append(input_calendar);
+    $(document).ready(function(){
+        $('.datepicker').datepicker();
+    });
+
+    let button = elements[7];
+    elements[7].remove();
+    form.append(button);
+
 {% endblock %}
 
 
