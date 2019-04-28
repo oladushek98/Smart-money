@@ -19,5 +19,5 @@
     </div>
 </div>
 <script>
-    $('#transaction_' + {{ transaction.id }}).on('click', (event) => alert({{ transaction.id }}));
+    $('#transaction_' + {{ transaction.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'transaction/' + {{ transaction.id }});
 </script>

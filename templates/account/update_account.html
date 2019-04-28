@@ -2,40 +2,71 @@
 
 {% block content %}
     <div class="sm-dashboard">
-        <div class="sm-dashboard-body">
-            <div class="sm-dashboard-column">
-                <div class="sm-update-form z-depth-1">
-                    {% include 'forms/update_delete_form_account.html' %}
-                </div>
+    <div class="sm-dashboard-body">
+        <div class="sm-dashboard-column">
+            <div class="sm-update-form z-depth-1">
+                {% include 'forms/update_delete_form_account.html' %}
             </div>
+        </div>
+        <div class="sm-dashboard-column">
             <div class="sm-dashboard-column">
-
+                <div class="sm-c_acc_stat">
+                    <canvas id="statistics_"></canvas>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        const ctx = document.getElementById('statistics_').getContext('2d');
+        let row_data = '{{ data }}';
+        let title = '{{ form.title }}';
+        row_data = row_data.replace(/&quot;/g, '"');
+        title = title.replace(/&quot;/g, '"');
+        let data = JSON.parse(row_data);
+        let myPieChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: title,
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                    }],
+                    yAxes: [{
+                        display: true,
+                    }]
+                }
+            }
+        });
+    </script>
 {% endblock %}
 
 {% block scrypt %}
     let deleteNode = async (id) => {
-        const body = {
-            'id': id
-        };
+    const body = {
+    'id': id
+    };
 
-        const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
-        let header = new Headers();
-        header.append('X-CSRFToken', csrftoken);
+    const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
+    let header = new Headers();
+    header.append('X-CSRFToken', csrftoken);
 
-        let response = await fetch('{% url 'delete_account' %}',
-            {
-                method: 'PUT',
-                body: JSON.stringify(body),
-                headers: header,
-                credentials: 'same-origin'
-            }
-        );
+    let response = await fetch('{% url 'delete_account' %}',
+    {
+    method: 'PUT',
+    body: JSON.stringify(body),
+    headers: header,
+    credentials: 'same-origin'
+    }
+    );
 
-        if(response.ok){
-            window.location.href = 'http://localhost:8000/user'
-        }
+    if(response.ok){
+    window.location.href = 'http://localhost:8000/user'
+    }
     }
 {% endblock %}

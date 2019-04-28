@@ -58,7 +58,7 @@ let updateCostStatistic = async () => {
     const costs = $('.sm-category_expense .sm-category_amount .sm-category_actual-amount');
 
     for(let i = 0; i < plans.length; i++){
-        currency = costs[i].textContent.split(' ')[0];
+        let currency = costs[i].textContent.split(' ')[0];
 
         spent = parseInt(costs[i].textContent.split(' ')[1], 10);
         amount = parseInt(plans[i].textContent, 10);

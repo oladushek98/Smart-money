@@ -53,7 +53,7 @@ let updateIncomeStatistic = async () => {
     const plans = $('.sm-category_income .sm-category_amount .sm-category_plan-amount');
     const get_incomes = $('.sm-category_income .sm-category_amount .sm-category_actual-amount');
     for(let i=0; i < plans.length; i++){
-        currency = get_incomes[i].textContent.split(' ')[0];
+        let currency = get_incomes[i].textContent.split(' ')[0];
         amount = parseInt(plans[i].textContent, 10);
 
         amount = await getConvertedValue(amount, currency);

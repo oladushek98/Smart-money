@@ -929,3 +929,8 @@ form {
 }
 
 /* TRANSACTION BLOCK END */
+
+.sm-c_acc_stat {
+    width: 230%;
+    margin: 20px;
+}

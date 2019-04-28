@@ -54,7 +54,7 @@ let updateAccountStatistic = async () => {
     let plan_count = 0;
     const accounts = $('.sm-category_account:not(.excluded) .sm-category_amount .sm-category_actual-amount');
     for(let i = 0; i < accounts.length; i++){
-        currency = accounts[i].textContent.split(' ')[0];
+        let currency = accounts[i].textContent.split(' ')[0];
         amount = parseInt(accounts[i].textContent.split(' ')[1], 10);
 
         amount = await getConvertedValue(amount, currency);

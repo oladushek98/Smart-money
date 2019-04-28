@@ -60,3 +60,11 @@ class CreateTransaction(View):
         body['transaction_from'] = transaction.transaction_from.name
         body['transaction_to'] = transaction.transaction_to.name
         return JsonResponse({'ok': True, 'body': body})
+
+
+class DeleteTransaction(View):
+    def put(self, request, **kwargs):
+        body = json.loads(request.body)
+        income_id = body['id']
+        Transaction.objects.filter(id=income_id).update(delete=True)
+        return JsonResponse({'ok': True})
