@@ -57,44 +57,20 @@ let updateCostStatistic = async () => {
     const plans = $('.sm-category_expense .sm-category_amount .sm-category_plan-amount');
     const costs = $('.sm-category_expense .sm-category_amount .sm-category_actual-amount');
 
+    let obj1 = {};
+    let obj2 = {};
+
     for(let i = 0; i < plans.length; i++){
         currency = costs[i].textContent.split(' ')[0];
 
         spent = parseInt(costs[i].textContent.split(' ')[1], 10);
         amount = parseInt(plans[i].textContent, 10);
 
-        spent = await getConvertedValue(spent, currency);
-        amount = await getConvertedValue(amount, currency);
-
-
-        spent_count += spent;
-        plan_count += amount;
+        obj1[i] = {'amount': amount, 'convert_from': currency, 'convert_to': 'BYN'};
+        obj2[i] = {'amount': spent, 'convert_from': currency, 'convert_to': 'BYN'};
     }
+    spent_count = await getConvertedValue(obj2);
+    plan_count = await getConvertedValue(obj1);
     sum_spent[0].textContent = "Br" + " " + spent_count;
     plan[0].textContent = "Br" + " " + plan_count
 };
-
-async function getConvertedValue (amount, currency) {
-    const body = {
-        'amount': amount,
-        'convert_from': currency,
-        'convert_to': "BYN"
-        };
-
-    const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
-        let header = new Headers();
-        header.append('X-CSRFToken', csrftoken);
-
-        let response = await fetch( 'api/convert',
-            {
-                method: 'PUT',
-                body: JSON.stringify(body),
-                headers: header,
-                credentials: 'same-origin'
-            }
-        );
-
-        const resp_body = await response.json();
-        return resp_body.result
-}
-
