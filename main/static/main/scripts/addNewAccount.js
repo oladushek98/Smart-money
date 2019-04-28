@@ -67,8 +67,8 @@ let updateAccountStatistic = async () => {
 async function getConvertedValue (amount, currency) {
     const body = {
         'amount': amount,
-        'main': currency,
-        'secondary': "BYN"
+        'convert_from': currency,
+        'convert_to': "BYN"
         };
 
     const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
