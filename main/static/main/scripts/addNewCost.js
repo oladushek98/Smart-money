@@ -20,7 +20,7 @@ let createNewCostCategory = (id, name, currency, monthly_plan) => {
     let amount_val = document.createElement('div');
     let amount_plan = document.createElement('div');
     amount_val.setAttribute('class', 'sm-category_actual-amount');
-    amount_val.textContent = currency;
+    amount_val.textContent = currency + " " + 0;
     amount_plan.setAttribute('class', 'sm-category_plan-amount');
     amount_plan.textContent = monthly_plan;
 
@@ -44,14 +44,57 @@ let addNewCost = (id, name, currency, monthly_plan) => {
     $('#cost_' + id).on('click',
         (event) => window.location.href = 'http://localhost:8000/' + 'cost/' + id);
     updateCostStatistic();
+    getTransactionSourse();
 };
 
-let updateCostStatistic = () => {
+let updateCostStatistic = async () => {
     let plan = $('#costs_stat');
+    let sum_spent = $('#spent_money');
+
     let plan_count = 0;
+    let spent_count = 0;
+
     const plans = $('.sm-category_expense .sm-category_amount .sm-category_plan-amount');
-    for(i=0; i < plans.length; i++){
-        plan_count += parseInt(plans[i].textContent, 10)
+    const costs = $('.sm-category_expense .sm-category_amount .sm-category_actual-amount');
+
+    for(let i = 0; i < plans.length; i++){
+        currency = costs[i].textContent.split(' ')[0];
+
+        spent = parseInt(costs[i].textContent.split(' ')[1], 10);
+        amount = parseInt(plans[i].textContent, 10);
+
+        spent = await getConvertedValue(spent, currency);
+        amount = await getConvertedValue(amount, currency);
+
+
+        spent_count += spent;
+        plan_count += amount;
     }
-    plan[0].textContent = plan_count
+    sum_spent[0].textContent = "Br" + " " + spent_count;
+    plan[0].textContent = "Br" + " " + plan_count
 };
+
+async function getConvertedValue (amount, currency) {
+    const body = {
+        'amount': amount,
+        'convert_from': currency,
+        'convert_to': "BYN"
+        };
+
+    const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
+        let header = new Headers();
+        header.append('X-CSRFToken', csrftoken);
+
+        let response = await fetch( 'api/convert',
+            {
+                method: 'PUT',
+                body: JSON.stringify(body),
+                headers: header,
+                credentials: 'same-origin'
+            }
+        );
+
+        const resp_body = await response.json();
+        return resp_body.result
+}
+
