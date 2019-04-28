@@ -142,7 +142,7 @@
 
                         <div class="sm-category-block_stats">
                             <div class="sm-category-block_stats-item">
-                                <div class="sm-category-block_stats-amount"> Br‎
+                                <div id="spent_money" class="sm-category-block_stats-amount"> Br‎
                                     0
                                 </div>
                                 <div class="sm-category-block_stats-title">
@@ -257,14 +257,14 @@
 
 
 {% block scrypt %}
-    $(document).ready(function(){
+    $(document).ready(async function(){
     $('.modal').modal();
 
     // add statistic for income
 
-    updateIncomeStatistic();
-    updateAccountStatistic();
-    updateCostStatistic();
+    await updateIncomeStatistic();
+    await updateAccountStatistic();
+    await updateCostStatistic();
     // add statistic for income end
 
 

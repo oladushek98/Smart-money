@@ -30,23 +30,23 @@ def convert_from_byn(amount: int, currency: str):
     return result
 
 
-def convert_currency(amount: int, main: str, secondary: str):
+def convert_currency(amount: int, convert_from: str, convert_to: str):
     result = 0
 
-    if main != "BYN" and secondary != "BYN":
-        main_into_byn = convert_into_byn(amount, main)
-        byn_into_secondary = convert_from_byn(main_into_byn, secondary)
-        result = byn_into_secondary
+    if convert_from != "BYN" and convert_to != "BYN":
+        convert_from_into_byn = convert_into_byn(amount, convert_from)
+        byn_into_convert_to = convert_from_byn(convert_from_into_byn, convert_to)
+        result = byn_into_convert_to
 
-    elif main == "BYN" and secondary == "BYN":
+    elif convert_from == "BYN" and convert_to == "BYN":
         result = amount
 
-    elif main != "BYN":
-        main_into_byn = convert_into_byn(amount, main)
-        result = main_into_byn
+    elif convert_from != "BYN":
+        convert_from_into_byn = convert_into_byn(amount, convert_from)
+        result = convert_from_into_byn
 
     else:
-        byn_into_secondary = convert_from_byn(amount, secondary)
-        result = byn_into_secondary
+        byn_into_convert_to = convert_from_byn(amount, convert_to)
+        result = byn_into_convert_to
 
     return round(result, 2)
