@@ -1,6 +1,6 @@
 from django.db.models import Sum, Q
 
-from main.forms import IncomeForm, TransactionForm, AccountForm, CostForm
+from main.forms import IncomeForm, TransactionCreateForm, AccountForm, CostForm
 from main.models import Income, Transaction, Account, Cost
 
 ITEM_AMOUNT = 0
@@ -15,7 +15,7 @@ def processor(request):
     income_create_from = IncomeForm()
     account_create_form = AccountForm()
     cost_create_form = CostForm()
-    add_transaction = TransactionForm()
+    add_transaction = TransactionCreateForm()
 
     accounts = list(Account.objects.filter(delete=False,
                                            user_id=request.user.id).all())
