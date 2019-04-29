@@ -2,6 +2,7 @@ from django import forms
 from django.forms import Form
 from django.core.exceptions import ValidationError
 from django.conf import settings
+from bootstrap_datepicker_plus import DatePickerInput
 
 import json
 import string
@@ -116,4 +117,3 @@ class ReportGenerationForm(Form):
         widget=forms.CheckboxSelectMultiple,
         choices=node_objects,
     )
-    # exact_day = forms.DateField(initial=datetime.datetime.today().date(), widget=forms.SelectDateWidget)

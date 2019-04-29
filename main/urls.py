@@ -38,6 +38,6 @@ urlpatterns = [
     path('api/transaction/create',
          transactionApi.CreateTransaction.as_view(),
          name='create_transaction'),
-    path('user/report/<str:period>/', report.ReportGenerationView.as_view(), name='report_generation'),
-    path('user/report/', report.ReportParameterView.as_view(), name='report_parameters'),
+    path('user/report/generation/', report.ReportGenerationView.as_view(), name='report_generation'),
+    path('user/report/parameters/', report.ReportParameterView.as_view(), name='report_parameters'),
 ]

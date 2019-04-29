@@ -48,15 +48,22 @@
     input_calendar.type = 'text';
     input_calendar.placeholder = 'Press here to choose the date';
     input_calendar.id = 'exact_day';
+    input_calendar.readOnly = true;
+    input_calendar.name = 'calendar';
+
 
     form.append(input_calendar);
     $(document).ready(function(){
-        $('.datepicker').datepicker();
+        $('.datepicker').datepicker({ maxDate: new Date(), defaultDate: new Date(), setDefaultDate: true });
     });
+
 
     let button = elements[7];
     elements[7].remove();
     form.append(button);
+
+    let formData = new FormData(form);
+
 
 {% endblock %}
 

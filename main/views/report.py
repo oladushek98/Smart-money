@@ -1,6 +1,7 @@
 import datetime
 
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -17,16 +18,25 @@ class ReportParameterView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         self.period = form.cleaned_data.get('period')
+        self.nodes = form.cleaned_data.get('nodes')
+        self.date = self.request.POST['calendar']
+
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('report_generation', args=[self.period])
+        temp = self.request.path.split('/')
+        temp[-2] = 'generation'
+        temp = '/'.join(temp)
+
+        return temp + f'?period={self.period}&nodes={self.nodes}&date={self.date}'
 
 
 class ReportGenerationView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         transactions = None
+
+        date = datetime.datetime.strptime(request.GET['date'], '%b %d, %Y')
 
         if request.path.endswith('day/'):
             transactions = Transaction.objects.filter(data_from=datetime.datetime.today().date(),
