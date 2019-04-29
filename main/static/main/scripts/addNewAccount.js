@@ -20,9 +20,7 @@ let createNewAccountCategory = (id, name, currency, amount) => {
     let amount_val = document.createElement('div');
     let amount_plan = document.createElement('div');
     amount_val.setAttribute('class', 'sm-category_actual-amount');
-    amount_val.textContent = amount;
-    amount_plan.setAttribute('class', 'sm-category_plan-amount');
-    amount_plan.textContent = currency;
+    amount_val.textContent = amount + " " + currency;
 
     amount_div.appendChild(amount_val);
     amount_div.appendChild(amount_plan);
@@ -51,12 +49,32 @@ let addNewAccount = (id, name, currency, amount, taka_into_balance) => {
     getTransactionSourse();
 };
 
-let updateAccountStatistic = () => {
+let updateAccountStatistic = async () => {
     let plan = $('#accounts_stat');
-    let plan_count = 0;
-    const plans = $('.sm-category_account:not(.excluded) .sm-category_amount .sm-category_plan-amount');
-    for(i=0; i < plans.length; i++){
-        plan_count += parseInt(plans[i].textContent, 10)
+    const accounts = $('.sm-category_account:not(.excluded) .sm-category_amount .sm-category_actual-amount');
+    let objects = {};
+
+    for(let i = 0; i < accounts.length; i++){
+        currency = accounts[i].textContent.split(' ')[0];
+        amount = parseInt(accounts[i].textContent.split(' ')[1], 10);
+        objects[i] = {'amount': amount, 'convert_from': currency, 'convert_to': 'BYN'};
     }
-    plan[0].textContent = plan_count
+    let plan_count = await getConvertedValue(objects);
+    plan[0].textContent = "Br" + " " + plan_count;
 };
+
+async function getConvertedValue (objects) {
+    const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
+    let header = new Headers();
+    header.append('X-CSRFToken', csrftoken);
+    let response = await fetch( 'api/convert',
+        {
+            method: 'PUT',
+            body: JSON.stringify(objects),
+            headers: header,
+            credentials: 'same-origin'
+        }
+    );
+    const resp_body = await response.json();
+    return resp_body.result
+}

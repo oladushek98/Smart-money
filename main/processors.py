@@ -45,4 +45,5 @@ def processor(request):
             'INCOME_CREATE_FORM': income_create_from,
             'ADD_TRANSACTION_FORM': add_transaction,
             'ACCOUNT_CREATE_FORM': account_create_form,
-            'COST_CREATE_FORM': cost_create_form}
+            'COST_CREATE_FORM': cost_create_form,
+            'button_color': 'red lighten-2'}

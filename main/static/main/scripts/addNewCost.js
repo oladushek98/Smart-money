@@ -20,7 +20,7 @@ let createNewCostCategory = (id, name, currency, monthly_plan) => {
     let amount_val = document.createElement('div');
     let amount_plan = document.createElement('div');
     amount_val.setAttribute('class', 'sm-category_actual-amount');
-    amount_val.textContent = currency;
+    amount_val.textContent = currency + " " + 0;
     amount_plan.setAttribute('class', 'sm-category_plan-amount');
     amount_plan.textContent = monthly_plan;
 
@@ -44,14 +44,33 @@ let addNewCost = (id, name, currency, monthly_plan) => {
     $('#cost_' + id).on('click',
         (event) => window.location.href = 'http://localhost:8000/' + 'cost/' + id);
     updateCostStatistic();
+    getTransactionSourse();
 };
 
-let updateCostStatistic = () => {
+let updateCostStatistic = async () => {
     let plan = $('#costs_stat');
+    let sum_spent = $('#spent_money');
+
     let plan_count = 0;
+    let spent_count = 0;
+
     const plans = $('.sm-category_expense .sm-category_amount .sm-category_plan-amount');
-    for(i=0; i < plans.length; i++){
-        plan_count += parseInt(plans[i].textContent, 10)
+    const costs = $('.sm-category_expense .sm-category_amount .sm-category_actual-amount');
+
+    let obj1 = {};
+    let obj2 = {};
+
+    for(let i = 0; i < plans.length; i++){
+        currency = costs[i].textContent.split(' ')[0];
+
+        spent = parseInt(costs[i].textContent.split(' ')[1], 10);
+        amount = parseInt(plans[i].textContent, 10);
+
+        obj1[i] = {'amount': amount, 'convert_from': currency, 'convert_to': 'BYN'};
+        obj2[i] = {'amount': spent, 'convert_from': currency, 'convert_to': 'BYN'};
     }
-    plan[0].textContent = plan_count
+    spent_count = await getConvertedValue(obj2);
+    plan_count = await getConvertedValue(obj1);
+    sum_spent[0].textContent = "Br" + " " + spent_count;
+    plan[0].textContent = "Br" + " " + plan_count
 };

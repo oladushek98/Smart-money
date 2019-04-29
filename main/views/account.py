@@ -38,15 +38,19 @@ class AccountUpdateView(FormView):
                                     'amount': amount,
                                     'currency': currency,
                                     'take_into_balance': take_into_balance})
+        form.id = account_id
 
-        return render(request, template_name=self.template_name, context={'form': form})
+        return render(request, template_name=self.template_name,
+                      context={'form': form})
 
     def form_valid(self, form):
         name = form.cleaned_data.get('name')
         amount = form.cleaned_data.get('amount')
         currency = form.cleaned_data.get('currency')
+        boolean = form.data['take_into_balance'] == 'on'
         Account.objects.filter(id=int(self.request.path.split('/')[-1])).update(
-            name=name, amount=amount, currency=currency)
+            name=name, amount=amount, currency=currency,
+            take_into_balance=boolean)
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -54,8 +58,3 @@ class AccountUpdateView(FormView):
 
     def get_success_url(self):
         return reverse_lazy('userpage')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['id'] = self.object.id
-        return context
