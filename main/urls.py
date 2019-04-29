@@ -1,7 +1,7 @@
 from django.urls import path, include
 
-from main.views.api import incomeApi, accountApi, costApi, transactionApi
-from main.views import index, authentication, user, income, account, cost
+from main.views.api import incomeApi, accountApi, costApi, transactionApi, convertApi
+from main.views import index, authentication, user, income, account, cost, report
 
 urlpatterns = [
     path('', index.IndexView.as_view(), name='main'),
