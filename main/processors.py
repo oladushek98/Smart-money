@@ -37,8 +37,8 @@ def processor(request):
     transactions = list(
         Transaction.objects.filter(delete=False,
                                    user_id=request.user.id).all()[:9])
-    # for transaction in transactions:
-    #     transaction.data_from = transaction.data_from.__str__()
+    for transaction in transactions:
+        transaction.data_from = transaction.data_from.__str__()
 
     return {'INCOMES': incoms,
             'ACCOUNTS': accounts,

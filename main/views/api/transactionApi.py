@@ -46,7 +46,8 @@ class CreateTransaction(View):
     def put(self, request):
         body = json.loads(request.body)
         transaction = Transaction()
-
+        if 'currency' in body:
+            transaction.choice_currency = body.get('currency')
         transaction.transaction_from = FinancialNode.objects.filter(
             id=int(body['transaction_from'])).first()
         transaction.transaction_to = FinancialNode.objects.filter(
@@ -63,7 +64,7 @@ class CreateTransaction(View):
 
 
 class DeleteTransaction(View):
-    def put(self, **kwargs):
+    def put(self, form, **kwargs):
         body = json.loads(self.request.body)
         income_id = body['id']
         Transaction.objects.filter(id=income_id).update(delete=True)

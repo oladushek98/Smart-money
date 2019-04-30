@@ -27,6 +27,7 @@ let createNewTransactionCategory = (id, source, destination, amount, date) => {
 
     let date_div = document.createElement('div');
     date_div.setAttribute('class', 'transaction-date');
+    date_div.textContent = date;
 
     container.appendChild(title);
     container.appendChild(icon_wrapper);
