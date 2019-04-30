@@ -116,3 +116,15 @@ let updateCostAmount= (id, value, opp) => {
     let new_value = old_value.split(' ')[0] + ' ' +  cc;
     s.parent().children()[2].children[0].textContent = new_value;
 };
+
+let deleteTransaction = async (id) => {
+    const response = await fetch('api/transaction/delete', {
+        method: 'PUT',
+        body: JSON.stringify({id: id}),
+        headers: header,
+        credentials: 'same-origin'
+    });
+    const json = await response.json();
+
+    return json;
+};

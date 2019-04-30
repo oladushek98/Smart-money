@@ -99,9 +99,11 @@ class TransactionCreateForm(Form):
 
 
 class TransactionUpdateForm(Form):
-    transaction_from = forms.CharField(disabled=True, label='из')
-    transaction_to = forms.CharField(disabled=True, label='в')
-    choice_currency = forms.CharField(disabled=True, label='валюта')
+    transaction_from = forms.CharField(disabled=True, label='из',
+                                       required=False)
+    transaction_to = forms.CharField(disabled=True, label='в', required=False)
+    choice_currency = forms.CharField(disabled=True, label='валюта',
+                                      required=False)
     amount = forms.IntegerField(label='сумма')
     data_from = forms.DateField(widget=forms.SelectDateWidget, disabled=True,
-                                label='дата')
+                                label='дата', required=False)

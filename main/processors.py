@@ -36,14 +36,14 @@ def processor(request):
 
     transactions = list(
         Transaction.objects.filter(delete=False,
-                                   user_id=request.user.id).all())
-    for transaction in transactions:
-        transaction.data_from = transaction.data_from.__str__()
+                                   user_id=request.user.id).all()[:9])
+    # for transaction in transactions:
+    #     transaction.data_from = transaction.data_from.__str__()
 
     return {'INCOMES': incoms,
             'ACCOUNTS': accounts,
             'COSTS': costs,
-            'TRANSACTIONS': transactions[:9],
+            'TRANSACTIONS': transactions,
             'INCOME_CREATE_FORM': income_create_from,
             'ADD_TRANSACTION_FORM': add_transaction,
             'ACCOUNT_CREATE_FORM': account_create_form,

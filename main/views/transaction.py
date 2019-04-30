@@ -1,3 +1,5 @@
+import json
+
 from django.db.models import Q, Sum
 from django.shortcuts import render
 
@@ -8,7 +10,7 @@ from django.views.generic import FormView
 
 
 class TransactionUpdateView(FormView):
-    form_class = Transaction
+    form_class = TransactionUpdateForm
     template_name = 'transaction/update_transaction.html'
 
     def get(self, request, *args, **kwargs):
@@ -33,28 +35,28 @@ class TransactionUpdateView(FormView):
         amount += calculate['plus'] if calculate['plus'] is not None else 0
         amount -= calculate['minus'] if calculate['minus'] is not None else 0
 
-        data = {
-            "labels": ['было на счете', 'транзакция'],
-            'datasets': [{
-                'data': [amount, transaction.amount],
-                'backgroundColor': [
-                    'rgba(240, 158, 7, 1)',
-                    'rgba(255, 255, 0, 1)',
+        # data = {
+        #     "labels": ['было на счете', 'транзакция'],
+        #     'datasets': [{
+        #         'data': [amount, transaction.amount],
+        #         'backgroundColor': [
+        #             'rgba(240, 158, 7, 1)',
+        #             'rgba(255, 255, 0, 1)',
+        #         ]
+        #     }],
+        # }
+
+        data = [['транзакция', transaction.amount],
+                [transaction.transaction_to.name.replace('"', '\''), amount],
                 ]
-            }],
-        }
 
         return render(request, template_name=self.template_name,
-                      context={'form': form, 'data': data})
+                      context={'form': form, 'data': json.dumps(data)})
 
     def form_valid(self, form):
-        # name = form.cleaned_data.get('name')
-        # monthly_plan = form.cleaned_data.get('monthly_plan')
-        # currency = form.cleaned_data.get('currency')
-        # Transaction.objects.filter(
-        #     id=int(self.request.path.split('/')[-1])).update(name=name,
-        #                                                      monthly_plan=monthly_plan,
-        #                                                      currency=currency)
+        amount = form.cleaned_data.get('amount')
+        Transaction.objects.filter(
+            id=int(self.request.path.split('/')[-1])).update(amount=amount)
         return super().form_valid(form)
 
     def form_invalid(self, form):

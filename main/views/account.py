@@ -24,7 +24,6 @@ from django.views.generic import UpdateView, FormView
 
 
 class AccountUpdateView(FormView):
-
     form_class = AccountForm
     template_name = 'account/update_account.html'
 
@@ -44,20 +43,12 @@ class AccountUpdateView(FormView):
         form.id = account_id
         form.title = account.name
 
-        data = {
-            "labels": [account.create_on.__str__()],
-            'datasets': [{
-                'label': 'на счете',
-                'lebels': ['test', 'test2'],
-                'fill': 'false',
-                "data": [amount],
-                'backgroundColor': 'rgba(240, 158, 7, 1)',
-                'borderColor': 'rgba(240, 158, 7, 1)',
-            }],
-        }
+        data = [['дата', 'состояние счета'],
+                [account.create_on.__str__(), account.amount]]
 
         l = list(Transaction.objects.filter(
-            Q(transaction_to=account_id) | Q(transaction_from=account_id)).all())
+            Q(transaction_to=account_id) | Q(
+                transaction_from=account_id)).all())
         let = set()
         for i in l:
             let.add(i.data_from.__str__())
@@ -67,17 +58,41 @@ class AccountUpdateView(FormView):
 
         for l in ll:
             calculate = Transaction.objects.filter(
-                (Q(transaction_from=account_id) | Q(transaction_to=account_id)) & Q(
+                (Q(transaction_from=account_id) | Q(
+                    transaction_to=account_id)) & Q(
                     data_from=l)).aggregate(
                 plus=Sum('amount', filter=(Q(transaction_to=account_id))),
                 minus=Sum('amount', filter=(Q(transaction_from=account_id))))
             amount += calculate['plus'] if calculate['plus'] is not None else 0
-            amount -= calculate['minus'] if calculate['minus'] is not None else 0
-            data['datasets'][0]['data'].append(amount)
-            data['labels'].append(l)
+            amount -= calculate['minus'] if calculate[
+                                                'minus'] is not None else 0
+            data.append([l, amount])
+
+        data_to = []
+        ls = list(Transaction.objects.filter(
+            Q(transaction_to=account_id) & Q(delete=False) & Q(
+                user=request.user.id))
+                  .order_by('transaction_from__id')
+                  .values('transaction_from__name')
+                  .annotate(Sum('amount')))
+        for income in ls:
+            data_to.append(list(income.values()))
+
+        ls = list(Transaction.objects.filter(
+            Q(transaction_from=account_id) & Q(delete=False) & Q(
+                user=request.user.id))
+                  .order_by('transaction_to__id')
+                  .values('transaction_to__name')
+                  .annotate(Sum('amount')))
+
+        data_from = []
+        for cost in ls:
+            data_from.append(list(cost.values()))
 
         return render(request, template_name=self.template_name,
-                      context={'form': form, 'data': json.dumps(data)})
+                      context={'form': form, 'data': json.dumps(data),
+                               'data_to': json.dumps(data_to),
+                               'data_from': json.dumps(data_from)})
 
     def form_valid(self, form):
         name = form.cleaned_data.get('name')

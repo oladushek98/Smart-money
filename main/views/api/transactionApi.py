@@ -63,8 +63,8 @@ class CreateTransaction(View):
 
 
 class DeleteTransaction(View):
-    def put(self, request, **kwargs):
-        body = json.loads(request.body)
+    def put(self, **kwargs):
+        body = json.loads(self.request.body)
         income_id = body['id']
         Transaction.objects.filter(id=income_id).update(delete=True)
         return JsonResponse({'ok': True})

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-import datetime
+from django.utils import timezone
 
 
 ICON_LENGTH = 10
@@ -21,7 +21,7 @@ class FinancialNode(models.Model):
     user = models.ForeignKey(User,
                              related_name='financial_nodes',
                              on_delete=models.CASCADE)
-    create_on = models.DateField(default=datetime.date.today())
+    create_on = models.DateField(default=timezone.now().date())
 
 
 # доходы

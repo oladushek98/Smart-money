@@ -1,29 +1,58 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
+    <script src="{% static 'main/scripts/api/transactionApi.js' %}"></script>
     <div class="sm-dashboard">
         <div class="sm-dashboard-body">
             <div class="sm-dashboard-column">
                 <div class="sm-update-form z-depth-1">
-                    {% include 'forms/update_delete_form_income.html' %}
+                    {% include 'forms/update_delete_form_transaction.html' %}
                 </div>
             </div>
             <div class="sm-dashboard-column">
-                <canvas id="myChart" width="400" height="400"></canvas>
+                <div class="chart" id="myPieChart"/>
             </div>
         </div>
     </div>
 
     <script>
-        const ctx = document.getElementById('myChart');
-        let data = '{{ data }}';
-        data = data.replace(/&#39;/g, '"');
-        data = JSON.parse(data);
-        let myPieChart = new Chart(ctx, {
-            type: 'pie',
-            data: data,
-            options: {}
-        });
+        //const ctx = document.getElementById('myChart');
+        let row_data = '{{ data }}';
+        row_data = row_data.replace(/&quot;/g, '"');
+        row_data = JSON.parse(row_data);
+        row_data[1][0] = row_data[1][0].replace(/&#39;/g, '"');
+        //let myPieChart = new Chart(ctx, {
+        //    type: 'pie',
+        //    data: data,
+        //    options: {}
+        //});
+
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            // Define the chart to be drawn.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string');
+            data.addColumn('number');
+            data.addRows(row_data);
+            var options = {
+                'title': 'Влияние транзакции на состояние счета',
+                'legend': 'top',
+                pieHole: 0.4,
+                'height': 400,
+                slices: {0: {offset: 0.2}},
+                pieStartAngle: 100,
+                colors: ['red', 'rgb(255, 162, 47)'],
+                fontSize: 14,
+                fontName: 'Roboto',
+            };
+
+            // Instantiate and draw the chart.
+            var chart = new google.visualization.PieChart(document.getElementById('myPieChart'));
+            chart.draw(data, options);
+        }
     </script>
 {% endblock %}
 
@@ -31,7 +60,8 @@
     $(document).ready(function(){
     $('.modal').modal();
     let f = (e) => { e.setAttribute('readonly', true);
-    e.removeAttribute('disabled') };
+    e.removeAttribute('disabled');
+    e.value = e.value.replace(/'/g, '');};
     let s = $('input[disabled]');
     s.get().forEach(f);
     });

@@ -1,0 +1,14 @@
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="btn-box">
+        <button class="btn waves-effect waves-light"
+                type="submit">Сохранить
+        </button>
+        <button onclick="deleteTransaction({{ form.id }})" class="btn modal-trigger"
+                type="button">Удалить
+        </button>
+    </div>
+</form>
+
+
