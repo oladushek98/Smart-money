@@ -1,8 +1,24 @@
 {% extends 'base.html' %}
 
+{% block buttons %}
+
+    <a href="{% url 'logout' %}" class="btn waves-effect waves-light {{ button_color }}"
+           type="submit">LogOut, {{ user.username }}</a>
+
+{% endblock %}
+
 {% block content %}
 
-    {% include 'form.html' with button_label='Generate' %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="btn-box">
+            <button class="btn waves-effect waves-light"
+                    type="submit" formtarget="_blank">Generate
+                <i class="material-icons right"></i>
+            </button>
+        </div>
+    </form>
 
 {% endblock %}
 
@@ -11,7 +27,7 @@
     radio = $('#id_period');
     buttons = radio.children();
 
-    for (i = 0; i < 4; i++){
+    for (i = 0; i < 5; i++){
 	    let span = document.createElement('span');
 	    span.textContent = buttons[i].children[0].textContent;
         let input = buttons[i].children[0].children[0];

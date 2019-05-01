@@ -27,6 +27,7 @@ class ReportParameterView(LoginRequiredMixin, FormView):
         temp = self.request.path.split('/')
         temp[-2] = 'generation'
         temp = '/'.join(temp)
+        print(self.request.user.username)
 
         return temp + f'?period={self.period}&nodes={self.nodes}&date={self.date}'
 
@@ -36,41 +37,59 @@ class ReportGenerationView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         transactions = None
 
+        period = request.GET['period']
+        nodes = request.GET['nodes']
         date = datetime.datetime.strptime(request.GET['date'], '%b %d, %Y')
 
-        if request.path.endswith('day/'):
-            transactions = Transaction.objects.filter(data_from=datetime.datetime.today().date(),
+        if period == 'day':
+            temp = date
+            transactions = Transaction.objects.filter(data_from=date,
                                                       user_id=request.user.id).prefetch_related('transaction_from',
                                                                                                 'transaction_to').all()
 
-        elif request.path.endswith('month/'):
-            transactions = Transaction.objects.filter(data_from__month=datetime.datetime.today().month,
-                                                      data_from__year=datetime.datetime.today().year,
+        elif period == 'month':
+            temp = date - datetime.timedelta(days=30)
+            transactions = Transaction.objects.filter(data_from__gte=temp,
+                                                      # data_from__year=temp.year,
                                                       user_id=request.user.id).prefetch_related('transaction_from',
                                                                                                 'transaction_to').all()
 
-        elif request.path.endswith('week/'):
+        elif period == 'week':
+            temp = date - datetime.timedelta(days=7)
             transactions = Transaction.objects.filter(
-                                                      data_from__week=datetime.datetime.today().isocalendar()[1],
+                                                      data_from__gte=temp,
                                                       user_id=request.user.id).prefetch_related('transaction_from',
                                                                                                 'transaction_to').all()
 
-        elif request.path.endswith('year/'):
+        elif period == 'year':
+            temp = date - datetime.timedelta(days=365)
             transactions = Transaction.objects.filter(
-                                                      data_from__year=datetime.datetime.today().year,
+                                                      data_from__gte=temp,
                                                       user_id=request.user.id).prefetch_related('transaction_from',
                                                                                                 'transaction_to').all()
 
-        incomes = Income.objects.filter(user_id=request.user.id, delete=False)
-        accounts = Account.objects.filter(user_id=request.user.id, delete=False)
-        costs = Cost.objects.filter(user_id=request.user.id, delete=False)
+        elif period == 'whole':
+            temp = 'beginning'
+            transactions = Transaction.objects.filter(
+                                                      user_id=request.user.id).prefetch_related('transaction_from',
+                                                                                                'transaction_to').all()
 
         context = {
             'transactions': transactions,
-            'incomes': incomes,
-            'accounts': accounts,
-            'costs': costs
+            'period': f', your report from {temp} to {date}',
+            'user': request.user.username.title()
         }
+
+        if 'incomes' in nodes:
+            incomes = Income.objects.filter(user_id=request.user.id, delete=False)
+            context['incomes'] = incomes
+        if 'accounts' in nodes:
+            accounts = Account.objects.filter(user_id=request.user.id, delete=False)
+            context['accounts'] = accounts
+        if 'costs' in nodes:
+            costs = Cost.objects.filter(user_id=request.user.id, delete=False)
+            context['costs'] = costs
+
         pdf = PDFConverter.render_to_pdf('report/report.html', context)
 
         if pdf:

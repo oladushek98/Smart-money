@@ -1,29 +1,123 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <h2><center>{{ user }} {{ period }}</center></h2>
 
     <h1>Transactions</h1>
-    {% for trans in transactions %}
-        <h2>{{ trans.data_from }}: {{ trans.transaction_from.name }} -> {{ trans.transaction_to.name }}  {{ trans.amount }} {{ trans.transaction_from.currency }}</h2>
-    {% endfor %}
-    <br><br>
+    {% if transactions %}
+        <table class="transactions" border="1" style="border-color: black;">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Amount</th>
+                    <th>Currency</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trans in transactions %}
+                    <tr>
+                        <td>{{ trans.data_from }}</td>
+                        <td>{{ trans.transaction_from.name }}</td>
+                        <td>{{ trans.transaction_to.name }}</td>
+                        <td>{{ trans.amount }}</td>
+                        <td>{{ trans.transaction_from.currency }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br><br>
+    {% else %}
+        <h2>You have no transactions during this period</h2>
+        <br><br>
+    {% endif %}
 
+    {% if incomes %}
     <h1>Incomes</h1>
-    {% for inc in incomes %}
-        <h2>{{ inc.name }}: {{ inc.monthly_plan }} {{ inc.currency }}</h2>
-    {% endfor %}
+        <table class="incomes" border="1">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Monthly plan</th>
+                    <th>Currency</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inc in incomes %}
+                    <tr>
+                        <td>{{ inc.name }}</td>
+                        <td>{{ inc.monthly_plan }}</td>
+                        <td>{{ inc.currency }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     <br><br>
+    {% endif %}
 
+    {% if accounts %}
     <h1>Accounts</h1>
-    {% for acc in accounts %}
-        <h2>{{ acc.name }}: {{ acc.amount }} {{ acc.currency }}</h2>
-    {% endfor %}
+        <table class="accounts" border="1">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Account</th>
+                    <th>Currency</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for acc in accounts %}
+                    <tr>
+                        <td>{{ acc.name }}</td>
+                        <td>{{ acc.amount }}</td>
+                        <td>{{ acc.currency }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     <br><br>
+    {% endif %}
 
+    {% if costs %}
     <h1>Costs</h1>
-    {% for cost in costs %}
-        <h2>{{ cost.name }}: {{ cost.monthly_plan }} {{ cost.currency }}</h2>
-    {% endfor %}
+        <table class="costs" border="1">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Monthly plan</th>
+                    <th>Currency</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cost in costs %}
+                    <tr>
+                        <td>{{ cost.name }}</td>
+                        <td>{{ cost.monthly_plan }}</td>
+                        <td>{{ cost.currency }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     <br><br>
+    {% endif %}
+
+    <style>
+        td{
+            margin-top: 3px;
+            text-align: center;
+            padding: 5px;
+            color: green;
+            width: max-content;
+            font-size: large;
+        }
+
+        th{
+            margin-top: 3px;
+            padding: 5px;
+            font-size: large;
+        }
+
+    </style>
 
 {% endblock %}

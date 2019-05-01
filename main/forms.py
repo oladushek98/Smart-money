@@ -104,14 +104,14 @@ class ReportGenerationForm(Form):
     period_choices = [('day', 'Day'),
                       ('week', 'Week'),
                       ('month', 'Month'),
-                      ('year', 'Year')]
+                      ('year', 'Year'),
+                      ('whole', 'Whole history')]
 
     node_objects = [('incomes', 'Incomes'),
-                    ('costs', 'Costs'),
-                    ('accounts', 'Accounts')]
+                    ('accounts', 'Accounts'),
+                    ('costs', 'Costs')]
 
     period = forms.ChoiceField(choices=period_choices, widget=forms.RadioSelect)
-    # nodes = forms.ChoiceField(choices=node_objects, widget=forms.CheckboxInput)
     nodes = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
