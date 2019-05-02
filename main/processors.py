@@ -10,7 +10,8 @@ def processor(request):
     incoms = list(Income.objects.filter(delete=False,
                                         user_id=request.user.id).all())
     for incom in incoms:
-        incom.amount = sum(map(lambda x: x.amount, incom.source.all()))
+        incom.amount = sum(
+            map(lambda x: x.amount, incom.source.filter(delete=False).all()))
 
     income_create_from = IncomeForm()
     account_create_form = AccountForm()
@@ -21,8 +22,10 @@ def processor(request):
                                            user_id=request.user.id).all())
 
     for account in accounts:
-        amount_plus = sum(map(lambda x: x.amount, account.destination.all()))
-        amount_minus = sum(map(lambda x: x.amount, account.source.all()))
+        amount_plus = sum(map(lambda x: x.amount,
+                              account.destination.filter(delete=False).all()))
+        amount_minus = sum(
+            map(lambda x: x.amount, account.source.filter(delete=False).all()))
 
         account.amount += amount_plus - amount_minus
 
@@ -30,7 +33,8 @@ def processor(request):
                                      user_id=request.user.id).all())
 
     for cost in costs:
-        amount_plus = sum(map(lambda x: x.amount, cost.destination.all()))
+        amount_plus = sum(map(lambda x: x.amount,
+                              cost.destination.filter(delete=False).all()))
 
         cost.amount = amount_plus if amount_plus is not None else 0
 

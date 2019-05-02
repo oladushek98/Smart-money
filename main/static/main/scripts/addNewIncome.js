@@ -74,11 +74,15 @@ let updateIncomeStatistic = async () => {
 };
 
 async function getConvertedValue (amount, currency) {
-    const body = {
+    let body = {
         'amount': amount,
         'convert_from': currency,
         'convert_to': "BYN"
         };
+
+    if(arguments.length > 2){
+        body.convert_to = arguments[2];
+    }
 
     const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
         let header = new Headers();

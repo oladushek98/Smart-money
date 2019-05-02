@@ -48,10 +48,26 @@ btn_add.on('click', async (event) => {
             res.body.transaction_to,
             res.body.amount,
             res.body.date);
-        updateAmount(source_select.val().split('/')[2],
-            $('#id_amount').val(), true);
-        updateAmount(destination_select.val().split('/')[2],
-            $('#id_amount').val(), false);
+        if (s.parent()[0].getAttribute('style') !== 'display: none;') {
+            if (res.body.currency === source_select.val().split('/')[0]) {
+                updateAmount(source_select.val().split('/')[2],
+                    res.body.amount, true);
+                let a = getConvertedValue(res.body.amount, res.body.currency, destination_select.val().split('/')[0]);
+                updateAmount(destination_select.val().split('/')[2],
+                    a, false);
+            } else {
+                updateAmount(destination_select.val().split('/')[2],
+                    res.body.amount, false);
+                let a = getConvertedValue(res.body.amount, destination_select.val().split('/')[0], source_select.val().split('/')[0]);
+                updateAmount(source_select.val().split('/')[2],
+                    a, true);
+            }
+        } else {
+            updateAmount(source_select.val().split('/')[2],
+                $('#id_amount').val(), true);
+            updateAmount(destination_select.val().split('/')[2],
+                $('#id_amount').val(), false);
+        }
         btn_add[0].setAttribute("disabled", false);
         fade.remove();
         step_1.remove();
@@ -78,9 +94,6 @@ step_1.remove();
 const span = $('#add-transaction_placeholder');
 
 
-destination_select.on('click', (event) => {
-    compareCur();
-});
 add_transaction_container.on('click', (event) => {
     if (add_transaction_container.children()[0] === span[0]) {
         wrapper.append(fade, wrapper.children()[0]);
@@ -92,6 +105,9 @@ add_transaction_container.on('click', (event) => {
             compareCur();
         });
     }
+    destination_select.on('click', (event) => {
+        compareCur();
+    });
 });
 
 

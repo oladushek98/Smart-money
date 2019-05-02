@@ -10,6 +10,7 @@ class Converter(View):
     def put(self, request, **kwargs):
 
         body = json.loads(request.body)
-        body['result'] = convert_currency(body['amount'], body['convert_from'], body['convert_to'])
+        body['result'] = convert_currency(body['amount'], body['convert_from'],
+                                          body['convert_to'])
 
         return JsonResponse(body)

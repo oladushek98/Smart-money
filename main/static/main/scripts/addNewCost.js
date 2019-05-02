@@ -81,6 +81,10 @@ async function getConvertedValue (amount, currency) {
         'convert_to': "BYN"
         };
 
+    if(arguments.length > 2){
+        body.convert_to = arguments[2];
+    }
+
     const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
         let header = new Headers();
         header.append('X-CSRFToken', csrftoken);
