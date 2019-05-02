@@ -6,7 +6,7 @@ let createNewIncomeCategory = (id, name, currency, amount, monthly_plan) => {
     title.textContent = name;
     let icon_wrapper = document.createElement('div');
     icon_wrapper.setAttribute('class', 'sm-category_icon-wrapper');
-    icon_wrapper.setAttribute('id', 'income_' + id);
+    icon_wrapper.setAttribute('id', 'finNode_' + id);
     let fill = document.createElement('div');
     let icon = document.createElement('div');
     fill.setAttribute('class', 'sm-category_fill');
@@ -41,7 +41,7 @@ let addNewIncome = (id, name, currency, amount, monthly_plan) => {
     table.children()[table.children().length - 1].remove();
     table.append(container);
     table.append(add_item);
-    $('#income_' + id).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'income/' + id);
+    $('#finNode_' + id).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'income/' + id);
     updateIncomeStatistic();
     getTransactionSourse();
 };

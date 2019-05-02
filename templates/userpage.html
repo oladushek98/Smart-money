@@ -59,7 +59,7 @@
                                 <div class="sm-category_title">
                                     {{ income.name }}
                                 </div>
-                                <div id="income_{{ income.id }}"
+                                <div id="finNode_{{ income.id }}"
                                      class="sm-category_icon-wrapper">
                                     <div class="sm-category_fill"
                                          style="height: 0%"></div>
@@ -71,7 +71,7 @@
                                 </div>
                             </div>
                             <script>
-                                $('#income_' + {{ income.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'income/' + {{ income.id }});
+                                $('#finNode_' + {{ income.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'income/' + {{ income.id }});
                             </script>
                         {% endfor %}
                         <div class="sm-category sm-category_add-category">
@@ -108,7 +108,7 @@
                                 <div class="sm-category_title" title="кошелек">
                                     {{ account.name }}
                                 </div>
-                                <div id="account_{{ account.id }}"
+                                <div id="finNode_{{ account.id }}"
                                      class="sm-category_icon-wrapper">
                                     <div class="sm-category_fill"></div>
                                     <div class="sm-category_icon sm-category_icon-cash"></div>
@@ -119,7 +119,7 @@
                                 </div>
                             </div>
                             <script>
-                                $('#account_' + {{ account.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'account/' + {{ account.id }});
+                                $('#finNode_' + {{ account.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'account/' + {{ account.id }});
                             </script>
                         {% endfor %}
                         <div class="sm-category sm-category_add-category">
@@ -183,7 +183,7 @@
                                 <div class="sm-category_title">
                                     {{ cost.name }}
                                 </div>
-                                <div id="cost_{{ cost.id }}"
+                                <div id="finNode_{{ cost.id }}"
                                      class="sm-category_icon-wrapper">
                                     <div class="sm-category_fill"
                                          style="height: 100%"></div>
@@ -196,7 +196,7 @@
                                 </div>
                             </div>
                             <script>
-                                $('#cost_' + {{ cost.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'cost/' + {{ cost.id }});
+                                $('#finNode_' + {{ cost.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'cost/' + {{ cost.id }});
                             </script>
                         {% endfor %}
                         <div class="sm-category sm-category_add-category">
