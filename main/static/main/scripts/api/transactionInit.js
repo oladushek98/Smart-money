@@ -52,13 +52,13 @@ btn_add.on('click', async (event) => {
             if (res.body.currency === source_select.val().split('/')[0]) {
                 updateAmount(source_select.val().split('/')[2],
                     res.body.amount, true);
-                let a = getConvertedValue(res.body.amount, res.body.currency, destination_select.val().split('/')[0]);
+                let a = await getConvertedValue(res.body.amount, res.body.currency, destination_select.val().split('/')[0]);
                 updateAmount(destination_select.val().split('/')[2],
                     a, false);
             } else {
                 updateAmount(destination_select.val().split('/')[2],
                     res.body.amount, false);
-                let a = getConvertedValue(res.body.amount, destination_select.val().split('/')[0], source_select.val().split('/')[0]);
+                let a = await getConvertedValue(res.body.amount, destination_select.val().split('/')[0], source_select.val().split('/')[0]);
                 updateAmount(source_select.val().split('/')[2],
                     a, true);
             }
