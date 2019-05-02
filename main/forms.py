@@ -2,10 +2,12 @@ from django import forms
 from django.forms import Form
 from django.core.exceptions import ValidationError
 from django.conf import settings
+from bootstrap_datepicker_plus import DatePickerInput
 
 import json
 import string
 import os
+import datetime
 
 
 class EditBioForm(Form):
@@ -96,6 +98,26 @@ class TransactionCreateForm(Form):
     choice_currency = forms.ChoiceField(choices=[])
     amount = forms.IntegerField()
     data_from = forms.DateField(widget=forms.SelectDateWidget)
+
+
+class ReportGenerationForm(Form):
+
+    period_choices = [('day', 'Day'),
+                      ('week', 'Week'),
+                      ('month', 'Month'),
+                      ('year', 'Year'),
+                      ('whole', 'Whole history')]
+
+    node_objects = [('incomes', 'Incomes'),
+                    ('accounts', 'Accounts'),
+                    ('costs', 'Costs')]
+
+    period = forms.ChoiceField(choices=period_choices, widget=forms.RadioSelect)
+    nodes = forms.MultipleChoiceField(
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+        choices=node_objects,
+    )
 
 
 class TransactionUpdateForm(Form):

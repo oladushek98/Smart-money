@@ -1,25 +1,16 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, FormView
+from django.views.generic import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from main.forms import EditBioForm
 from main.models import UserAdditionalInfo
 
 
-# class UserUpdateView(LoginRequiredMixin, UpdateView):
-#     model = User
-#     fields = ['last_name', 'first_name', 'email']
-#     template_name = 'user_edit.html'
-#
-#     def get_success_url(self):
-#         return reverse_lazy('userpage', args=[self.object.id])
-
-
 class UserUpdateBioView(LoginRequiredMixin, FormView):
     form_class = EditBioForm
-    template_name = 'user_edit.html'
+    template_name = 'user/user_edit.html'
 
     def get(self, request, *args, **kwargs):
 
@@ -33,7 +24,7 @@ class UserUpdateBioView(LoginRequiredMixin, FormView):
 
         form = EditBioForm(initial={'last_name': last, 'first_name': first, 'email': email, 'currency': currency})
 
-        return render(request, template_name='user_edit.html', context={'form': form})
+        return render(request, template_name='user/user_edit.html', context={'form': form})
 
     def form_valid(self, form):
         last_name = form.cleaned_data.get('last_name').title()

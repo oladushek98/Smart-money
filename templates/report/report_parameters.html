@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block buttons %}
+
+    <a href="{% url 'logout' %}" class="btn waves-effect waves-light {{ button_color }}"
+           type="submit">LogOut, {{ user.username }}</a>
+
+{% endblock %}
+
+{% block content %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="btn-box">
+            <button class="btn waves-effect waves-light"
+                    type="submit" formtarget="_blank">Generate
+                <i class="material-icons right"></i>
+            </button>
+        </div>
+    </form>
+
+{% endblock %}
+
+{% block scrypt %}
+
+    radio = $('#id_period');
+    buttons = radio.children();
+
+    for (i = 0; i < 5; i++){
+	    let span = document.createElement('span');
+	    span.textContent = buttons[i].children[0].textContent;
+        let input = buttons[i].children[0].children[0];
+        buttons[i].children[0].innerText = '';
+        buttons[i].children[0].appendChild(input);
+        buttons[i].children[0].children[0].className = 'with-gap';
+        if (i == 0) {
+            buttons[i].children[0].children[0].checked = true;
+        }
+	    buttons[i].children[0].appendChild(span);
+
+    }
+    console.log(5);
+    checks = $('#id_nodes');
+    boxes = checks.children();
+
+    for (i = 0; i < 3; i++){
+	    let span = document.createElement('span');
+	    span.textContent = boxes[i].children[0].textContent;
+        let input = boxes[i].children[0].children[0];
+        boxes[i].children[0].innerText = '';
+        boxes[i].children[0].appendChild(input);
+	    boxes[i].children[0].appendChild(span);
+        console.log('here');
+    }
+    console.log(1);
+
+    form = $('form');
+    elements = form.children();
+
+    let input_calendar = document.createElement('input');
+    console.log('here');
+    input_calendar.className = 'datepicker';
+    input_calendar.type = 'text';
+    input_calendar.placeholder = 'Press here to choose the date';
+    input_calendar.id = 'exact_day';
+    input_calendar.readOnly = true;
+    input_calendar.name = 'calendar';
+
+
+    form.append(input_calendar);
+    $(document).ready(function(){
+        $('.datepicker').datepicker({ maxDate: new Date(), defaultDate: new Date(), setDefaultDate: true });
+    });
+
+
+    let button = elements[7];
+    elements[7].remove();
+    form.append(button);
+
+    let formData = new FormData(form);
+
+
+{% endblock %}
+
+

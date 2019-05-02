@@ -3,7 +3,7 @@ from django.urls import path, include
 from main.views.api import incomeApi, accountApi, costApi, transactionApi, \
     convertApi
 from main.views import index, authentication, user, income, account, cost, \
-    transaction
+    transaction, report
 
 urlpatterns = [
     path('', index.IndexView.as_view(), name='main'),
@@ -42,6 +42,10 @@ urlpatterns = [
          name='create_transaction'),
     path('api/convert',
          convertApi.Converter.as_view(),
+         name='convert_currency'),
+    path('user/report/generation/', report.ReportGenerationView.as_view(), name='report_generation'),
+    path('user/report/parameters/', report.ReportParameterView.as_view(), name='report_parameters'),
+
          name='convert_currency'),
     path('transaction/<int:pk>',
          transaction.TransactionUpdateView.as_view(),
