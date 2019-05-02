@@ -1,0 +1,42 @@
+{% load static %}
+
+<div>
+    <div class="sm-modal-cost">
+        <div class="sm-modal_header">
+
+        </div>
+
+        <div class="sm-modal_body">
+
+            <div class="sm-modal_input-line">
+                <input id="title2" class="sm-input"
+                       placeholder="На что вы тратите деньги? *">
+                <div class="sm-input_underline"></div>
+                <div class="z-depth-3 sm-modal-icon">
+                    <div class="sm-category_icon-wrapper">
+                        <div class="sm-category_fill"
+                             style="height: 0%"></div>
+                        <div class="sm-category_icon sm-category_icon-car"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sm-modal_input-line">
+                <input id="cost_plan" class="sm-input" type="number"
+                       placeholder="Планируете тратить в месяц">
+            </div>
+
+            <div class="sm-modal_input-line sm-modal_input-currency">
+                <div class="currency-input-label">Валюта</div>
+                {{ COST_CREATE_FORM.currency }}
+            </div>
+            <div class="sm-modal-footer">
+                <input id="add-cost" class="sm-modal_submit-button"
+                       type="button"
+                       value="добавить">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'main/scripts/cost/create_cost.js'%}"></script>

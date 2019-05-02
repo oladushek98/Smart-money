@@ -1,0 +1,28 @@
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="btn-box">
+        <button class="btn waves-effect waves-light"
+                type="submit">Сохранить
+        </button>
+        <button data-target="delete-modal" class="btn modal-trigger"
+                type="button">Удалить
+        </button>
+    </div>
+</form>
+
+
+<div id="delete-modal" class="modal sm-modal">
+    <div class="sm-modal_header">
+    </div>
+    <div class="sm-modal_body">
+        <a href="#" onclick="deleteNode({{ form.id }}, false)" class="btn"
+           style="margin-top: 0px; height: 80px; border-radius: unset">
+            <div style="margin: 22px;">Сохранить историю</div>
+        </a>
+        <a href="#" onclick="deleteNode({{ form.id }}, true)" class="btn"
+           style="margin-top: 0px; height: 80px; border-radius: unset">
+            <div style="margin: 22px;">Удалить все</div>
+        </a></div>
+</div>
+

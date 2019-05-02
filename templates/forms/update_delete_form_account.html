@@ -1,0 +1,52 @@
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p class="switch">
+        <label for="id_take_into_balance">Нет
+            {{ form.take_into_balance }}
+            <span class="lever"></span>Да</label>
+    </p>
+    <div class="btn-box">
+        <button id="submit" class="btn waves-effect waves-light"
+                type="button">Сохранить
+        </button>
+        <button onclick="deleteNode({{ id }})"
+                class="btn waves-effect waves-light"
+                type="button">Удалить
+        </button>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        {#$('#id_take_into_balance').remove();#}
+        $('form').children()[4].remove();
+    });
+
+
+    let save = async () => {
+        const body = new FormData();
+        body.append('name', document.getElementById('id_name').value);
+        body.append('amount', document.getElementById('id_amount').value);
+        body.append('currency', document.getElementById('id_currency').value);
+        body.append('take_into_balance', document.getElementById('id_take_into_balance').checked ? 'on': 'off');
+
+        const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
+        let header = new Headers();
+        header.append('X-CSRFToken', csrftoken);
+
+        const response = await fetch("{% url 'update_account' form.id %}", {
+            method: 'POST',
+            headers: header,
+            body: body,
+            credentials: 'same-origin'
+        });
+
+        if(response.ok){
+            alert(response.body);
+        }
+    };
+
+    $('#submit').on('click', save);
+</script>
+

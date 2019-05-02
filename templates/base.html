@@ -1,10 +1,75 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Smart Money</title>
+    <link rel="shortcut icon" href="/main/static/main/img/Без%20имени-2.png"
+          type="image/x-icon">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto"
+          rel="stylesheet">
+
+    <link type="text/css" rel="stylesheet"
+          href="{% static 'main/stylesheet/styles.css' %}">
+
+
+
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"#}
+{#            integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis="#}
+{#            crossorigin="anonymous"></script>#}
+{#    <link rel="stylesheet"#}
+{#          href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"#}
+{#          integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E="#}
+{#          crossorigin="anonymous"/>#}
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"#}
+{#            integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw="#}
+{#            crossorigin="anonymous"></script>#}
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
 </head>
 <body>
+{% csrf_token %}
+<div class="background"></div>
 
+<header class="header-sm">
+    <div class="header-container">
+        <div class="header-left">
+            <a class="header-logo"
+               {% if user.is_authenticated %}href="{% url 'userpage' %}" {% else %}
+               href="{% url 'main' %}" {% endif %}></a>
+            <a class="header-title"
+               {% if user.is_authenticated %}href="{% url 'userpage' %}" {% else %}
+               href="{% url 'main' %}" {% endif %}></a>
+        </div>
+        <div class="header-right">
+            {% block buttons %}
+            {% endblock %}
+        </div>
+    </div>
+</header>
+
+
+<main class="body-container sm-container">
+    {% block content %}
+    {% endblock %}
+</main>
 </body>
+
+<script>
+    {% block scrypt %}
+    {% endblock %}
+</script>
 </html>
+

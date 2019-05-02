@@ -1,0 +1,41 @@
+{% load static %}
+
+<div>
+    <div class="sm-modal-income">
+        <div class="sm-modal_header">
+
+        </div>
+
+        <div class="sm-modal_body">
+            <div class="sm-modal_input-line">
+                <div style="width: 100%;">
+                    <input id="title" class="sm-input"
+                           placeholder="Откуда вы получаете доход? *">
+                    <div id="income_name_error" class="sm-input_underline"></div>
+                </div>
+                <div class="z-depth-3 sm-modal-icon">
+                    <div class="sm-category_icon-wrapper">
+                        <div class="sm-category_fill"
+                             style="height: 0%"></div>
+                        <div class="sm-category_icon sm-category_icon-plant"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="sm-modal_input-line">
+                <input id="plan" class="sm-input" type="number"
+                       placeholder="Планируете получать в месяц">
+            </div>
+            <div class="sm-modal_input-line sm-modal_input-currency">
+                <div class="currency-input-label">Валюта</div>
+                {{ INCOME_CREATE_FORM.currency }}
+            </div>
+            <div class="sm-modal-footer">
+                <input id="add-income" class="sm-modal_submit-button"
+                       type="button"
+                       value="добавить">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'main/scripts/income/createIncome.js' %}"></script>
