@@ -23,7 +23,7 @@
 }
 
 .header-title {
-    background-image: url("../img/spritesheet_1x.png");
+    background-image: url('../img/spritesheet_1x.png');
     background-position: 0 -188px;
     width: 144px;
     height: 25px;
@@ -31,7 +31,7 @@
 }
 
 .header-logo {
-    background-image: url("../img/spritesheet_1x.png");
+    background-image: url('../img/spritesheet_1x.png');
 
     background-position: -260px -131px;
     width: 79px;

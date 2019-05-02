@@ -1,7 +1,10 @@
-{% extends 'base.html' %}
 
-{% block content %}
-    <h2><center>{{ user }} {{ period }}</center></h2>
+{% load static %}
+
+
+    <img src="../../main/static/main/img/pointer.png" >
+
+    <center><h2>{{ user }} {{ period }}</h2></center>
 
     <h1>Transactions</h1>
     {% if transactions %}
@@ -120,4 +123,3 @@
 
     </style>
 
-{% endblock %}
