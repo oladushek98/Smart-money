@@ -7,7 +7,7 @@ let createNewAccountCategory = (id, name, currency, amount) => {
     title.textContent = name;
     let icon_wrapper = document.createElement('div');
     icon_wrapper.setAttribute('class', 'sm-category_icon-wrapper');
-    icon_wrapper.setAttribute('id', 'account_' + id);
+    icon_wrapper.setAttribute('id', 'finNode_' + id);
     let fill = document.createElement('div');
     let icon = document.createElement('div');
     fill.setAttribute('class', 'sm-category_fill');
@@ -43,7 +43,7 @@ let addNewAccount = (id, name, currency, amount, taka_into_balance) => {
     table.children()[table.children().length - 1].remove();
     table.append(container);
     table.append(add_item);
-    $('#account_' + id).on('click',
+    $('#finNode_' + id).on('click',
         (event) => window.location.href = 'http://localhost:8000/' + 'account/' + id);
     updateAccountStatistic();
     getTransactionSourse();
@@ -55,26 +55,10 @@ let updateAccountStatistic = async () => {
     let objects = {};
 
     for(let i = 0; i < accounts.length; i++){
-        currency = accounts[i].textContent.split(' ')[0];
+        let currency = accounts[i].textContent.split(' ')[0];
         amount = parseInt(accounts[i].textContent.split(' ')[1], 10);
         objects[i] = {'amount': amount, 'convert_from': currency, 'convert_to': 'BYN'};
     }
     let plan_count = await getConvertedValue(objects);
     plan[0].textContent = "Br" + " " + plan_count;
 };
-
-async function getConvertedValue (objects) {
-    const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
-    let header = new Headers();
-    header.append('X-CSRFToken', csrftoken);
-    let response = await fetch( 'api/convert',
-        {
-            method: 'PUT',
-            body: JSON.stringify(objects),
-            headers: header,
-            credentials: 'same-origin'
-        }
-    );
-    const resp_body = await response.json();
-    return resp_body.result
-}

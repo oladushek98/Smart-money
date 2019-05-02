@@ -1,7 +1,9 @@
 from django.urls import path, include
 
-from main.views.api import incomeApi, accountApi, costApi, transactionApi, convertApi
-from main.views import index, authentication, user, income, account, cost, report
+from main.views.api import incomeApi, accountApi, costApi, transactionApi, \
+    convertApi
+from main.views import index, authentication, user, income, account, cost, \
+    transaction, report
 
 urlpatterns = [
     path('', index.IndexView.as_view(), name='main'),
@@ -44,4 +46,11 @@ urlpatterns = [
     path('user/report/generation/', report.ReportGenerationView.as_view(), name='report_generation'),
     path('user/report/parameters/', report.ReportParameterView.as_view(), name='report_parameters'),
 
+         name='convert_currency'),
+    path('transaction/<int:pk>',
+         transaction.TransactionUpdateView.as_view(),
+         name='transaction'),
+    path('transaction/api/transaction/delete',
+         transactionApi.DeleteTransaction.as_view(),
+         name='delete_transaction'),
 ]

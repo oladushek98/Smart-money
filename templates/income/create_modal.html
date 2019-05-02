@@ -1,3 +1,5 @@
+{% load static %}
+
 <div>
     <div class="sm-modal-income">
         <div class="sm-modal_header">
@@ -9,10 +11,14 @@
                 <div style="width: 100%;">
                     <input id="title" class="sm-input"
                            placeholder="Откуда вы получаете доход? *">
-                    <div class="sm-input_underline"></div>
+                    <div id="income_name_error" class="sm-input_underline"></div>
                 </div>
                 <div class="z-depth-3 sm-modal-icon">
-
+                    <div class="sm-category_icon-wrapper">
+                        <div class="sm-category_fill"
+                             style="height: 0%"></div>
+                        <div class="sm-category_icon sm-category_icon-plant"></div>
+                    </div>
                 </div>
             </div>
             <div class="sm-modal_input-line">
@@ -32,43 +38,4 @@
     </div>
 </div>
 
-<script>
-    let incomeCreate = async (event) => {
-        let body = {
-            name: $('#title').val(),
-            monthly_plan: $('#plan').val(),
-            currency: $('#modal1 #id_currency').val(),
-        };
-
-        const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
-        let header = new Headers();
-        header.append('X-CSRFToken', csrftoken);
-
-        let response = await fetch('{% url 'create_income' %}',
-            {
-                method: 'PUT',
-                body: JSON.stringify(body),
-                headers: header,
-                credentials: 'same-origin'
-            }
-        );
-        if (response.ok) {
-            const resp_body = await response.json();
-            $('#title').val('');
-            $('#plan').val('');
-            $('#modal1').modal('close');
-            addNewIncome(
-                resp_body.id,
-                resp_body.name,
-                resp_body.currency,
-                0,
-                resp_body.monthly_plan);
-        }
-    };
-
-
-    $(document).ready(() => {
-        $('#add-income').on('click', incomeCreate)
-    });
-
-</script>
+<script src="{% static 'main/scripts/income/createIncome.js' %}"></script>

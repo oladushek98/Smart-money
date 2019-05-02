@@ -41,13 +41,13 @@ def get_value_currency(currency: str):
 
 def convert_into_byn(amount: int, currency: str):
     rate = get_value_currency(currency)
-    result = amount*rate
+    result = int(amount)*rate
     return result
 
 
 def convert_from_byn(amount: int, currency: str):
     rate = get_value_currency(currency)
-    result = amount/rate
+    result = int(amount)/rate
     return result
 
 
@@ -70,4 +70,4 @@ def convert_currency(amount: int, convert_from: str, convert_to: str):
         byn_into_convert_to = convert_from_byn(amount, convert_to)
         result = byn_into_convert_to
 
-    return round(result, 2)
+    return int(result)

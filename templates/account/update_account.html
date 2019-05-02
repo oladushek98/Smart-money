@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
     <div class="sm-dashboard">
@@ -9,33 +10,107 @@
                 </div>
             </div>
             <div class="sm-dashboard-column">
-
+                {#            <div class="sm-account-chart z-depth-1">#}
+                <div class="chart" id="curve_chart"></div>
+                {#            </div>#}
             </div>
         </div>
+        <div class="chart_account_statistic">
+            <div class="chart" id="to_chart"></div>
+            <div class="chart" id="from_chart"></div>
+        </div>
     </div>
+    <script>
+        function drawChart() {
+            let data = new google.visualization.arrayToDataTable(parse_data('{{ data }}'));
+
+            let options = {
+                curveType: 'point',
+                legend: {position: 'bottom'},
+
+                title: 'Влияние транзакции на состояние счета',
+                height: 355,
+                pieStartAngle: 100,
+                colors: ['red', 'rgb(255, 162, 47)'],
+                fontSize: 14,
+                width: '100%',
+                fontName: 'Roboto',
+            };
+
+            let chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+            chart.draw(data, options);
+        }
+
+        function drawChart1() {
+            // Define the chart to be drawn.
+            let data = new google.visualization.DataTable();
+            data.addColumn('string');
+            data.addColumn('number');
+            data.addRows(parse_data('{{ data_to }}'));
+            let options = {
+                title: 'Доходы',
+                legend: 'top',
+                pieHole: 0.4,
+                height: 500,
+                width: 555,
+                fontSize: 14,
+                fontName: 'Roboto',
+            };
+
+            // Instantiate and draw the chart.
+            let chart = new google.visualization.PieChart(document.getElementById('to_chart'));
+            chart.draw(data, options);
+        }
+
+        function drawChart2() {
+            // Define the chart to be drawn.
+            let data = new google.visualization.DataTable();
+            data.addColumn('string');
+            data.addColumn('number');
+            data.addRows(parse_data('{{ data_from }}'));
+            let options = {
+                title: 'Расходы',
+                legend: 'top',
+                pieHole: 0.4,
+                height: 500,
+                width: 555,
+                fontSize: 14,
+                fontName: 'Roboto',
+            };
+
+            // Instantiate and draw the chart.
+            let chart = new google.visualization.PieChart(document.getElementById('from_chart'));
+            chart.draw(data, options);
+        }
+
+    </script>
+    <script src="{% static 'main/scripts/account/updateAccount.js' %}">
+
+    </script>
+
 {% endblock %}
 
 {% block scrypt %}
     let deleteNode = async (id) => {
-        const body = {
-            'id': id
-        };
+    const body = {
+    'id': id
+    };
 
-        const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
-        let header = new Headers();
-        header.append('X-CSRFToken', csrftoken);
+    const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
+    let header = new Headers();
+    header.append('X-CSRFToken', csrftoken);
 
-        let response = await fetch('{% url 'delete_account' %}',
-            {
-                method: 'PUT',
-                body: JSON.stringify(body),
-                headers: header,
-                credentials: 'same-origin'
-            }
-        );
+    let response = await fetch('{% url 'delete_account' %}',
+    {
+    method: 'PUT',
+    body: JSON.stringify(body),
+    headers: header,
+    credentials: 'same-origin'
+    }
+    );
 
-        if(response.ok){
-            window.location.href = 'http://localhost:8000/user'
-        }
+    if(response.ok){
+    window.location.href = 'http://localhost:8000/user'
+    }
     }
 {% endblock %}

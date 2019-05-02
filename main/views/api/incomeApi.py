@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views import View
 
 import json
-from main.models import Income
+from main.models import Income, Transaction
 
 
 class IncomeCreate(View):
@@ -24,8 +24,10 @@ class IncomeCreate(View):
 class IncomeDelete(View):
 
     def put(self, request, **kwargs):
-        income_id = int(self.request.headers._store['referer'][1].split('/')[-1])
-        income = Income.objects.filter(id=income_id).first()
-        income.delete = True
-        income.save()
+        body = json.loads(request.body)
+        income_id = body['id']
+        Income.objects.filter(id=income_id).update(delete=True)
+        if body['flag']:
+            Transaction.objects.filter(
+                transaction_from_id=income_id).update(delete=True)
         return JsonResponse({'ok': True})
