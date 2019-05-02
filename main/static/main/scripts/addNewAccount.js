@@ -51,43 +51,30 @@ let addNewAccount = (id, name, currency, amount, taka_into_balance) => {
 
 let updateAccountStatistic = async () => {
     let plan = $('#accounts_stat');
-    let plan_count = 0;
     const accounts = $('.sm-category_account:not(.excluded) .sm-category_amount .sm-category_actual-amount');
+    let objects = {};
+
     for(let i = 0; i < accounts.length; i++){
         let currency = accounts[i].textContent.split(' ')[0];
         amount = parseInt(accounts[i].textContent.split(' ')[1], 10);
-
-        amount = await getConvertedValue(amount, currency);
-
-        plan_count += amount;
+        objects[i] = {'amount': amount, 'convert_from': currency, 'convert_to': 'BYN'};
     }
+    let plan_count = await getConvertedValue(objects);
     plan[0].textContent = "Br" + " " + plan_count;
 };
 
-async function getConvertedValue (amount, currency) {
-    const body = {
-        'amount': amount,
-        'convert_from': currency,
-        'convert_to': "BYN"
-        };
-
-    if(arguments.length > 2){
-        body.convert_to = arguments[2];
-    }
-
+async function getConvertedValue (objects) {
     const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
-        let header = new Headers();
-        header.append('X-CSRFToken', csrftoken);
-
-        let response = await fetch( 'api/convert',
-            {
-                method: 'PUT',
-                body: JSON.stringify(body),
-                headers: header,
-                credentials: 'same-origin'
-            }
-        );
-
-        const resp_body = await response.json();
-        return resp_body.result
+    let header = new Headers();
+    header.append('X-CSRFToken', csrftoken);
+    let response = await fetch( 'api/convert',
+        {
+            method: 'PUT',
+            body: JSON.stringify(objects),
+            headers: header,
+            credentials: 'same-origin'
+        }
+    );
+    const resp_body = await response.json();
+    return resp_body.result
 }

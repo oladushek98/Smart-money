@@ -49,16 +49,14 @@ let addNewIncome = (id, name, currency, amount, monthly_plan) => {
 let updateIncomeStatistic = async () => {
     let income = $('#income_stat-income');
     let plan = $('#income_stat-plan');
-    let plan_count = 0;
     const plans = $('.sm-category_income .sm-category_amount .sm-category_plan-amount');
     const get_incomes = $('.sm-category_income .sm-category_amount .sm-category_actual-amount');
+
+    let objects = {};
     for(let i=0; i < plans.length; i++){
         let currency = get_incomes[i].textContent.split(' ')[0];
         amount = parseInt(plans[i].textContent, 10);
-
-        amount = await getConvertedValue(amount, currency);
-
-        plan_count += amount;
+        objects[i] = {'amount': amount, 'convert_from': currency, 'convert_to': 'BYN'};
     }
     let income_count = 0;
     const incomes = $('.sm-category_income .sm-category_amount .sm-category_actual-amount');
@@ -68,35 +66,8 @@ let updateIncomeStatistic = async () => {
     if(isNaN(income_count)){
         income_count = 0;
     }
+    let plan_count = await getConvertedValue(objects);
     plan[0].textContent = "Br" + " " + plan_count;
     income[0].textContent = income[0].textContent.split(' ')[0] + ' ' + income_count;
 
 };
-
-async function getConvertedValue (amount, currency) {
-    let body = {
-        'amount': amount,
-        'convert_from': currency,
-        'convert_to': "BYN"
-        };
-
-    if(arguments.length > 2){
-        body.convert_to = arguments[2];
-    }
-
-    const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
-        let header = new Headers();
-        header.append('X-CSRFToken', csrftoken);
-
-        let response = await fetch( 'api/convert',
-            {
-                method: 'PUT',
-                body: JSON.stringify(body),
-                headers: header,
-                credentials: 'same-origin'
-            }
-        );
-
-        const resp_body = await response.json();
-        return resp_body.result
-}
