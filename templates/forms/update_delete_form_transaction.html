@@ -1,0 +1,23 @@
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="btn-box">
+        <button class="btn waves-effect waves-light"
+                type="submit">Сохранить
+        </button>
+        <button id="delete_btn" class="btn modal-trigger"
+                type="button">Удалить
+        </button>
+    </div>
+</form>
+
+<script>
+    let click = async () => {
+        let res = await deleteTransaction({{ form.id }});
+        if (res.ok) {
+            window.location.href = 'http://localhost:8000/';
+        }
+    };
+    $('#delete_btn').on('click', click);
+</script>
+

@@ -90,8 +90,20 @@ class CostForm(Form):
     currency = forms.ChoiceField(choices=choices, label='Валюта')
 
 
-class TransactionForm(Form):
+class TransactionCreateForm(Form):
     transaction_from = forms.ChoiceField(choices=[])
     transaction_to = forms.ChoiceField(choices=[])
+    choice_currency = forms.ChoiceField(choices=[])
     amount = forms.IntegerField()
     data_from = forms.DateField(widget=forms.SelectDateWidget)
+
+
+class TransactionUpdateForm(Form):
+    transaction_from = forms.CharField(disabled=True, label='из',
+                                       required=False)
+    transaction_to = forms.CharField(disabled=True, label='в', required=False)
+    choice_currency = forms.CharField(disabled=True, label='валюта',
+                                      required=False)
+    amount = forms.IntegerField(label='сумма')
+    data_from = forms.DateField(widget=forms.SelectDateWidget, disabled=True,
+                                label='дата', required=False)

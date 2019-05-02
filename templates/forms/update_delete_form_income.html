@@ -4,13 +4,25 @@
     <div class="btn-box">
         <button class="btn waves-effect waves-light"
                 type="submit">Сохранить
-            <i class="material-icons right"></i>
         </button>
-        <button onclick="deleteNode({{ id }})"
-                class="btn waves-effect waves-light"
+        <button data-target="delete-modal" class="btn modal-trigger"
                 type="button">Удалить
         </button>
     </div>
 </form>
 
+
+<div id="delete-modal" class="modal sm-modal">
+    <div class="sm-modal_header">
+    </div>
+    <div class="sm-modal_body">
+        <a href="#" onclick="deleteNode({{ form.id }}, false)" class="btn"
+           style="margin-top: 0px; height: 80px; border-radius: unset">
+            <div style="margin: 22px;">Сохранить историю</div>
+        </a>
+        <a href="#" onclick="deleteNode({{ form.id }}, true)" class="btn"
+           style="margin-top: 0px; height: 80px; border-radius: unset">
+            <div style="margin: 22px;">Удалить все</div>
+        </a></div>
+</div>
 

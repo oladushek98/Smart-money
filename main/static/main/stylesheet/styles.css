@@ -90,6 +90,9 @@
     justify-content: flex-start;
     -ms-flex-align: start;
     align-items: flex-start;
+    flex-flow: row;
+    flex-wrap: wrap;
+
 }
 
 .sm-dashboard-top {
@@ -120,9 +123,8 @@
 
 .sm-category-card {
     border-radius: 4px;
-    /*background-color: #fff;*/
     box-shadow: 2px 2px 9px rgba(0, 0, 0, .13);
-    margin-bottom: 30px;
+    margin: 0 23px 30px 23px;
     position: relative;
 }
 
@@ -216,8 +218,24 @@ body {
     height: 60px;
     overflow: hidden;
     border-radius: 50%;
-    background: #c1c5c9;
+    /*background: #c1c5c9;*/
     cursor: pointer;
+}
+
+.sm-category_icon-wrapper:hover {
+    background-color: #d6d6d6;
+}
+
+.sm-modal-income .sm-category_icon-wrapper {
+    background-color: #0a93d1;
+}
+
+.sm-modal-account .sm-category_icon-wrapper {
+    background-color: #f9a825;
+}
+
+.sm-modal-cost .sm-category_icon-wrapper {
+    background-color: #03a879;
 }
 
 .sm-category_fill {
@@ -240,7 +258,7 @@ body {
 
 .sm-category_icon-cash {
     background-image: url("https://coinkeeper.me/content/img/sprites/web_1x.png");
-    background-position: -184px -46px;
+    background-position: -368px -46px;
     width: 37px;
     height: 37px;
     background-repeat: no-repeat;
@@ -295,15 +313,17 @@ body {
 
 .sm-category_icon-car {
     background-image: url("https://coinkeeper.me/content/img/sprites/web_1x.png");
-    background-position: -92px -138px;
+    background-position: -322px -46px;
     width: 37px;
     height: 37px;
     background-repeat: no-repeat;
     margin: auto;
 }
 
-.sm-category_icon-wrapper:hover {
-    background-color: #d6d6d6;
+.modal > div > div > div.sm-modal_body > div:nth-child(1) > div.z-depth-3.sm-modal-icon > div {
+    margin: 0px 0px 0px 0px;
+    width: 80px;
+    height: 80px;
 }
 
 .sm-category_account .sm-category_fill, .sm-category_bankaccount .sm-category_fill, .sm-category_debtaccount .sm-category_fill, .sm-category_classicgoal .sm-category_fill {
@@ -336,7 +356,7 @@ body {
 
 .sm-category_icon-plant {
     background-image: url("https://coinkeeper.me/content/img/sprites/web_1x.png");
-    background-position: -92px -322px;
+    background-position: -138px 0;
     width: 37px;
     height: 37px;
     background-repeat: no-repeat;
@@ -405,7 +425,7 @@ body {
 
 
 .add-transaction_wrapper {
-
+    margin: 0 20px;
 }
 
 .add-transaction_text {
@@ -524,7 +544,29 @@ body {
 }
 
 .sm-modal-income {
+    background-color: #0a93d1;
+    opacity: 0.85;
+}
 
+.sm-modal-account {
+    background-color: #ffab00;
+}
+
+.sm-modal-cost {
+    background-color: #0ac38e;
+}
+
+.account-checkbox-label {
+    color: #dbdbdb;
+    font-size: 18px;
+}
+
+.switch label input[type=checkbox]:checked + .lever:after {
+    background-color: #F44336;
+}
+
+.switch label input[type=checkbox]:checked + .lever {
+    background-color: #E57373;
 }
 
 .sm-modal_header {
@@ -532,7 +574,9 @@ body {
 }
 
 .sm-modal_body {
-
+    background-color: rgba(146, 146, 146, 0.17);
+    display: flex;
+    flex-flow: column;
 }
 
 .sm-modal_input-line {
@@ -549,6 +593,7 @@ body {
     height: 80px;
     width: 100px;
     margin: -20px 0px 0px 0px;
+    background-color: #0b9ee1;
 }
 
 .sm-input {
@@ -575,6 +620,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 .currency-input-label {
     padding: 10px 30px 30px 0px;
     font-size: 18px;
+    color: #dbdbdb;
 }
 
 .caret {
@@ -616,6 +662,7 @@ select {
 }
 
 .sm-modal_submit-button {
+    color: #dbdbdb;
     font-size: 20px;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
@@ -628,15 +675,20 @@ select {
 }
 
 .sm-modal-footer {
+    background-color: rgba(0, 4, 34, 0.2);
     height: 80px;
     border: none;
+    color: #ffffff;
+}
+
+.sm-modal-footer:hover {
+    background-color: rgba(0, 6, 255, 0);
 }
 
 /* INCOME MODAL STYLE END*/
 
 .sm-update-form {
     border-radius: 10px;
-    /*border: 1px #4f4f4f solid;*/
     background-color: rgba(254, 250, 255, 0.33);
     padding: 30px 60px 30px 60px;
 }
@@ -646,7 +698,7 @@ form input[type=text]:not(.browser-default), form p input[type=number]:not(.brow
 }
 
 
-form p input[type=number]:not(.browser-default):focus:not([readonly]), form p input[type=text]:not(.browser-default):focus:not([readonly]),form p input[type=password]:not(.browser-default):focus:not([readonly]), form p input[type=email]:not(.browser-default):focus:not([readonly]) {
+form p input[type=number]:not(.browser-default):focus:not([readonly]), form p input[type=text]:not(.browser-default):focus:not([readonly]), form p input[type=password]:not(.browser-default):focus:not([readonly]), form p input[type=email]:not(.browser-default):focus:not([readonly]) {
     border-bottom: 1px solid #e57373;
     -webkit-box-shadow: 0 1px 0 0 #e57373;
     box-shadow: 0 1px 0 0 #e57373;
@@ -690,7 +742,7 @@ form p select {
 
 .add-transaction_step {
     white-space: nowrap;
-    height: 100%;
+    /*height: 100%;*/
     display: inline-block;
     vertical-align: middle;
     display: flex;
@@ -766,12 +818,6 @@ form p select {
     color: #757474;
 }
 
-#id_amount:focus {
-    border-bottom: 1px solid #26a69a;
-    -webkit-box-shadow: 0 1px 0 0 #26a69a;
-    box-shadow: 0 1px 0 0 #26a69a;
-}
-
 #step_4 > input {
     width: 100%;
     min-height: 46px;
@@ -784,10 +830,28 @@ form p select {
     font-size: 18px;
 }
 
-#step_4 > input:focus {
-    border-bottom: 1px solid #26a69a;
-    -webkit-box-shadow: 0 1px 0 0 #26a69a;
-    box-shadow: 0 1px 0 0 #26a69a;
+.datepicker-table td.is-today {
+    color: #e57373;
+}
+
+.datepicker-table td.is-selected {
+    background-color: #e57373;
+    color: #fff;
+}
+
+.datepicker-date-display {
+    background-color: #e57373;
+}
+
+.datepicker-cancel, .datepicker-clear, .datepicker-today, .datepicker-done {
+    color: #e57373;
+    padding: 0 1rem;
+}
+
+#step_4 > input:focus, #step_3 > input:focus {
+    border-bottom: 1px solid #e57373;
+    -webkit-box-shadow: 0 1px 0 0 #e57373;
+    box-shadow: 0 1px 0 0 #e57373;
 }
 
 .datepicker-select {
@@ -814,6 +878,8 @@ form {
     flex-flow: column;
     padding: 0px 17px 15px;
     cursor: pointer;
+    background-color: #ffffff;
+    opacity: 0.85;
 }
 
 .transaction {
@@ -846,23 +912,55 @@ form {
     font-size: 18px;
     margin: 26px 0px;
     color: #9a9898;
+    position: absolute;
+    padding: 25px 0 0 360px;
 }
 
 .transaction-icon-way {
     display: inline-block;
-    margin-left: -137px;
-    background-image: url('../img/pointer.png');
-    width: 137px;
-    height: 70px;
+    margin-left: -117px;
+    background-image: url('../img/Волшебная_Палочка_2.png');
+    width: 117px;
+    height: 64px;
     background-repeat: no-repeat;
 }
 
 .transaction-amount {
-    width: 137px;
+    width: 117px;
     min-height: 20px;
     display: inline;
-    margin: 28px 10px auto 0;
+    margin: 15px 50px 0 0;
     text-align: center;
 }
 
 /* TRANSACTION BLOCK END */
+
+.sm-c_acc_stat {
+    width: 100%;
+}
+
+.sm-account-chart {
+    width: 120%;
+    margin: 0 0 0 20px;
+    border-radius: 10px;
+    background-color: rgba(254, 250, 255, 0.8);
+    padding: 10px 20px 10px 40px;
+}
+
+.chart {
+    margin-bottom: 20px;
+    margin-left: 30px;
+}
+
+.chart_account_statistic {
+    display: flex;
+}
+
+.chart_account_statistic > .chart {
+    margin-left: 0px;
+    margin-right: 60px;
+}
+
+rect {
+    opacity: 0.5;
+}

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 ICON_LENGTH = 10
@@ -20,6 +21,7 @@ class FinancialNode(models.Model):
     user = models.ForeignKey(User,
                              related_name='financial_nodes',
                              on_delete=models.CASCADE)
+    create_on = models.DateField(default=timezone.now().date())
 
 
 # доходы
@@ -71,6 +73,19 @@ class Goal(FinancialNode):
 
 # транзакция
 class Transaction(models.Model):
+    class Meta:
+        ordering = ['-data_from']
+
+    @property
+    def dict(self):
+        return {
+            'transaction_from': self.transaction_from,
+            'transaction_to': self.transaction_to,
+            'amount': self.amount,
+            'choice_currency': self.choice_currency,
+            'data_from': self.data_from,
+        }
+
     def __str__(self):
         return f'Из {self.transaction_from} в ' \
             f'{self.transaction_to} дата : {self.data_from}'
@@ -90,6 +105,7 @@ class Transaction(models.Model):
                              related_name='transactions',
                              on_delete=models.CASCADE,
                              null=True)
+    choice_currency = models.CharField(max_length=3, default='BYN')
 
 
 class UserAdditionalInfo(models.Model):

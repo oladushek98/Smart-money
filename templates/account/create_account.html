@@ -1,3 +1,5 @@
+{% load static %}
+
 <div>
     <div class="sm-modal-account">
         <div class="sm-modal_header"></div>
@@ -7,7 +9,13 @@
                 <input id="title1" class="sm-input"
                        placeholder="Где вы храните деньги? *">
                 <div class="sm-input_underline"></div>
-                <div class="z-depth-3 sm-modal-icon"></div>
+                <div class="z-depth-3 sm-modal-icon">
+                    <div class="sm-category_icon-wrapper">
+                        <div class="sm-category_fill"
+                             style="height: 0%"></div>
+                        <div class="sm-category_icon sm-category_icon-cash"></div>
+                    </div>
+                </div>
             </div>
 
             <div class="sm-modal_input-line">
@@ -24,17 +32,13 @@
                 <div class="account-checkbox-label">Учитывать в общем балансе?
                 </div>
                 <div class="switch">
-                    <label>
+                    <label class="" style="font-size: 16px; color: #000000">
                         Нет
                         {{ ACCOUNT_CREATE_FORM.take_into_balance }}
-                        <span class="lever"></span>
-                        Дв
+                        <span class="lever "></span>
+                        Дa
                     </label>
                 </div>
-{#                <select id="take_into_balance">#}
-{#                    <option value=1>Да</option>#}
-{#                    <option value=0>Нет</option>#}
-{#                </select>#}
             </div>
 
         </div>
@@ -47,47 +51,5 @@
     </div>
 </div>
 
-<script>
-    let accountCreate = async (event) => {
-        let body = {
-            name: $('#title1').val(),
-            amount: $('#amount').val(),
-            currency: $('#modal2 #id_currency').val(),
-            take_into_balance: String($('#id_take_into_balance')[0].checked)
-        };
-
-        const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
-        let header = new Headers();
-        header.append('X-CSRFToken', csrftoken);
-
-        let response = await fetch('{% url 'create_account' %}',
-            {
-                method: 'PUT',
-                body: JSON.stringify(body),
-                headers: header,
-                credentials: 'same-origin'
-            }
-        );
-        if (response.ok) {
-            if (body.amount == '') {
-                body.amount = 0;
-            }
-            const resp_body = await response.json();
-            $('#title1').val('');
-            $('#amount').val('');
-            $('#modal2').modal('close');
-            addNewAccount(
-                resp_body.id,
-                resp_body.name,
-                resp_body.amount,
-                resp_body.currency,
-                resp_body.take_into_balance
-            );
-        }
-    };
-
-    $(document).ready(() => {
-        $('#add-account').on('click', accountCreate)
-    });
-
+<script src="{% static 'main/scripts/account/createAccount.js' %}">
 </script>

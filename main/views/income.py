@@ -22,6 +22,7 @@ class IncomeUpdateView(FormView):
                                    'monthly_plan': monthly_plan,
                                    'currency': currency})
 
+        form.id = income.id
         return render(request, template_name=self.template_name, context={'form': form})
 
     def form_valid(self, form):

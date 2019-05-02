@@ -1,3 +1,5 @@
+{% load static %}
+
 <div>
     <div class="sm-modal-cost">
         <div class="sm-modal_header">
@@ -7,11 +9,15 @@
         <div class="sm-modal_body">
 
             <div class="sm-modal_input-line">
-                    <input id="title2" class="sm-input"
-                           placeholder="На что вы тратите деньги? *">
-                    <div class="sm-input_underline"></div>
+                <input id="title2" class="sm-input"
+                       placeholder="На что вы тратите деньги? *">
+                <div class="sm-input_underline"></div>
                 <div class="z-depth-3 sm-modal-icon">
-
+                    <div class="sm-category_icon-wrapper">
+                        <div class="sm-category_fill"
+                             style="height: 0%"></div>
+                        <div class="sm-category_icon sm-category_icon-car"></div>
+                    </div>
                 </div>
             </div>
 
@@ -25,51 +31,12 @@
                 {{ COST_CREATE_FORM.currency }}
             </div>
             <div class="sm-modal-footer">
-                <input id="add-cost" class="sm-modal_submit-button" type="button"
+                <input id="add-cost" class="sm-modal_submit-button"
+                       type="button"
                        value="добавить">
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    let costCreate = async (event) => {
-        let body = {
-            name: $('#title2').val(),
-            monthly_plan: $('#cost_plan').val(),
-            currency: $('#modal3 #id_currency').val(),
-        };
-
-        const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
-        let header = new Headers();
-        header.append('X-CSRFToken', csrftoken);
-
-        let response = await fetch('{% url 'create_cost' %}',
-            {
-                method: 'PUT',
-                body: JSON.stringify(body),
-                headers: header,
-                credentials: 'same-origin'
-            }
-        );
-        if(response.ok){
-            const resp_body = await response.json();
-
-            $('#modal3').modal('close');
-            $('#title2').val('');
-            $('#cost_plan').val('');
-            addNewCost(
-                resp_body.id,
-                resp_body.name,
-                resp_body.currency,
-                resp_body.monthly_plan
-            );
-        }
-    };
-
-
-    $(document).ready(() => {
-        $('#add-cost').on('click', costCreate)
-    });
-
-</script>
+<script src="{% static 'main/scripts/cost/create_cost.js'%}"></script>
