@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn mnemosyne.wsgi --log-file -
+web: gunicorn Diplom.wsgi --log-file -
