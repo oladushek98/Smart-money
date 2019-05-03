@@ -49,7 +49,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = os.environ.get('ROOT_URLCONF')
-os.env
+
 
 TEMPLATES = [
     {
