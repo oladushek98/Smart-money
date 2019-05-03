@@ -1,6 +1,5 @@
 .idea/
 venv/*
-main/migrations/*
 Scripts/*
 Lib/*
 Diplom/__pycache__/*
