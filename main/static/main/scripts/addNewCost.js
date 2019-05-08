@@ -42,7 +42,7 @@ let addNewCost = (id, name, currency, monthly_plan) => {
     table.append(container);
     table.append(add_item);
     $('#finNode_' + id).on('click',
-        (event) => window.location.href = 'http://localhost:8000/' + 'cost/' + id);
+        (event) => window.location.href = 'cost/' + id);
     updateCostStatistic();
     getTransactionSourse();
 };

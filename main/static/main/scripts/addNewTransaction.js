@@ -41,7 +41,7 @@ let addNewTransaction = (id, source, destination, amount, date) => {
     let container = createNewTransactionCategory(id, source, destination, amount, date);
     const table = $('.sm-transaction-block');
     table.append(container);
-    $('#transaction_' + id).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'transaction/' + id );
+    $('#transaction_' + id).on('click', (event) => window.location.href = 'transaction/' + id );
 };
 
 let setNewAmount = (s, opp, amount ) => {

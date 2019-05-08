@@ -44,7 +44,7 @@ let addNewAccount = (id, name, currency, amount, taka_into_balance) => {
     table.append(container);
     table.append(add_item);
     $('#finNode_' + id).on('click',
-        (event) => window.location.href = 'http://localhost:8000/' + 'account/' + id);
+        (event) => window.location.href = 'account/' + id);
     updateAccountStatistic();
     getTransactionSourse();
 };

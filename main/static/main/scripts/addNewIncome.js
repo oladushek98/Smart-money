@@ -41,7 +41,7 @@ let addNewIncome = (id, name, currency, amount, monthly_plan) => {
     table.children()[table.children().length - 1].remove();
     table.append(container);
     table.append(add_item);
-    $('#finNode_' + id).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'income/' + id);
+    $('#finNode_' + id).on('click', (event) => window.location.href = 'income/' + id);
     updateIncomeStatistic();
     getTransactionSourse();
 };
