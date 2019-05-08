@@ -95,6 +95,6 @@ let deleteNode = async (id) => {
     ;
 
     if (response.ok) {
-        window.location.href = 'user'
+        window.location.href = '/'
     }
 };
