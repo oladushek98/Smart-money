@@ -23,6 +23,6 @@ let deleteNode = async (id, flag) => {
     ;
 
     if (response.ok) {
-        window.location.href = '/'
+        goToPage('/')
     }
 };
