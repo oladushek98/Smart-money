@@ -23,7 +23,8 @@ class IncomeUpdateView(FormView):
                                    'currency': currency})
 
         form.id = income.id
-        return render(request, template_name=self.template_name, context={'form': form})
+        return render(request, template_name=self.template_name,
+                      context={'form': form})
 
     def form_valid(self, form):
         name = form.cleaned_data.get('name')

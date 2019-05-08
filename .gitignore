@@ -3,6 +3,7 @@ venv/*
 Scripts/*
 Lib/*
 Diplom/__pycache__/*
+Diplom/settings.py
 main/__pycache__/*
 main/views/__pycache__/*
 *.cfg
