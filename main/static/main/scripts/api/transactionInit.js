@@ -114,7 +114,7 @@ window.onclick = function (event) {
         fade.remove();
         step_1.remove();
         add_transaction_container.append(span, btn_add);
-        compareCur();
+        // compareCur();
     }
 };
 

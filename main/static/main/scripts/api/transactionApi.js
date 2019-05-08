@@ -11,6 +11,9 @@ let getTransactionSourse = async () => {
     }).then(r => r.json().then(data => ({
         status: r.status, body: data.body
     }))).then(obj => {
+        if(obj.body.length == 0){
+            btn_add[0].setAttribute("disabled", false);
+        }
         let option = null;
         source_select.children().remove();
         for (i = 0; i < obj.body.length; i++) {
