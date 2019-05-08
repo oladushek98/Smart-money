@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
     <div class="sm-dashboard">
@@ -13,34 +14,8 @@
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block scrypt %}
-    $(document).ready(function(){
-    $('.modal').modal();
-    });
-
-    let deleteNode = async (id, flag) => {
-    const body = {
-    'id': id,
-    'flag': flag,
-    };
-
-    const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
-    let header = new Headers();
-    header.append('X-CSRFToken', csrftoken);
-
-    let response = await fetch('{% url 'delete_income' %}',
-    {
-    method: 'PUT',
-    body: JSON.stringify(body),
-    headers: header,
-    credentials: 'same-origin'
-    }
-    );
-
-    if(response.ok){
-    window.location.href = 'http://localhost:8000/user'
-    }
-    }
+    <script>
+        const delete_url = '{% url delete_income %}';
+    </script>
+    <script src="{% static 'main/scripts/income/updateIncome.js' %}"></script>
 {% endblock %}

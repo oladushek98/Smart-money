@@ -1,11 +1,6 @@
-$(document).ready(function () {
-    $('.modal').modal();
-});
-
-let deleteNode = async (id, flag) => {
+let deleteNode = async (id) => {
     const body = {
-        'id': id,
-        'flag': flag,
+        'id': id
     };
 
     const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
