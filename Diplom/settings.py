@@ -19,12 +19,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'q+4jl8a@^trw^t-xm&q39rw20cf68(y^!c!d%x29+ve_m_so8@'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['stlab-diplom.herokuapp.com']
 
 # Application definition
 
@@ -48,7 +48,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Diplom.urls'
+ROOT_URLCONF = os.environ.get('ROOT_URLCONF')
 
 
 TEMPLATES = [
@@ -88,7 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'd5f6sdus2693jd',
         'USER': 'ghyduqyroquizu',
-        'PASSWORD': 'be4377e4a3a167ff72b6b5ac2a94c9d0f47ce2d285da46deeaa418f4366a7204',
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': 'ec2-54-75-230-253.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
     }
@@ -111,6 +111,20 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+# AUTH_PASSWORD_VALIDATORS = [
+#     # {
+#     #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+#     # },
+#     # {
+#     #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+#     # },
+#     # {
+#     #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+#     # },
+#     # {
+#     #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+#     # },
+# ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -137,5 +151,5 @@ BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 
 
-# import django_heroku
-# django_heroku.settings(locals())
+import django_heroku
+django_heroku.settings(locals())
