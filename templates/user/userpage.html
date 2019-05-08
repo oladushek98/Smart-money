@@ -79,7 +79,7 @@
                                 </div>
                             </div>
                             <script>
-                                    $('#finNode_' + {{ income.id }}).on('click', (event) => window.location.href = {% url 'update_income' pk=income.id %});
+                                    $('#finNode_' + {{ income.id }}).on('click', (event) => window.location.href = '{% url 'update_income' pk=income.id %}');
                                 </script>
                         {% endfor %}
                         <div class="sm-category sm-category_add-category">
