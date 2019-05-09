@@ -13,6 +13,8 @@ let getTransactionSourse = async () => {
     }))).then(obj => {
         if(obj.body.length == 0){
             btn_add[0].setAttribute("disabled", false);
+            source_select[0].setAttribute("disabled", false);
+            return false;
         }
         let option = null;
         source_select.children().remove();
@@ -23,6 +25,9 @@ let getTransactionSourse = async () => {
             source_select.append(option);
         }
     });
+    btn_add[0].removeAttr('disabled');
+    source_select[0].removeAttr('disabled');
+    return true;
 };
 
 let getTransactionDestination = (id) => {
@@ -33,6 +38,11 @@ let getTransactionDestination = (id) => {
     }).then(r => r.json().then(data => ({
         status: r.status, body: data.body
     }))).then(obj => {
+        if(obj.body.length == 0){
+            btn_add[0].setAttribute("disabled", false);
+            destination_select[0].setAttribute("disabled", false);
+            return false;
+        }
         let option = null;
         destination_select.children().remove();
         for (i = 0; i < obj.body.length; i++) {
@@ -42,6 +52,9 @@ let getTransactionDestination = (id) => {
             destination_select.append(option);
         }
     });
+    btn_add[0].removeAttr('disabled');
+    destination_select[0].removeAttr('disabled');
+    return true;
 };
 
 
