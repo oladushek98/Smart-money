@@ -4,6 +4,7 @@ header.append('X-CSRFToken', csrftoken);
 
 
 let getTransactionSourse = async () => {
+    try{
     fetch('api/transaction/getsourse', {
         method: "GET",
         headers: header,
@@ -28,6 +29,9 @@ let getTransactionSourse = async () => {
     btn_add[0].removeAttr('disabled');
     source_select[0].removeAttr('disabled');
     return true;
+    }catch (e) {
+        console.log(e);
+    }
 };
 
 let getTransactionDestination = (id) => {
