@@ -1,19 +1,21 @@
 import requests
 import logging
 import os
-from selenium.webdriver.firefox.options import Options
+
 from pyvirtualdisplay import Display
 from selenium.webdriver import Firefox
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
+from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, WebDriverException
 
 from io import BytesIO
 from django.http import HttpResponse
 from django.template.loader import get_template
 
 from xhtml2pdf import pisa
+
+from main.models import Account
 
 
 class PDFConverter:
@@ -39,7 +41,6 @@ class SeleniumHacks:
         display.start()
 
         alphabank = 'https://click.alfa-bank.by/webBank2/login.xhtml'
-        driver_path = '/home/oladushek/Documents/iTechArt courses/Smart-money/main/geckodriver'
         driver_path = os.path.join(os.getcwd(), 'main/geckodriver')
 
         try:
@@ -58,7 +59,10 @@ class SeleniumHacks:
             btn = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:enterButton')))
             btn.click()
 
-            print(webdriver.current_url)
+            url = webdriver.current_url
+            print(url)
+            if 'disconnect' in url:
+                raise WebDriverException
 
             # WebDriverWait(webdriver, 1000).until(EC.invisibility_of_element_located((By.XPATH,
             #                                                                         '//*[@id="blocker_blocker"]')))
@@ -67,11 +71,16 @@ class SeleniumHacks:
             table = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'accountsTable_data')))
 
             print(table.text)
+
             temp = table.text
             info = temp.split('\n')
-            print(info)
             info_new = [subj for subj in info if subj != '']
             del info
+
+            accounts = [(info_new[i], round(float(info_new[i + 1].replace(',', '.'))), info_new[i + 2])
+                        for i in range(0, len(info_new), 3)]
+
+            print(accounts)
             # print(info_new)
             #
             # i = 0
@@ -89,6 +98,10 @@ class SeleniumHacks:
 
         except ElementClickInterceptedException:
             logging.warning('The element is blocked!')
+            return False
+
+        except WebDriverException:
+            logging.warning('Disconnected!')
             return False
 
         finally:
