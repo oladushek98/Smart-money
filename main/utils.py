@@ -42,7 +42,7 @@ class ReportSender:
 
         for user in users:
 
-            msg = EmailMultiAlternatives(subject=subject, body=text, to=[user.email])
+            msg = EmailMultiAlternatives(subject=subject, body=f'Dear {user.username.title()}, {text}', to=[user.email])
 
             incomes = Income.objects.filter(user_id=user.id, delete=False)
             accounts = Account.objects.filter(user_id=user.id, delete=False)
@@ -51,7 +51,6 @@ class ReportSender:
             date = datetime.datetime.today()
             temp = date - datetime.timedelta(days=30)
             transactions = Transaction.objects.filter(data_from__gte=temp,
-                                                      # data_from__year=temp.year,
                                                       user_id=user.id).prefetch_related('transaction_from',
                                                                                         'transaction_to').all()
 
@@ -66,9 +65,9 @@ class ReportSender:
 
             pdf = PDFConverter.render_to_pdf('report/report.html', context)
 
-            filename = f'Report_{user.username}_month_from_{temp}_to_{date}'
-            content = f'inline; filename=\'{filename}\''
-            pdf['Content-Disposition'] = content
+            # filename = f'Report_{user.username}_month_from_{temp}_to_{date}'
+            # content = f'inline; filename=\'{filename}\''
+            # pdf['Content-Disposition'] = content
 
             msg.attach_alternative(pdf.content, 'application/pdf')
 
@@ -76,9 +75,6 @@ class ReportSender:
 
         connection.send_messages(messages)
         connection.close()
-
-
-
 
 
 def get_value_currency(currency: str):

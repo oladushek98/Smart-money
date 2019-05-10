@@ -1,15 +1,12 @@
 import datetime
 
 from django.http import HttpResponse
-from django.shortcuts import redirect
-from django.urls import reverse_lazy
 from django.views.generic import FormView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q, F
 
 from main.forms import ReportGenerationForm
 from main.models import Transaction, Income, Account, Cost
-from main.utils import PDFConverter, ReportSender
+from main.utils import PDFConverter
 
 
 class ReportParameterView(LoginRequiredMixin, FormView):
@@ -37,8 +34,6 @@ class ReportGenerationView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         transactions = None
         temp = None
-
-        ReportSender.send_report('test', 'test')
 
         period = request.GET['period']
         nodes = request.GET['nodes']
