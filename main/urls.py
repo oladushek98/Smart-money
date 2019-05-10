@@ -53,6 +53,6 @@ urlpatterns = [
     path('transaction/api/transaction/delete',
          transactionApi.DeleteTransaction.as_view(),
          name='delete_transaction'),
-    path('transaction', transaction.TransactionList.as_view(),
-         name='transaction')
+    path('transactions', transaction.TransactionList.as_view(),
+         name='transactions')
 ]

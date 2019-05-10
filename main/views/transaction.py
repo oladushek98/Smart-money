@@ -96,6 +96,6 @@ class TransactionList(View):
         count = len(transactions)
         amount = Transaction.objects.filter(_filter).count()
         return render(request, 'transaction/transaction_table.html',
-                      context={'transaction': transactions,
+                      context={'transactions': transactions,
                                'count': count,
                                'amount': amount})
