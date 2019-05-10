@@ -15,4 +15,4 @@ def update_currencies():
 @app.task
 def test():
 
-    SeleniumHacks.test()
+    print(SeleniumHacks.test())

@@ -1,10 +1,13 @@
 import requests
+import logging
+import os
 from selenium.webdriver.firefox.options import Options
 from pyvirtualdisplay import Display
 from selenium.webdriver import Firefox
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
 
 from io import BytesIO
 from django.http import HttpResponse
@@ -32,42 +35,64 @@ class SeleniumHacks:
 
     @staticmethod
     def test():
-        # display = Display(visible=0, size=(800, 600))
-        # display.start()
+        display = Display(visible=0, size=(800, 600))
+        display.start()
 
-        webdriver = Firefox(executable_path='/home/oladushek/Documents/iTechArt courses/Smart-money/main/geckodriver')
-        webdriver.get('https://click.alfa-bank.by/webBank2/login.xhtml')
+        alphabank = 'https://click.alfa-bank.by/webBank2/login.xhtml'
+        driver_path = '/home/oladushek/Documents/iTechArt courses/Smart-money/main/geckodriver'
+        driver_path = os.path.join(os.getcwd(), 'main/geckodriver')
 
-        print(webdriver.title)
-        el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:login')))
-        el.send_keys('36845539')
+        try:
+            webdriver = Firefox(
+                executable_path=driver_path
+            )
+            webdriver.get(alphabank)
 
-        el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:password')))
-        el.send_keys('MycatMisty1998')
+            print(webdriver.title)
+            el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:login')))
+            el.send_keys('36845539')
 
-        btn = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:enterButton')))
-        btn.click()
+            el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:password')))
+            el.send_keys('MycatMisty1998')
 
-        print(webdriver.current_url)
+            btn = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:enterButton')))
+            btn.click()
 
-        WebDriverWait(webdriver, 1000).until(EC.invisibility_of_element_located((By.XPATH,
-                                                                                '//*[@id="blocker_blocker"]')))
-        webdriver.find_element_by_xpath('//*[@id="accountsTable:j_idt255:0:j_idt258:showAllAccounts"]').click()
+            print(webdriver.current_url)
 
-        table = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'accountsTable_data')))
+            # WebDriverWait(webdriver, 1000).until(EC.invisibility_of_element_located((By.XPATH,
+            #                                                                         '//*[@id="blocker_blocker"]')))
+            # webdriver.find_element_by_xpath('//*[@id="accountsTable:j_idt255:0:j_idt258:showAllAccounts"]').click()
 
-        print(table.text)
-        temp = table.text
-        info = temp.split('\n')
+            table = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'accountsTable_data')))
 
-        i = 0
-        while i < len(info):
-            if info[i] == '':
-                info.remove(info[i])
-            i += 1
+            print(table.text)
+            temp = table.text
+            info = temp.split('\n')
+            print(info)
+            info_new = [subj for subj in info if subj != '']
+            del info
+            # print(info_new)
+            #
+            # i = 0
+            # while i < len(info):
+            #     if info[i] == '':
+            #         info.remove(info[i])
+            #     i += 1
+            #
+            # print(info)
+            return True
 
-        print(info)
-        # display.stop()
+        except NoSuchElementException:
+            logging.warning('No such element!')
+            return False
+
+        except ElementClickInterceptedException:
+            logging.warning('The element is blocked!')
+            return False
+
+        finally:
+            display.stop()
 
 
 def get_value_currency(currency: str):
