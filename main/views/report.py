@@ -36,8 +36,9 @@ class ReportGenerationView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         transactions = None
+        temp = None
 
-        ReportSender.send_report()
+        ReportSender.send_report('test', 'test')
 
         period = request.GET['period']
         nodes = request.GET['nodes']
@@ -45,7 +46,8 @@ class ReportGenerationView(LoginRequiredMixin, View):
 
         if period == 'day':
             temp = date
-            transactions = Transaction.objects.filter(data_from=date,
+            date += datetime.timedelta(days=1)
+            transactions = Transaction.objects.filter(data_from=temp,
                                                       user_id=request.user.id).prefetch_related('transaction_from',
                                                                                                 'transaction_to').all()
 
@@ -79,7 +81,7 @@ class ReportGenerationView(LoginRequiredMixin, View):
         context = {
             'transactions': transactions,
             'period': f', your report from {temp} to {date}',
-            'user': request.user.username.title()
+            'user': f'Dear {request.user.username.title()}',
         }
 
         if 'incomes' in nodes:
@@ -96,7 +98,7 @@ class ReportGenerationView(LoginRequiredMixin, View):
 
         if pdf:
             response = HttpResponse(pdf, content_type='application/pdf')
-            filename = f'Report_{request.user.username}_{request.path.split("/")[-2]}'
+            filename = f'Report_{request.user.username}_{period}_from_{temp}_to_{date}'
             content = f'inline; filename=\'{filename}\''
             download = request.GET.get("download")
 

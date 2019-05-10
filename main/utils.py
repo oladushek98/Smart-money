@@ -6,7 +6,7 @@ from io import BytesIO
 from django.db.models import Q
 from django.http import HttpResponse
 from django.template.loader import get_template
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, get_connection
 from django.contrib.auth.models import User
 
 from xhtml2pdf import pisa
@@ -32,14 +32,17 @@ class PDFConverter:
 class ReportSender:
 
     @staticmethod
-    def send_report():
+    def send_report(subject, text):
 
         users = User.objects.filter(~Q(email=''))
-        print(users)
+        messages = []
+
+        connection = get_connection()
+        connection.open()
 
         for user in users:
 
-            msg = EmailMultiAlternatives('test', 'test', to=['vladislavpliska@mail.ru'])
+            msg = EmailMultiAlternatives(subject=subject, body=text, to=[user.email])
 
             incomes = Income.objects.filter(user_id=user.id, delete=False)
             accounts = Account.objects.filter(user_id=user.id, delete=False)
@@ -55,7 +58,7 @@ class ReportSender:
             context = {
                 'transactions': transactions,
                 'period': f', your report from {temp} to {date}',
-                'user': 'Vlad',
+                'user': f'Dear {user.username.title()}',
                 'incomes': incomes,
                 'costs': costs,
                 'accounts': accounts
@@ -63,15 +66,19 @@ class ReportSender:
 
             pdf = PDFConverter.render_to_pdf('report/report.html', context)
 
+            filename = f'Report_{user.username}_month_from_{temp}_to_{date}'
+            content = f'inline; filename=\'{filename}\''
+            pdf['Content-Disposition'] = content
+
             msg.attach_alternative(pdf.content, 'application/pdf')
-            msg.send()
-        # send_mail(
-        #     'just testing',
-        #     'test',
-        #     'drakulaxxl3@gmail.com',
-        #     ['vladislavpliska@mail.ru'],
-        #     fail_silently=False
-        # )
+
+            messages.append(msg)
+
+        connection.send_messages(messages)
+        connection.close()
+
+
+
 
 
 def get_value_currency(currency: str):
