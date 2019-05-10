@@ -102,7 +102,7 @@ class Transaction(models.Model):
     comment = models.CharField(max_length=100, default='')
     delete = models.BooleanField(default=False)
     user = models.ForeignKey(User,
-                             related_name='transactions',
+                             related_name='transaction',
                              on_delete=models.CASCADE,
                              null=True)
     choice_currency = models.CharField(max_length=3, default='BYN')

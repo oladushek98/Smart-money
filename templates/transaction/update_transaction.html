@@ -3,6 +3,7 @@
 
 {% block content %}
     <script src="{% static 'main/scripts/api/transactionApi.js' %}"></script>
+
     <div class="sm-dashboard">
         <div class="sm-dashboard-body">
             <div class="sm-dashboard-column">
@@ -17,6 +18,7 @@
     </div>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+{#    <script src="{% static 'main/scripts/api/drawCharts.js' %}"></script>#}
     <script>
         //const ctx = document.getElementById('myChart');
         let row_data = '{{ data }}';

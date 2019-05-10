@@ -47,11 +47,12 @@ urlpatterns = [
          name='report_generation'),
     path('user/report/parameters/', report.ReportParameterView.as_view(),
          name='report_parameters'),
-
     path('transaction/<int:pk>',
          transaction.TransactionUpdateView.as_view(),
          name='transaction'),
     path('transaction/api/transaction/delete',
          transactionApi.DeleteTransaction.as_view(),
          name='delete_transaction'),
+    path('transaction', transaction.TransactionList.as_view(),
+         name='transaction')
 ]

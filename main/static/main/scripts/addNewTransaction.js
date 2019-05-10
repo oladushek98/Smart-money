@@ -40,7 +40,7 @@ let createNewTransactionCategory = (id, source, destination, amount, date) => {
 let addNewTransaction = (id, source, destination, amount, date) => {
     let container = createNewTransactionCategory(id, source, destination, amount, date);
     const table = $('.sm-transaction-block');
-    table.append(container);
+    table[0].insertBefore(container, table.children()[0]);
     $('#transaction_' + id).on('click', (event) => goToPage('transaction/' + id));
 };
 

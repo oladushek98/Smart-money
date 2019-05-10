@@ -39,7 +39,7 @@ class GetTransactionDestination(View):
                                   'name': x.name},
                        account_destination if is_income else cost_destination))
 
-        return JsonResponse({'body': res if len(res) > 0 else []})
+        return JsonResponse({'body': res if pk != 0 else []})
 
 
 class CreateTransaction(View):

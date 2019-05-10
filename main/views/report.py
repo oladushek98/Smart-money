@@ -75,7 +75,7 @@ class ReportGenerationView(LoginRequiredMixin, View):
                                                                                                 'transaction_to').all()
 
         context = {
-            'transactions': transactions,
+            'transaction': transactions,
             'period': f', your report from {temp} to {date}',
             'user': request.user.username.title()
         }

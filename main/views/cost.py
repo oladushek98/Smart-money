@@ -1,7 +1,10 @@
+import json
+
+from django.db.models import Q, Sum
 from django.shortcuts import render
 
 from main.forms import CostForm
-from main.models import Cost
+from main.models import Cost, Transaction
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, FormView
 
@@ -25,6 +28,15 @@ class CostUpdateView(FormView):
     form_class = CostForm
     template_name = 'cost/update_cost.html'
 
+    def get_history_from_chart_data(self, cost):
+        source_query = list(Transaction.objects.filter(
+            Q(transaction_to=cost.id) & Q(delete=False) & Q(
+                user=self.request.user.id))
+                            .order_by('transaction_from__id')
+                            .values('transaction_from__name')
+                            .annotate(Sum('amount')))
+        return [list(cost.values()) for cost in source_query]
+
     def get(self, request, *args, **kwargs):
         cost_id = int(request.path.split('/')[-1])
         cost = Cost.objects.filter(id=cost_id).first()
@@ -37,8 +49,13 @@ class CostUpdateView(FormView):
                                  'monthly_plan': monthly_plan,
                                  'currency': currency})
 
+        form.id = cost_id
+
+        source_history = self.get_history_from_chart_data(cost)
+
         return render(request, template_name=self.template_name,
-                      context={'form': form})
+                      context={'form': form,
+                               'data_from': json.dumps(source_history)})
 
     def form_valid(self, form):
         name = form.cleaned_data.get('name')

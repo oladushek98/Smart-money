@@ -4,7 +4,7 @@
     z-index: 14;
     opacity: 0.85;
     background-color: rgb(255, 249, 249);
-    box-shadow: 0 2px 9px rgba(0, 0, 0, .13);
+    /*box-shadow: 0 2px 9px rgba(0, 0, 0, .13);*/
 }
 
 .header-container {
@@ -593,7 +593,7 @@ body {
     height: 80px;
     width: 100px;
     margin: -20px 0px 0px 0px;
-    background-color: #0b9ee1;
+    /*background-color: #0b9ee1;*/
 }
 
 .sm-input {
@@ -923,6 +923,7 @@ form {
     width: 117px;
     height: 64px;
     background-repeat: no-repeat;
+    margin-top: 7px;
 }
 
 .transaction-amount {
@@ -963,4 +964,97 @@ form {
 
 rect {
     opacity: 0.5;
+}
+
+
+.row .col {
+    padding: 0 0;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    background-color: rgba(255, 249, 249, 0.73);
+    font-size: 18px;
+    box-shadow: 0px 2px 9px rgba(0, 0, 0, .13);
+}
+
+.transaction-table-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.transaction-table {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: column;
+    justify-content: space-around;
+    border-radius: 10px;
+    background-color: rgba(254, 250, 255, 0.61);
+    padding: 30px 60px 30px 60px;
+}
+
+table {
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+}
+
+table.highlight > tbody > tr:hover {
+    background-color: rgba(255, 199, 199, 0.5);
+}
+
+.transaction-selector {
+    display: flex;
+}
+
+.transaction-selector span {
+    display: inline-block;
+    margin: 12px 10px;
+    font-size: 18px;
+    font-family: "Roboto", sans-serif;
+}
+
+.transaction-selector input[type=date] {
+    border-bottom: 2px solid #e67372;
+    /* background-color: #ffdada; */
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 5px;
+    height: 35px;
+    padding-top: 10px;
+}
+
+.transaction-table-header {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.choice-trans-table-val {
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: column;
+    width: 80px;
+    /*margin-top: -40px;*/
+}
+
+.choice-trans-table-val:hover {
+}
+
+.choice-trans-table-val a {
+    margin: 0;
+    padding: 0;
+}
+
+body > main > div > div.transaction-table-header > div:nth-child(3) > a {
+    width: 80px;
+}
+
+.hidden {
+    display: none;
+}
+
+tr {
+    cursor: pointer;
 }

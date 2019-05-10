@@ -1,4 +1,5 @@
 {% load static %}
+{% load main_extras %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,18 +24,16 @@
     <link type="text/css" rel="stylesheet"
           href="{% static 'main/stylesheet/styles.css' %}">
 
-
-
-{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"#}
-{#            integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis="#}
-{#            crossorigin="anonymous"></script>#}
-{#    <link rel="stylesheet"#}
-{#          href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"#}
-{#          integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E="#}
-{#          crossorigin="anonymous"/>#}
-{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"#}
-{#            integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw="#}
-{#            crossorigin="anonymous"></script>#}
+    {#    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"#}
+    {#            integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis="#}
+    {#            crossorigin="anonymous"></script>#}
+    {#    <link rel="stylesheet"#}
+    {#          href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"#}
+    {#          integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E="#}
+    {#          crossorigin="anonymous"/>#}
+    {#    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"#}
+    {#            integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw="#}
+    {#            crossorigin="anonymous"></script>#}
 
 </head>
 <body>
@@ -52,13 +51,41 @@
                href="{% url 'main' %}" {% endif %}></a>
         </div>
         <div class="header-right">
-            {% block buttons %}
-            {% endblock %}
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'logout' %}"
+                   class="btn waves-effect waves-light {{ button_color }}"
+                   type="submit">LogOut, {{ user.username }}</a>
+            {% else %}
+                <a href="{% url 'login' %}"
+                   class="waves-effect waves-light btn {{ button_color }}"
+                   type="submit">Sign in</a>
+                <a href="{% url 'register' %}"
+                   class="waves-effect waves-light btn {{ button_color }}"
+                   type="submit">Sign up</a>
+            {% endif %}
         </div>
     </div>
 </header>
-
-
+{% if user.is_authenticated %}
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab"><a
+                        {% if request.path|is_current_page == 2 %}class="active" {% endif %}
+                        href="{% url 'report_parameters' %}">Report</a></li>
+                <li class="tab"><a
+                        {% if request.path|is_current_page == 1 %}class="active" {% endif %}
+                        href="{% url 'userpage' %}">Main page</a></li>
+                <li class="tab"><a
+                        {% if request.path|is_current_page == 3 %}class="active" {% endif %}
+                        href="{% url 'edit_user' %}">User info</a></li>
+                <li class="tab"><a
+                        {% if request.path|is_current_page == 4 %}class="active" {% endif %}
+                        href="{% url 'transactions' %}?start=0&end=10">transactions</a></li>
+            </ul>
+        </div>
+    </div>
+{% endif %}
 <main class="body-container sm-container">
     {% block content %}
     {% endblock %}
@@ -69,7 +96,9 @@
     let goToPage = (url_) => {
         window.location.href = url_;
     };
-
+    $(document).ready(function () {
+        {#$('.tabs').tabs();#}
+    });
     {% block scrypt %}
     {% endblock %}
 </script>
