@@ -3,6 +3,8 @@ from selenium.webdriver.firefox.options import Options
 from pyvirtualdisplay import Display
 from selenium.webdriver import Firefox
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 from io import BytesIO
 from django.http import HttpResponse
@@ -37,19 +39,35 @@ class SeleniumHacks:
         webdriver.get('https://click.alfa-bank.by/webBank2/login.xhtml')
 
         print(webdriver.title)
-        WebDriverWait(webdriver, 1000)
-        # el = webdriver.find_element_by_xpath('//*[@id="frmLogin:login"]')
-        # el.send_keys('36845539')
-        # el = webdriver.find_element_by_id('#frmLogin:password')
-        # el.send_keys('MycatMisty1998')
-        btn = webdriver.find_element_by_id('#frmLogin:enterButton')
+        el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:login')))
+        el.send_keys('36845539')
+
+        el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:password')))
+        el.send_keys('MycatMisty1998')
+
+        btn = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:enterButton')))
         btn.click()
 
         print(webdriver.current_url)
+
+        WebDriverWait(webdriver, 1000).until(EC.invisibility_of_element_located((By.XPATH,
+                                                                                '//*[@id="blocker_blocker"]')))
+        webdriver.find_element_by_xpath('//*[@id="accountsTable:j_idt255:0:j_idt258:showAllAccounts"]').click()
+
+        table = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'accountsTable_data')))
+
+        print(table.text)
+        temp = table.text
+        info = temp.split('\n')
+
+        i = 0
+        while i < len(info):
+            if info[i] == '':
+                info.remove(info[i])
+            i += 1
+
+        print(info)
         # display.stop()
-
-
-        # print(response)
 
 
 def get_value_currency(currency: str):
