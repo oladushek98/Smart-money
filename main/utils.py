@@ -1,4 +1,8 @@
 import requests
+from selenium.webdriver.firefox.options import Options
+from pyvirtualdisplay import Display
+from selenium.webdriver import Firefox
+from selenium.webdriver.support.wait import WebDriverWait
 
 from io import BytesIO
 from django.http import HttpResponse
@@ -20,6 +24,32 @@ class PDFConverter:
             return HttpResponse(result.getvalue(), content_type='application/pdf')
 
         return None
+
+
+class SeleniumHacks:
+
+    @staticmethod
+    def test():
+        # display = Display(visible=0, size=(800, 600))
+        # display.start()
+
+        webdriver = Firefox(executable_path='/home/oladushek/Documents/iTechArt courses/Smart-money/main/geckodriver')
+        webdriver.get('https://click.alfa-bank.by/webBank2/login.xhtml')
+
+        print(webdriver.title)
+        WebDriverWait(webdriver, 1000)
+        # el = webdriver.find_element_by_xpath('//*[@id="frmLogin:login"]')
+        # el.send_keys('36845539')
+        # el = webdriver.find_element_by_id('#frmLogin:password')
+        # el.send_keys('MycatMisty1998')
+        btn = webdriver.find_element_by_id('#frmLogin:enterButton')
+        btn.click()
+
+        print(webdriver.current_url)
+        # display.stop()
+
+
+        # print(response)
 
 
 def get_value_currency(currency: str):
