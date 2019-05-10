@@ -111,8 +111,6 @@ class Transaction(models.Model):
 class UserAdditionalInfo(models.Model):
 
     currency = models.CharField(max_length=3, default='BYN')
-    bank_login = models.CharField(max_length=50, null=True)
-    bank_password = models.CharField(max_length=50, null=True)
     user = models.ForeignKey(User,
                              related_name='additonal',
                              on_delete=models.CASCADE)
