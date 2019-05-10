@@ -9,7 +9,7 @@ from django.db.models import Q, F
 
 from main.forms import ReportGenerationForm
 from main.models import Transaction, Income, Account, Cost
-from main.utils import PDFConverter
+from main.utils import PDFConverter, ReportSender
 
 
 class ReportParameterView(LoginRequiredMixin, FormView):
@@ -36,6 +36,8 @@ class ReportGenerationView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         transactions = None
+
+        ReportSender.send_report()
 
         period = request.GET['period']
         nodes = request.GET['nodes']
