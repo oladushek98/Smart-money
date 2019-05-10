@@ -3,7 +3,7 @@ from django.urls import path, include
 from main.views.api import incomeApi, accountApi, costApi, transactionApi, \
     convertApi
 from main.views import index, authentication, user, income, account, cost, \
-    transaction, report
+    transaction, report, bank
 
 urlpatterns = [
     path('', index.IndexView.as_view(), name='main'),
@@ -54,4 +54,5 @@ urlpatterns = [
     path('transaction/api/transaction/delete',
          transactionApi.DeleteTransaction.as_view(),
          name='delete_transaction'),
+    path('user/bank/', bank.BankIntegrationView.as_view(), name='bank_integration')
 ]

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <center><h2>Please, wait while your data is integrated into our system</h2></center>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" id="integrate" style="display: none">Integrate</button>
+    </form>
+
+
+{% endblock %}
+
+
+{% block scrypt %}
+
+    window.onload = function () {
+            let button = document.getElementById('integrate');
+            button.form.submit();
+
+    }
+
+{% endblock %}

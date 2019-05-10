@@ -33,10 +33,10 @@ class PDFConverter:
         return None
 
 
-class SeleniumHacks:
+class BankAccountIntegration:
 
     @staticmethod
-    def test():
+    def get_accounts(login, password, user):
         display = Display(visible=0, size=(800, 600))
         display.start()
 
@@ -44,17 +44,18 @@ class SeleniumHacks:
         driver_path = os.path.join(os.getcwd(), 'main/geckodriver')
 
         try:
+
             webdriver = Firefox(
                 executable_path=driver_path
             )
             webdriver.get(alphabank)
-
             print(webdriver.title)
+
             el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:login')))
-            el.send_keys('36845539')
+            el.send_keys(login)
 
             el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:password')))
-            el.send_keys('MycatMisty1998')
+            el.send_keys(password)
 
             btn = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:enterButton')))
             btn.click()
@@ -73,6 +74,10 @@ class SeleniumHacks:
             print(table.text)
 
             temp = table.text
+            temp = temp.replace('$', 'USD')
+            temp = temp.replace('€', 'EUR')
+            temp = temp.replace('Br', 'BYN')
+
             info = temp.split('\n')
             info_new = [subj for subj in info if subj != '']
             del info
@@ -80,16 +85,14 @@ class SeleniumHacks:
             accounts = [(info_new[i], round(float(info_new[i + 1].replace(',', '.'))), info_new[i + 2])
                         for i in range(0, len(info_new), 3)]
 
+            for account in accounts:
+                Account.objects.update_or_create(user_id=user, name=account[0], currency=account[2],
+                                                 defaults={'user_id': user, 'is_debt_account': False,
+                                                           'take_into_balance': True, 'name': account[0],
+                                                           'currency': account[2], 'amount': account[1]})
+
             print(accounts)
-            # print(info_new)
-            #
-            # i = 0
-            # while i < len(info):
-            #     if info[i] == '':
-            #         info.remove(info[i])
-            #     i += 1
-            #
-            # print(info)
+
             return True
 
         except NoSuchElementException:
