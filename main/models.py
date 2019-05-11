@@ -20,7 +20,8 @@ class FinancialNode(models.Model):
     delete = models.BooleanField(default=False)
     user = models.ForeignKey(User,
                              related_name='financial_nodes',
-                             on_delete=models.CASCADE)
+                             on_delete=models.CASCADE,
+                             default=0)
     create_on = models.DateField(default=timezone.now().date())
 
 
@@ -111,6 +112,8 @@ class Transaction(models.Model):
 class UserAdditionalInfo(models.Model):
 
     currency = models.CharField(max_length=3, default='BYN')
+    bank_login = models.CharField(max_length=50, null=True)
+    bank_password = models.CharField(max_length=50, null=True)
     user = models.ForeignKey(User,
                              related_name='additonal',
                              on_delete=models.CASCADE)

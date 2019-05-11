@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
-ROOT_URLCONF = os.environ.get('ROOT_URLCONF')
-DB_PAS = os.environ.get('DB_PASSWORD')
-# SECRET_KEY = 'q+4jl8a@^trw^t-xm&q39rw20cf68(y^!c!d%x29+ve_m_so8@'
-# ROOT_URLCONF = 'Diplom.urls'
-# DB_PAS = 'be4377e4a3a167ff72b6b5ac2a94c9d0f47ce2d285da46deeaa418f4366a7204'
+# SECRET_KEY = os.environ.get('SECRET_KEY')
+# ROOT_URLCONF = os.environ.get('ROOT_URLCONF')
+# DB_PAS = os.environ.get('DB_PASSWORD')
+SECRET_KEY = 'q+4jl8a@^trw^t-xm&q39rw20cf68(y^!c!d%x29+ve_m_so8@'
+ROOT_URLCONF = 'Diplom.urls'
+DB_PAS = 'be4377e4a3a167ff72b6b5ac2a94c9d0f47ce2d285da46deeaa418f4366a7204'
 
 
 
@@ -143,5 +143,5 @@ BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 
 
-import django_heroku
-django_heroku.settings(locals())
+# import django_heroku
+# django_heroku.settings(locals())

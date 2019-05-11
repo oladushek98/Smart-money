@@ -1,4 +1,13 @@
 import requests
+import logging
+import os
+
+from pyvirtualdisplay import Display
+from selenium.webdriver import Firefox
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, WebDriverException
 import datetime
 
 from io import BytesIO
@@ -27,6 +36,84 @@ class PDFConverter:
             return HttpResponse(result.getvalue(), content_type='application/pdf')
 
         return None
+
+
+class BankAccountIntegration:
+
+    @staticmethod
+    def get_accounts(login, password, user):
+        display = Display(visible=0, size=(800, 600))
+        display.start()
+
+        alphabank = 'https://click.alfa-bank.by/webBank2/login.xhtml'
+        driver_path = os.path.join(os.getcwd(), 'main/geckodriver')
+
+        try:
+
+            webdriver = Firefox(
+                executable_path=driver_path
+            )
+            webdriver.get(alphabank)
+            print(webdriver.title)
+
+            el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:login')))
+            el.send_keys(login)
+
+            el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:password')))
+            el.send_keys(password)
+
+            btn = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:enterButton')))
+            btn.click()
+
+            url = webdriver.current_url
+            print(url)
+            if 'disconnect' in url:
+                raise WebDriverException
+
+            # WebDriverWait(webdriver, 1000).until(EC.invisibility_of_element_located((By.XPATH,
+            #                                                                         '//*[@id="blocker_blocker"]')))
+            # webdriver.find_element_by_xpath('//*[@id="accountsTable:j_idt255:0:j_idt258:showAllAccounts"]').click()
+
+            table = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'accountsTable_data')))
+
+            print(table.text)
+
+            temp = table.text
+            temp = temp.replace('$', 'USD')
+            temp = temp.replace('€', 'EUR')
+            temp = temp.replace('Br', 'BYN')
+
+            info = temp.split('\n')
+            info_new = [subj for subj in info if subj != '']
+            del info
+
+            accounts = [(info_new[i], round(float(info_new[i + 1].replace(',', '.'))), info_new[i + 2])
+                        for i in range(0, len(info_new), 3)]
+
+            for account in accounts:
+                Account.objects.update_or_create(user_id=user, name=account[0], currency=account[2],
+                                                 defaults={'user_id': user, 'is_debt_account': False,
+                                                           'take_into_balance': True, 'name': account[0],
+                                                           'currency': account[2], 'amount': account[1]})
+
+            print(accounts)
+
+            return True
+
+        except NoSuchElementException:
+            logging.warning('No such element!')
+            return False
+
+        except ElementClickInterceptedException:
+            logging.warning('The element is blocked!')
+            return False
+
+        except WebDriverException:
+            logging.warning('Disconnected!')
+            return False
+
+        finally:
+            display.stop()
 
 
 class ReportSender:
