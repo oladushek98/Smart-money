@@ -5,14 +5,6 @@
 
 {% block content %}
     <div class="sm-dashboard">
-        <span style="alignment: center">
-            <a href="{% url 'report_parameters' %}" class="waves-effect waves-light btn"
-               type="submit">Report</a>
-            <a href="{% url 'bank_integration' %}" class="waves-effect waves-light btn"
-               type="submit">Integrate with bank</a>
-            <a href="{% url 'edit_user' %}" class="waves-effect waves-light btn"
-               type="submit">User info</a>
-        </span>
         {% include 'transaction/add_transaction.html' %}
         <div class="sm-dashboard-body">
             <div class="sm-dashboard-row">

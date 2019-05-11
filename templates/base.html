@@ -82,7 +82,12 @@
                         href="{% url 'edit_user' %}">User info</a></li>
                 <li class="tab"><a
                         {% if request.path|is_current_page == 4 %}class="active" {% endif %}
-                        href="{% url 'transactions' %}?start=0&end=10">transactions</a></li>
+                        href="{% url 'transactions' %}?start=0&end=10">transactions</a>
+                </li>
+                <li class="tab"><a
+                        {% if request.path|is_current_page == 5 %}class="active" {% endif %}
+                        href="{% url 'bank_integration' %}">Integrate with bank</a>
+                </li>
             </ul>
         </div>
     </div>

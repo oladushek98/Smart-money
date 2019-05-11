@@ -1,5 +1,6 @@
 import json
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Sum
 from django.shortcuts import render
 
@@ -9,7 +10,7 @@ from django.urls import reverse_lazy
 from django.views.generic import UpdateView, FormView
 
 
-class AccountUpdateView(FormView):
+class AccountUpdateView(LoginRequiredMixin, FormView):
     form_class = AccountForm
     template_name = 'account/update_account.html'
 

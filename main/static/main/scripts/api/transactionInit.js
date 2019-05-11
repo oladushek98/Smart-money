@@ -39,11 +39,6 @@ btn_add.on('click', async (event) => {
 
     res = await createTransaction(body);
     if (res.ok) {
-        addNewTransaction(res.body.id,
-            res.body.transaction_from,
-            res.body.transaction_to,
-            res.body.amount,
-            res.body.date);
         if (s.parent()[0].getAttribute('style') !== 'display: none;') {
             if (res.body.currency === source_select.val().split('/')[0]) {
                 updateAmount(source_select.val().split('/')[2],

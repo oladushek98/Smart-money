@@ -10,6 +10,7 @@ def is_checkbox(field):
         'edit': 3,
         'parameters': 2,
         'transaction': 4,
+        'bank': 5,
     }
 
     return var[field.split('/')[-1] if field.split('/')[-1]
