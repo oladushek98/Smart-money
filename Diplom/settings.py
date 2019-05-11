@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'main.middlewares.TransactionCheckMiddleware'
 ]
 
 
@@ -141,6 +142,12 @@ REDIS_PORT = '6379'
 BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'drakulaxxl3@gmail.com'
+EMAIL_HOST_PASSWORD = 'accbfpjkefvzzvtu'
+EMAIL_PORT = 587
 
 
 # import django_heroku
