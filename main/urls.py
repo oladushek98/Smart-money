@@ -54,7 +54,7 @@ urlpatterns = [
     path('transaction/api/transaction/delete',
          transactionApi.DeleteTransaction.as_view(),
          name='delete_transaction'),
-    path('user/bank/', bank.BankIntegrationView.as_view(), name='bank_integration')
+    path('user/bank/', bank.BankIntegrationView.as_view(), name='bank_integration'),
     path('transactions', transaction.TransactionList.as_view(),
          name='transactions')
 ]

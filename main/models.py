@@ -20,7 +20,8 @@ class FinancialNode(models.Model):
     delete = models.BooleanField(default=False)
     user = models.ForeignKey(User,
                              related_name='financial_nodes',
-                             on_delete=models.CASCADE)
+                             on_delete=models.CASCADE,
+                             default=0)
     create_on = models.DateField(default=timezone.now().date())
 
 
