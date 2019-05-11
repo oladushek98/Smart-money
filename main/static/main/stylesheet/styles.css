@@ -254,7 +254,7 @@ body {
 }
 
 .sm-category_icon-cash {
-    background-image: url(https://coinkeeper.me/content/img/sprites/web_1x.png);
+    background-image: url('/main/static/main/img/web_1x.png');
     background-position: -368px -46px;
     width: 37px;
     height: 37px;
@@ -305,7 +305,7 @@ body {
 }
 
 .sm-category_icon-car {
-    background-image: url(https://coinkeeper.me/content/img/sprites/web_1x.png);
+    background-image: url('/main/static/main/img/web_1x.png');
     background-position: -322px -46px;
     width: 37px;
     height: 37px;
@@ -344,11 +344,11 @@ body {
     width: 37px;
     height: 37px;
     margin: auto;
-    background-image: url(https://coinkeeper.me/content/img/sprites/web_1x.png)
+    background-image: url('/main/static/main/img/web_1x.png')
 }
 
 .sm-category_icon-plant {
-    background-image: url(https://coinkeeper.me/content/img/sprites/web_1x.png);
+    background-image: url('/main/static/main/img/web_1x.png');
     background-position: -138px 0;
     width: 37px;
     height: 37px;
@@ -430,7 +430,7 @@ body {
     top: 50%;
     margin-left: -11px;
     margin-top: -11px;
-    background-image: url(https://coinkeeper.me/content/img/sprites/spritesheet_1x.png);
+    background-image: url('/main/static/main/img/spritesheet_1x.png');
     background-position: -240px -138px;
     width: 22px;
     height: 22px;
@@ -873,7 +873,6 @@ form {
 .transaction-icon-way {
     display: inline-block;
     margin-left: -117px;
-    background-image: url(../img/Волшебная_Палочка_2.png);
     width: 117px;
     height: 64px;
     background-repeat: no-repeat;
