@@ -33,7 +33,7 @@ class Income(FinancialNode):
     def __str__(self):
         return f'Доходы : {super().__str__()}'
 
-    monthly_plan = models.IntegerField(null=True, blank=True)
+    monthly_plan = models.IntegerField(default=0)
 
 
 # счета
@@ -46,8 +46,8 @@ class Account(FinancialNode):
             f'{super().__str__()}'
 
     amount = models.IntegerField(null=True, blank=True)
-    is_debt_account = models.BooleanField()
-    take_into_balance = models.BooleanField()
+    is_debt_account = models.BooleanField(default=False)
+    take_into_balance = models.BooleanField(default=True)
 
 
 # расходы
@@ -58,7 +58,7 @@ class Cost(FinancialNode):
     def __str__(self):
         return f'Расходы : {super().__str__()}'
 
-    monthly_plan = models.IntegerField(null=True, blank=True)
+    monthly_plan = models.IntegerField(default=0)
 
 
 # цель

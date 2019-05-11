@@ -3,15 +3,15 @@ let header = new Headers();
 header.append('X-CSRFToken', csrftoken);
 
 
-let getTransactionSourse = async () => {
+async function getTransactionSourse(){
     try {
         fetch('api/transaction/getsourse', {
             method: "GET",
             headers: header,
             credentials: 'same-origin'
-        }).then(r => r.json().then(data => ({
+        }).then(function(r){r.json().then(data => ({
             status: r.status, body: data.body
-        }))).then(obj => {
+        }))}).then(obj => {
             let flag = false;
             if (obj.body.length == 0) {
                 btn_add[0].setAttribute("disabled", false);

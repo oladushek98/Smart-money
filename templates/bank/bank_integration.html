@@ -3,13 +3,21 @@
 
 {% block content %}
 
-    <center><h2>Please, wait while your data is integrated into our system</h2></center>
+    <h2>Please, wait while your data is integrated into our system</h2>
 
     <form method="post">
         {% csrf_token %}
-        <button type="submit" id="integrate" style="display: none">Integrate</button>
+        <button type="submit" id="integrate" style="display: none">Integrate
+        </button>
     </form>
+    <div class="load_csv">
 
+        <form method="post" action="{% url 'uploadcsv' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ file_form.as_p }}
+            <button class="btn {{ button_color }}" type="submit">Load</button>
+        </form>
+    </div>
 
 {% endblock %}
 
@@ -17,8 +25,8 @@
 {% block scrypt %}
 
     window.onload = function () {
-            let button = document.getElementById('integrate');
-            //button.form.submit();
+    let button = document.getElementById('integrate');
+    //button.form.submit();
 
     }
 
