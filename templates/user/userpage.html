@@ -7,7 +7,8 @@
     <div class="sm-dashboard">
         {% include 'transaction/add_transaction.html' %}
         <div class="sm-dashboard-body">
-            <div class="sm-dashboard-column">
+            <div class="sm-dashboard-row">
+
                 <div class="sm-category-block sm-category-card">
 
                     <div class="sm-category-block_header">
@@ -70,6 +71,13 @@
                     </div>
                 </div>
 
+                <div class="userpage-chart">
+                    <div id="chart_income"></div>
+                </div>
+
+            </div>
+            <div class="sm-dashboard-row">
+
                 <div class="sm-category-block sm-category-card">
                     <div class="sm-category-block_header">
                         <div class="sm-category-block_title">
@@ -117,6 +125,13 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="userpage-chart">
+                    <div id="chart_account"></div>
+                </div>
+
+            </div>
+            <div class="sm-dashboard-row">
 
                 <div class="sm-category-block sm-category-card">
                     <div class="sm-category-block_header">
@@ -198,23 +213,32 @@
 
                 </div>
 
+                <div class="userpage-chart">
+                    <div id="chart_cost"></div>
+                </div>
+
+            </div>
+            <div class="sm-dashboard-column">
+
+
             </div>
 
             <div class="sm-dashboard-column">
-                <div class="sm-category-block sm-category-card">
 
-                    <div class="sm-category-block_header">
-                        <div class="sm-category-block_title">
-                            <div class="sm-category-block_name">Транзакции</div>
-                        </div>
-                    </div>
-
-                    <div class="sm-transaction-block">
-                        {% for transaction in TRANSACTIONS %}
-                            {% include 'transaction/transaction.html' with transaction=transaction %}
-                        {% endfor %}
-                    </div>
-                </div>
+                {#                <div class="sm-category-block sm-category-card">#}
+                {##}
+                {#                    <div class="sm-category-block_header">#}
+                {#                        <div class="sm-category-block_title">#}
+                {#                            <div class="sm-category-block_name">Транзакции</div>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {##}
+                {#                    <div class="sm-transaction-block">#}
+                {#                        {% for transaction in TRANSACTIONS %}#}
+                {#                            {% include 'transaction/transaction.html' with transaction=transaction %}#}
+                {#                        {% endfor %}#}
+                {#                    </div>#}
+                {#                </div>#}
 
             </div>
         </div>
@@ -235,6 +259,42 @@
         {% include 'cost/create_cost.html' %}
     </div>
 
+    <script type="text/javascript"
+            src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script src="{% static 'main/scripts/api/drawCharts.js' %}"></script>
+    <script>
+
+        var options = {
+            title: 'Motivation Level Throughout the Day',
+            legend: {position: "none"},
+        };
+
+        google.charts.load('current', {packages: ['corechart', 'bar']});
+
+        let drawIncome = () => {
+            let chart_income = new google.visualization.ColumnChart(
+                document.getElementById('chart_income'));
+            let data1 = google.visualization.arrayToDataTable(parse_data('{{ data_income }}'));
+            chart_income.draw(data1, options);
+        };
+        let drawAccount = () => {
+            let chart_account = new google.visualization.ColumnChart(
+                document.getElementById('chart_account'));
+            let data2 = google.visualization.arrayToDataTable(parse_data('{{ data_account }}'));
+            chart_account.draw(data2, options);
+        };
+        let drawCost = () => {
+            let chart_cost = new google.visualization.ColumnChart(
+                document.getElementById('chart_cost'));
+            let data3 = google.visualization.arrayToDataTable(parse_data('{{ data_cost }}'));
+            chart_cost.draw(data3, options);
+        };
+
+        google.charts.setOnLoadCallback(drawIncome);
+        google.charts.setOnLoadCallback(drawAccount);
+        google.charts.setOnLoadCallback(drawCost);
+    </script>
     <script src="{% static 'main/scripts/addNewIncome.js' %}"></script>
     <script src="{% static 'main/scripts/addNewAccount.js' %}"></script>
     <script src="{% static 'main/scripts/addNewCost.js' %}"></script>

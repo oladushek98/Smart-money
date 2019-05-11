@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -66,20 +68,30 @@ def calculate_account_amount(account):
 
 class UserpageView(LoginRequiredMixin, View):
     def get(self, request, **kwargs):
+        data_income = [['Element', 'amount', {'role': 'style'}], ]
+        data_account = [['Element', 'amount', {'role': 'style'}], ]
+        data_cost = [['Element', 'amount', {'role': 'style'}], ]
+
         incoms = list(Income.objects.filter(delete=False,
                                             user_id=request.user.id).all())
         for incom in incoms:
             incom.amount = calculate_income_amount(incom)
+            data_income.append(
+                [incom.name.replace('\"', '~'), incom.amount, 'blue'])
 
         accounts = list(Account.objects.filter(delete=False,
                                                user_id=request.user.id).all())
         for account in accounts:
             account.amount = calculate_account_amount(account)
+            data_account.append(
+                [account.name.replace('\"', '~'), account.amount, 'gold'])
 
         costs = list(Cost.objects.filter(delete=False,
                                          user_id=request.user.id).all())
         for cost in costs:
             cost.amount = calculate_cost_amount(cost)
+            data_cost.append(
+                [cost.name.replace('\"', '~'), cost.amount, 'green'])
 
         transactions = list(
             Transaction.objects.filter(delete=False,
@@ -99,4 +111,8 @@ class UserpageView(LoginRequiredMixin, View):
                                'INCOME_CREATE_FORM': income_create_from,
                                'ADD_TRANSACTION_FORM': add_transaction,
                                'ACCOUNT_CREATE_FORM': account_create_form,
-                               'COST_CREATE_FORM': cost_create_form, })
+                               'COST_CREATE_FORM': cost_create_form,
+                               'data_income': json.dumps(data_income),
+                               'data_account': json.dumps(data_account),
+                               'data_cost': json.dumps(data_cost),
+                               })

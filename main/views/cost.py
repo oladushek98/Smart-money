@@ -35,7 +35,10 @@ class CostUpdateView(FormView):
                             .order_by('transaction_from__id')
                             .values('transaction_from__name')
                             .annotate(Sum('amount')))
-        return [list(cost.values()) for cost in source_query]
+        res = [list(cost.values()) for cost in source_query]
+        for item in res:
+            item[0] = item[0].replace('"', '~')
+        return res
 
     def get(self, request, *args, **kwargs):
         cost_id = int(request.path.split('/')[-1])
