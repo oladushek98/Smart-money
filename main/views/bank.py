@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -21,4 +21,4 @@ class BankIntegrationView(LoginRequiredMixin, View):
 
         bank_integration.delay(login, password, request.user.id)
 
-        return render(request, 'user/userpage.html')
+        return redirect('userpage')
