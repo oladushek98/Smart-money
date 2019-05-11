@@ -25,22 +25,15 @@ let s = $('#id_choice_currency');
 
 btn_add.on('click', async (event) => {
     let body;
-    if (s.parent()[0].getAttribute('style') !== 'display: none;') {
-        body = {
+
+    body = {
             transaction_from: source_select.val().split('/')[1],
             transaction_to: destination_select.val().split('/')[1],
             amount: $('#id_amount').val(),
             date: datepicker.val(),
             currency: s.val()
         };
-    } else {
-        body = {
-            transaction_from: source_select.val().split('/')[1],
-            transaction_to: destination_select.val().split('/')[1],
-            amount: $('#id_amount').val(),
-            date: datepicker.val(),
-        };
-    }
+
     res = await createTransaction(body);
     if (res.ok) {
         addNewTransaction(res.body.id,

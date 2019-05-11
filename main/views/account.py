@@ -9,23 +9,53 @@ from django.urls import reverse_lazy
 from django.views.generic import UpdateView, FormView
 
 
-# class AccountUpdateView(UpdateView):
-#     model = Account
-#     fields = ['id', 'name', 'amount', 'currency', 'take_into_balance']
-#     template_name = 'account/update_account.html'
-#
-#     def get_success_url(self):
-#         return reverse_lazy('userpage')
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['id'] = self.object.id
-#         return context
-
-
 class AccountUpdateView(FormView):
     form_class = AccountForm
     template_name = 'account/update_account.html'
+
+    def get_history_chart_data(self, account):
+        account_create_date = account.create_on
+        account_history_data = [['дата', 'состояние счета'],
+                                [account_create_date.__str__(), account.amount]]
+
+        dates_query = Transaction.objects.filter(Q(user=self.request.user.id) &
+                                                 Q(delete=False) & (
+                Q(transaction_from=account.id) | Q(transaction_to=account.id))).values(
+            'data_from').order_by('data_from').distinct()
+        dates = list(map(lambda x: x['data_from'].__str__(), dates_query))
+
+        amount = account.amount
+        for date in dates:
+            calculate = Transaction.objects.filter(
+                Q(delete=False) & Q(user=self.request.user.id) & Q(
+                    data_from=date)).aggregate(
+                plus=Sum('amount', filter=(Q(transaction_to=account.id))),
+                minus=Sum('amount', filter=(Q(transaction_from=account.id))))
+            amount += calculate['plus'] if calculate['plus'] is not None else 0
+            amount -= calculate['minus'] if calculate[
+                                                'minus'] is not None else 0
+
+            account_history_data.append([date, amount])
+
+        return account_history_data
+
+    def get_history_to_chart_data(self, account):
+        dest_query = list(Transaction.objects.filter(
+            Q(transaction_to=account.id) & Q(delete=False) & Q(
+                user=self.request.user.id))
+                          .order_by('transaction_from__id')
+                          .values('transaction_from__name')
+                          .annotate(Sum('amount')))
+        return [list(income.values()) for income in dest_query]
+
+    def get_history_from_chart_data(self, account):
+        source_query = list(Transaction.objects.filter(
+            Q(transaction_from=account.id) & Q(delete=False) & Q(
+                user=self.request.user.id))
+                            .order_by('transaction_to__id')
+                            .values('transaction_to__name')
+                            .annotate(Sum('amount')))
+        return [list(cost.values()) for cost in source_query]
 
     def get(self, request, *args, **kwargs):
         account_id = int(request.path.split('/')[-1])
@@ -43,56 +73,17 @@ class AccountUpdateView(FormView):
         form.id = account_id
         form.title = account.name
 
-        data = [['дата', 'состояние счета'],
-                [account.create_on.__str__(), account.amount]]
+        account_history_data = self.get_history_chart_data(account)
 
-        l = list(Transaction.objects.filter(
-            Q(transaction_to=account_id) | Q(
-                transaction_from=account_id)).all())
-        let = set()
-        for i in l:
-            let.add(i.data_from.__str__())
+        destination_history = self.get_history_to_chart_data(account)
 
-        ll = list(let)
-        ll.sort()
-
-        for l in ll:
-            calculate = Transaction.objects.filter(
-                (Q(transaction_from=account_id) | Q(
-                    transaction_to=account_id)) & Q(
-                    data_from=l)).aggregate(
-                plus=Sum('amount', filter=(Q(transaction_to=account_id))),
-                minus=Sum('amount', filter=(Q(transaction_from=account_id))))
-            amount += calculate['plus'] if calculate['plus'] is not None else 0
-            amount -= calculate['minus'] if calculate[
-                                                'minus'] is not None else 0
-            data.append([l, amount])
-
-        data_to = []
-        ls = list(Transaction.objects.filter(
-            Q(transaction_to=account_id) & Q(delete=False) & Q(
-                user=request.user.id))
-                  .order_by('transaction_from__id')
-                  .values('transaction_from__name')
-                  .annotate(Sum('amount')))
-        for income in ls:
-            data_to.append(list(income.values()))
-
-        ls = list(Transaction.objects.filter(
-            Q(transaction_from=account_id) & Q(delete=False) & Q(
-                user=request.user.id))
-                  .order_by('transaction_to__id')
-                  .values('transaction_to__name')
-                  .annotate(Sum('amount')))
-
-        data_from = []
-        for cost in ls:
-            data_from.append(list(cost.values()))
+        source_history = self.get_history_from_chart_data(account)
 
         return render(request, template_name=self.template_name,
-                      context={'form': form, 'data': json.dumps(data),
-                               'data_to': json.dumps(data_to),
-                               'data_from': json.dumps(data_from)})
+                      context={'form': form,
+                               'data': json.dumps(account_history_data),
+                               'data_to': json.dumps(destination_history),
+                               'data_from': json.dumps(source_history)})
 
     def form_valid(self, form):
         name = form.cleaned_data.get('name')
