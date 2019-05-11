@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('.modal').modal();
 });
 
-let deleteNode = async (id, flag) => {
+async function deleteNode(id, flag){
     const body = {
         'id': id,
         'flag': flag,
@@ -25,4 +25,4 @@ let deleteNode = async (id, flag) => {
     if (response.ok) {
         goToPage('/')
     }
-};
+}

@@ -66,7 +66,7 @@ function drawChart2() {
     chart.draw(data, options);
 }
 
-let deleteNode = async (id) => {
+async function deleteNode(id){
     const body = {
         'id': id
     };
@@ -88,4 +88,4 @@ let deleteNode = async (id) => {
     if (response.ok) {
         goToPage('/')
     }
-};
+}

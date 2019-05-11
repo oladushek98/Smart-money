@@ -1,15 +1,1 @@
-async function getConvertedValue (objects) {
-    const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
-    let header = new Headers();
-    header.append('X-CSRFToken', csrftoken);
-    let response = await fetch( 'api/convert',
-        {
-            method: 'PUT',
-            body: JSON.stringify(objects),
-            headers: header,
-            credentials: 'same-origin'
-        }
-    );
-    const resp_body = await response.json();
-    return resp_body.result
-}
+async function getConvertedValue(e){const t=$('input[name="csrfmiddlewaretoken"]').attr("value");let n=new Headers;n.append("X-CSRFToken",t);let a=await fetch("api/convert",{method:"PUT",body:JSON.stringify(e),headers:n,credentials:"same-origin"});return(await a.json()).result}

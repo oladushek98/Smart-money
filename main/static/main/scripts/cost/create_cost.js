@@ -1,4 +1,4 @@
-let costCreate = async (event) => {
+async function costCreate(event){
     let body = {
         name: $('#title2').val(),
         monthly_plan: $('#cost_plan').val(),
@@ -31,9 +31,9 @@ let costCreate = async (event) => {
             resp_body.monthly_plan
         );
     }
-};
+}
 
 
-$(document).ready(() => {
+$(document).ready(function(){
     $('#add-cost').on('click', costCreate)
 });

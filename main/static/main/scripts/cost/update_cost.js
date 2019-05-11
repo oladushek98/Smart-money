@@ -1,4 +1,4 @@
-let deleteNode = async (id) => {
+async function deleteNode(id) {
     const body = {
         'id': id
     };
@@ -13,14 +13,12 @@ let deleteNode = async (id) => {
             body: JSON.stringify(body),
             headers: header,
             credentials: 'same-origin'
-        }
-)
-    ;
+        });
 
     if (response.ok) {
         goToPage('/')
     }
-};
+}
 
 
 google.charts.load('current', {'packages': ['corechart']});
