@@ -104,28 +104,24 @@
     padding-top: 30px;
     display: -ms-flexbox;
     display: flex;
-    -ms-flex-direction: column;
     flex-direction: column;
     flex-wrap: wrap;
-    -ms-flex-pack: justify;
-    justify-content: center;
-    -ms-flex-align: start;
+    justify-content: space-between;
     align-items: center;
-}
-
-.username {
-
 }
 
 .sm-dashboard-row {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    flex-flow: row;
 }
 
 .userpage-chart {
-
+    padding-top: 4%;
+    border-radius: 4px;
+    box-shadow: 2px 2px 9px rgba(0, 0, 0, .13);
+    margin: 0px 10px 30px 10px;
+    background-color: rgba(255, 255, 255, 0.67);
 }
 
 .sm-dashboard-column {
@@ -134,13 +130,13 @@
 }
 
 .sm-category-block {
-    width: 540px;
+    width: 520px;
 }
 
 .sm-category-card {
     border-radius: 4px;
     box-shadow: 2px 2px 9px rgba(0, 0, 0, .13);
-    margin: 0 23px 30px 23px;
+    margin: 0 10px 30px 10px;
     position: relative;
 }
 

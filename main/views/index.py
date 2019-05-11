@@ -103,6 +103,12 @@ class UserpageView(LoginRequiredMixin, View):
         account_create_form = AccountForm()
         cost_create_form = CostForm()
         add_transaction = TransactionCreateForm()
+        if len(data_income) == 1:
+            data_income.append(["no incoms", 0, '#000'])
+        if len(data_account) == 1:
+            data_account.append(["no accounts", 0, '#000'])
+        if len(data_cost) == 1:
+            data_cost.append(["no costs", 0, '#000'])
         return render(request, 'user/userpage.html',
                       context={'INCOMES': incoms,
                                'ACCOUNTS': accounts,
