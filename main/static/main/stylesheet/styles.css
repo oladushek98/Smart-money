@@ -113,12 +113,15 @@
     align-items: center;
 }
 
-.username
+.username {
+
+}
 
 .sm-dashboard-row {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    flex-flow: row;
 }
 
 .userpage-chart {
