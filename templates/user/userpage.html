@@ -1,23 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block buttons %}
-
-    {% if request.user.is_authenticated %}
-        <a href="{% url 'logout' %}" class="btn waves-effect waves-light {{ button_color }}"
-           type="submit">LogOut, {{ user.username }}</a>
-    {% else %}
-        <a href="{% url 'login' %}" class="waves-effect waves-light btn {{ button_color }}"
-           type="submit">Sign in</a>
-        <a href="{% url 'register' %}" class="waves-effect waves-light btn {{ button_color }}"
-           type="submit">Sign up</a>
-    {% endif %}
-
-{% endblock %}
 
 
 {% block content %}
-
     <div class="sm-dashboard">
         <span style="alignment: center">
             <a href="{% url 'report_parameters' %}" class="waves-effect waves-light btn"
@@ -29,7 +15,8 @@
         </span>
         {% include 'transaction/add_transaction.html' %}
         <div class="sm-dashboard-body">
-            <div class="sm-dashboard-column">
+            <div class="sm-dashboard-row">
+
                 <div class="sm-category-block sm-category-card">
 
                     <div class="sm-category-block_header">
@@ -79,7 +66,7 @@
                                 </div>
                             </div>
                             <script>
-                                $('#finNode_' + {{ income.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'income/' + {{ income.id }});
+                                $('#finNode_' + {{ income.id }}).on('click', (event) => goToPage('{% url 'update_income' pk=income.id %}'));
                             </script>
                         {% endfor %}
                         <div class="sm-category sm-category_add-category">
@@ -91,6 +78,13 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="userpage-chart">
+                    <div id="chart_income"></div>
+                </div>
+
+            </div>
+            <div class="sm-dashboard-row">
 
                 <div class="sm-category-block sm-category-card">
                     <div class="sm-category-block_header">
@@ -127,7 +121,7 @@
                                 </div>
                             </div>
                             <script>
-                                $('#finNode_' + {{ account.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'account/' + {{ account.id }});
+                                $('#finNode_' + {{ account.id }}).on('click', (event) => goToPage('account/' + {{ account.id }}));
                             </script>
                         {% endfor %}
                         <div class="sm-category sm-category_add-category">
@@ -140,6 +134,13 @@
                     </div>
                 </div>
 
+                <div class="userpage-chart">
+                    <div id="chart_account"></div>
+                </div>
+
+            </div>
+            <div class="sm-dashboard-row">
+
                 <div class="sm-category-block sm-category-card">
                     <div class="sm-category-block_header">
                         <div class="sm-category-block_title">
@@ -150,7 +151,8 @@
 
                         <div class="sm-category-block_stats">
                             <div class="sm-category-block_stats-item">
-                                <div id="spent_money" class="sm-category-block_stats-amount"> Br‎
+                                <div id="spent_money"
+                                     class="sm-category-block_stats-amount"> Br‎
                                     0
                                 </div>
                                 <div class="sm-category-block_stats-title">
@@ -204,7 +206,7 @@
                                 </div>
                             </div>
                             <script>
-                                $('#finNode_' + {{ cost.id }}).on('click', (event) => window.location.href = 'http://localhost:8000/' + 'cost/' + {{ cost.id }});
+                                $('#finNode_' + {{ cost.id }}).on('click', (event) => goToPage('cost/' + {{ cost.id }}));
                             </script>
                         {% endfor %}
                         <div class="sm-category sm-category_add-category">
@@ -219,23 +221,32 @@
 
                 </div>
 
+                <div class="userpage-chart">
+                    <div id="chart_cost"></div>
+                </div>
+
+            </div>
+            <div class="sm-dashboard-column">
+
+
             </div>
 
             <div class="sm-dashboard-column">
-                <div class="sm-category-block sm-category-card">
 
-                    <div class="sm-category-block_header">
-                        <div class="sm-category-block_title">
-                            <div class="sm-category-block_name">Транзакции</div>
-                        </div>
-                    </div>
-
-                    <div class="sm-transaction-block">
-                        {% for transaction in TRANSACTIONS %}
-                            {% include 'transaction/transaction.html' with transaction=transaction %}
-                        {% endfor %}
-                    </div>
-                </div>
+                {#                <div class="sm-category-block sm-category-card">#}
+                {##}
+                {#                    <div class="sm-category-block_header">#}
+                {#                        <div class="sm-category-block_title">#}
+                {#                            <div class="sm-category-block_name">Транзакции</div>#}
+                {#                        </div>#}
+                {#                    </div>#}
+                {##}
+                {#                    <div class="sm-transaction-block">#}
+                {#                        {% for transaction in TRANSACTIONS %}#}
+                {#                            {% include 'transaction/transaction.html' with transaction=transaction %}#}
+                {#                        {% endfor %}#}
+                {#                    </div>#}
+                {#                </div>#}
 
             </div>
         </div>
@@ -256,6 +267,42 @@
         {% include 'cost/create_cost.html' %}
     </div>
 
+    <script type="text/javascript"
+            src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script src="{% static 'main/scripts/api/drawCharts.js' %}"></script>
+    <script>
+
+        var options = {
+            title: 'Motivation Level Throughout the Day',
+            legend: {position: "none"},
+        };
+
+        google.charts.load('current', {packages: ['corechart', 'bar']});
+
+        let drawIncome = () => {
+            let chart_income = new google.visualization.ColumnChart(
+                document.getElementById('chart_income'));
+            let data1 = google.visualization.arrayToDataTable(parse_data('{{ data_income }}'));
+            chart_income.draw(data1, options);
+        };
+        let drawAccount = () => {
+            let chart_account = new google.visualization.ColumnChart(
+                document.getElementById('chart_account'));
+            let data2 = google.visualization.arrayToDataTable(parse_data('{{ data_account }}'));
+            chart_account.draw(data2, options);
+        };
+        let drawCost = () => {
+            let chart_cost = new google.visualization.ColumnChart(
+                document.getElementById('chart_cost'));
+            let data3 = google.visualization.arrayToDataTable(parse_data('{{ data_cost }}'));
+            chart_cost.draw(data3, options);
+        };
+
+        google.charts.setOnLoadCallback(drawIncome);
+        google.charts.setOnLoadCallback(drawAccount);
+        google.charts.setOnLoadCallback(drawCost);
+    </script>
     <script src="{% static 'main/scripts/addNewIncome.js' %}"></script>
     <script src="{% static 'main/scripts/addNewAccount.js' %}"></script>
     <script src="{% static 'main/scripts/addNewCost.js' %}"></script>

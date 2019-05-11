@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load main_extras %}
+
+{% block content %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <div class="transaction-table z-depth-1">
+        <div class="transaction-table-header">
+            <div class="transaction-selector">
+                <span>с </span><input id="date_from" type="date"
+                    {% if request|get_date_from %}
+                                      value="{{ request|get_date_from }}"{% endif %}>
+                <span>по</span><input id="date_to" type="date"
+                    {% if request|get_date_to %}
+                                      value="{{ request|get_date_to }}"{% endif %}>
+            </div>
+            <a id="update"
+               href="{% url 'transactions' %}?from=&to=&start=0&end=10"
+               class="waves-effect waves-light btn {{ button_color }}">update</a>
+            <div>
+                <a id="choice"
+                   class="waves-effect waves-light btn {{ button_color }}">{{ request|get_date_count }}
+                    <i
+                            class="material-icons left">expand_more</i></a>
+                <div id="make-choice" class="choice-trans-table-val hidden">
+                    <a id="click5"
+                       class="waves-effect waves-light btn {{ button_color }}">5</a>
+
+                    <a id="click10"
+                       class="waves-effect waves-light btn {{ button_color }}">10</a>
+                </div>
+            </div>
+        </div>
+
+        <table class="highlight">
+            <thead>
+            <tr>
+                <th>From</th>
+                <th>To</th>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Date</th>
+
+                <th>Comment</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for transaction in transactions %}
+                <tr id="{{ transaction.id }}">
+                    <td>{{ transaction.transaction_from.name }}</td>
+                    <td>{{ transaction.transaction_to.name }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    <td>{{ transaction.choice_currency }}</td>
+                    <td>{{ transaction.data_from }}</td>
+                    <td>{{ transaction.comment }}</td>
+                </tr>
+                <script>
+                    $('#' +{{ transaction.id }}).on('click', (event) => {
+                        window.location.href = '{% url 'transaction' pk=transaction.id %}'
+                    })
+                </script>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="transaction-table-buttons">
+            <a id="prev"
+               class="waves-effect waves-light btn {{ button_color }}">Prev
+                <i
+                        class="material-icons left">chevron_left</i></a>
+            <div>
+                    <span>
+                        {{ request|get_date_start }} - {{ request|get_date_tail:count }} / {{ amount }}
+                    </span>
+            </div>
+            <a id="next"
+               class="waves-effect waves-light btn {{ button_color }}">Next
+                <i
+                        class="material-icons right">chevron_right</i></a>
+        </div>
+    </div>
+
+    <script>
+
+        let date_from = $('#date_from');
+        let date_to = $('#date_to');
+        let s = $('#update');
+        const start = parseInt('{{ request|get_date_start }}');
+        const cur_count = parseInt('{{ request|get_date_count }}');
+
+        let jump = (start, end, val) => {
+            if (cur_count != val) {
+                let href = '{% url 'transactions' %}?from=' + date_from.val() + '&to=' + date_to.val() + '&start=' + start + '&end=' + end;
+                goToPage(href)
+            }
+        };
+
+        if (start === 0) {
+            $('#prev')[0].setAttribute('disabled', 'false')
+        }
+        if (parseInt('{{ amount }}') === parseInt('{{ request|get_date_tail:count }}')) {
+            $('#next')[0].setAttribute('disabled', 'false')
+        }
+
+        $('#prev').on('click', (event) => {
+            jump(start - cur_count, start, 0)
+        });
+
+        $('#next').on('click', (event) => {
+            jump(start + cur_count, start + cur_count + cur_count, 0)
+        });
+
+        $('#click5').on('click', (event) => {
+            jump(start, start+5, 5)
+        });
+        $('#click10').on('click', (event) => {
+            jump(start, start+10, 10)
+        });
+
+        date_from[0].oninput = (val) => {
+            let spl = s[0].getAttribute('href').split('&');
+            let f = spl[0].split('=');
+            f[1] = val.target.value;
+            spl[0] = f.join('=');
+            s[0].setAttribute('href', spl.join('&'));
+        };
+        date_to[0].oninput = (val) => {
+            let spl = s[0].getAttribute('href').split('&');
+            let f = spl[1].split('=');
+            f[1] = val.target.value;
+            spl[1] = f.join('=');
+            s[0].setAttribute('href', spl.join('&'));
+        };
+
+        let handlerIn = () => {
+            $('#choice').addClass('hidden');
+            $('#make-choice').removeClass('hidden');
+        };
+
+        let handlerOut = () => {
+            $('#make-choice').addClass('hidden');
+            $('#choice').removeClass('hidden');
+        };
+
+        $('#choice').mouseenter(handlerIn).mouseleave();
+        $('#make-choice').mouseenter().mouseleave(handlerOut);
+
+    </script>
+{% endblock %}

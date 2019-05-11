@@ -15,7 +15,7 @@
     let click = async () => {
         let res = await deleteTransaction({{ form.id }});
         if (res.ok) {
-            window.location.href = 'http://localhost:8000/';
+            goToPage('/')
         }
     };
     $('#delete_btn').on('click', click);

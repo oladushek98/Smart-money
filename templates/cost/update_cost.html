@@ -1,41 +1,27 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
     <div class="sm-dashboard">
         <div class="sm-dashboard-body">
             <div class="sm-dashboard-column">
                 <div class="sm-update-form z-depth-1">
-                    {% include 'forms/update_delete_form_income.html' %}
+                    {% include 'forms/update_delete_form_cost.html' %}
                 </div>
             </div>
             <div class="sm-dashboard-column">
-
+                <div class="chart" id="from_chart"></div>
             </div>
         </div>
     </div>
-{% endblock %}
+    <script>
+        const delete_url = '{% url 'delete_cost' %}';
+        let data_from = '{{ data_from }}';
+    </script>
 
-{% block scrypt %}
-    let deleteNode = async (id) => {
-        const body = {
-            'id': id
-        };
+    <script type="text/javascript"
+            src="https://www.gstatic.com/charts/loader.js"></script>
 
-        const csrftoken = $('input[name="csrfmiddlewaretoken"]').attr('value');
-        let header = new Headers();
-        header.append('X-CSRFToken', csrftoken);
-
-        let response = await fetch('{% url 'delete_cost' %}',
-            {
-                method: 'PUT',
-                body: JSON.stringify(body),
-                headers: header,
-                credentials: 'same-origin'
-            }
-        );
-
-        if(response.ok){
-            window.location.href = 'http://localhost:8000/user'
-        }
-    }
+    <script src="{% static 'main/scripts/api/drawCharts.js' %}"></script>
+    <script src="{% static 'main/scripts/cost/update_cost.js' %}"></script>
 {% endblock %}
