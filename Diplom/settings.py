@@ -147,6 +147,13 @@ BROKER_URL = 'redis://h:pf697461ec2382692f5fa6554abb7a2603aa564b27854d4bc590b20b
 BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 CELERY_RESULT_BACKEND = 'redis://h:pf697461ec2382692f5fa6554abb7a2603aa564b27854d4bc590b20baa34edc7a@ec2-34-252-60-59.eu-west-1.compute.amazonaws.com:25969'
 
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'drakulaxxl3@gmail.com'
+EMAIL_HOST_PASSWORD = 'accbfpjkefvzzvtu'
+EMAIL_PORT = 587
+
 import django_heroku
 
 django_heroku.settings(locals())
