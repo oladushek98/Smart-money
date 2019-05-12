@@ -156,5 +156,5 @@ EMAIL_PORT = 587
 
 PYDEVD_USE_FRAME_EVAL = 'NO'
 
-# import django_heroku
-# django_heroku.settings(locals())
+import django_heroku
+django_heroku.settings(locals())
