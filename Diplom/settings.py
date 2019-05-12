@@ -27,8 +27,6 @@ SECRET_KEY = 'q+4jl8a@^trw^t-xm&q39rw20cf68(y^!c!d%x29+ve_m_so8@'
 ROOT_URLCONF = 'Diplom.urls'
 DB_PAS = 'be4377e4a3a167ff72b6b5ac2a94c9d0f47ce2d285da46deeaa418f4366a7204'
 
-
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -44,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +54,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
 
 TEMPLATES = [
     {
@@ -149,6 +147,6 @@ BROKER_URL = 'redis://h:pf697461ec2382692f5fa6554abb7a2603aa564b27854d4bc590b20b
 BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 CELERY_RESULT_BACKEND = 'redis://h:pf697461ec2382692f5fa6554abb7a2603aa564b27854d4bc590b20baa34edc7a@ec2-34-252-60-59.eu-west-1.compute.amazonaws.com:25969'
 
-
 import django_heroku
+
 django_heroku.settings(locals())

@@ -22,3 +22,4 @@ webencodings==0.5.1
 xhtml2pdf==0.2.3
 gunicorn==19.9.0
 django_heroku==0.3.1
+django-celery-beat==1.4.0
