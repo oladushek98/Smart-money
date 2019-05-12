@@ -136,11 +136,18 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-REDIS_HOST = 'localhost'
-REDIS_PORT = '6379'
-BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+# REDIS_HOST = 'localhost'
+# REDIS_PORT = '6379'
+# BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+# BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+# CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+
+
+REDIS_HOST = 'ec2-34-252-60-59.eu-west-1.compute.amazonaws.com'
+REDIS_PORT = '25969'
+BROKER_URL = 'redis://h:pf697461ec2382692f5fa6554abb7a2603aa564b27854d4bc590b20baa34edc7a@ec2-34-252-60-59.eu-west-1.compute.amazonaws.com:25969'
 BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
-CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_RESULT_BACKEND = 'redis://h:pf697461ec2382692f5fa6554abb7a2603aa564b27854d4bc590b20baa34edc7a@ec2-34-252-60-59.eu-west-1.compute.amazonaws.com:25969'
 
 
 import django_heroku
