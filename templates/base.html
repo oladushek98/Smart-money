@@ -55,8 +55,8 @@
                 <span class="username">
                 {% if user.first_name %}
                     {{ user.first_name.title }}
-                    {% if user.second_name %}
-                        {{ user.second_name.title }}
+                    {% if user.last_name %}
+                        {{ user.last_name.title }}
                     {% endif %}
                 {% else %}
                     {{ user.username.title }}
