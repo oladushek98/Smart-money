@@ -68,7 +68,7 @@ class BankAccountIntegration:
         # chrome_options.add_argument('--disable-gpu')
         # chrome_options.add_argument('--no-sandbox')
         # webdriver = Chrome(executable_path='/app/.chromedriver/bin/chromedriver', chrome_options=chrome_options)
-        webdriver = Chrome(executable_path='/app/.chromedriver/bin/chromedriver')
+        webdriver = Chrome(r'/app/.chromedriver/bin/chromedriver')
 
         try:
             webdriver.set_window_size(1080, 720)
