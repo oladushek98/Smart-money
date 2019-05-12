@@ -52,7 +52,16 @@
         </div>
         <div class="header-right">
             {% if request.user.is_authenticated %}
-                <span class="username">{{ user.username.title }}</span>
+                <span class="username">
+                {% if user.first_name %}
+                    {{ user.first_name.title }}
+                    {% if user.second_name %}
+                        {{ user.second_name.title }}
+                    {% endif %}
+                {% else %}
+                    {{ user.username.title }}
+                {% endif %}
+                </span>
                 <a href="{% url 'logout' %}"
                    class="btn waves-effect waves-light {{ button_color }}"
                    type="submit">LogOut</a>
@@ -86,7 +95,8 @@
                 </li>
                 <li class="tab"><a
                         {% if request.path|is_current_page == 5 %}class="active" {% endif %}
-                        href="{% url 'bank_integration' %}">Integrate with bank</a>
+                        href="{% url 'bank_integration' %}">Integrate with
+                    bank</a>
                 </li>
             </ul>
         </div>
