@@ -2,12 +2,16 @@ import requests
 import logging
 import os
 
-# from pyvirtualdisplay import Display
-# from selenium.webdriver import Firefox
-# from selenium.webdriver.support.wait import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as EC
-# from selenium.webdriver.common.by import By
-# from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, WebDriverException
+
+from pyvirtualdisplay import Display
+from selenium.webdriver import Firefox, PhantomJS, Chrome
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, WebDriverException
+from phantomjs_bin import executable_path
+
 import datetime
 
 from io import BytesIO
@@ -17,6 +21,8 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.contrib.auth.models import User
+
+from Diplom.settings import STATIC_URL
 
 from xhtml2pdf import pisa
 
@@ -33,6 +39,7 @@ class PDFConverter:
 
     @staticmethod
     def render_to_pdf(template_src, context_dict={}):
+        context_dict.update({'static': STATIC_URL})
         template = get_template(template_src)
         html = template.render(context_dict)
         result = BytesIO()
@@ -47,82 +54,95 @@ class PDFConverter:
         return None
 
 
-# class BankAccountIntegration:
-#
-#     @staticmethod
-#     def get_accounts(login, password, user):
-#         display = Display(visible=0, size=(800, 600))
-#         display.start()
-#
-#         alphabank = 'https://click.alfa-bank.by/webBank2/login.xhtml'
-#         driver_path = os.path.join(os.getcwd(), 'main/geckodriver')
-#
-#         try:
-#
-#             webdriver = Firefox(
-#                 executable_path=driver_path
-#             )
-#             webdriver.get(alphabank)
-#             print(webdriver.title)
-#
-#             el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:login')))
-#             el.send_keys(login)
-#
-#             el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:password')))
-#             el.send_keys(password)
-#
-#             btn = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:enterButton')))
-#             btn.click()
-#
-#             url = webdriver.current_url
-#             print(url)
-#             if 'disconnect' in url:
-#                 raise WebDriverException
-#
-#             # WebDriverWait(webdriver, 1000).until(EC.invisibility_of_element_located((By.XPATH,
-#             #                                                                         '//*[@id="blocker_blocker"]')))
-#             # webdriver.find_element_by_xpath('//*[@id="accountsTable:j_idt255:0:j_idt258:showAllAccounts"]').click()
-#
-#             table = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'accountsTable_data')))
-#
-#             print(table.text)
-#
-#             temp = table.text
-#             temp = temp.replace('$', 'USD')
-#             temp = temp.replace('€', 'EUR')
-#             temp = temp.replace('Br', 'BYN')
-#
-#             info = temp.split('\n')
-#             info_new = [subj for subj in info if subj != '']
-#             del info
-#
-#             accounts = [(info_new[i], round(float(info_new[i + 1].replace(',', '.'))), info_new[i + 2])
-#                         for i in range(0, len(info_new), 3)]
-#
-#             for account in accounts:
-#                 Account.objects.update_or_create(user_id=user, name=account[0], currency=account[2],
-#                                                  defaults={'user_id': user, 'is_debt_account': False,
-#                                                            'take_into_balance': True, 'name': account[0],
-#                                                            'currency': account[2], 'amount': account[1]})
-#
-#             print(accounts)
-#
-#             return True
-#
-#         except NoSuchElementException:
-#             logging.warning('No such element!')
-#             return False
-#
-#         except ElementClickInterceptedException:
-#             logging.warning('The element is blocked!')
-#             return False
-#
-#         except WebDriverException:
-#             logging.warning('Disconnected!')
-#             return False
-#
-#         finally:
-#             display.stop()
+
+class BankAccountIntegration:
+
+    @staticmethod
+    def get_accounts(login, password, user):
+        # display = Display(visible=0, size=(800, 600))
+        # display.start()
+
+        alphabank = 'https://click.alfa-bank.by/webBank2/login.xhtml'
+        # driver_path = os.path.join(os.getcwd(), 'main/geckodriver')
+
+        chrome_options = Options()
+        chrome_options.binary_location = GOOGLE_CHROME_BIN
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--no-sandbox')
+        webdriver = Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
+
+        try:
+
+            # webdriver = PhantomJS(
+            #     # executable_path=driver_path
+            #     # executable_path='/usr/local/lib/node_modules/phantomjs/lib/phantom/bin/phantomjs'
+            #     executable_path=executable_path
+            # )
+            webdriver.set_window_size(1080, 720)
+            webdriver.get(alphabank)
+            print(webdriver.title)
+            print(webdriver.page_source)
+
+            el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:login')))
+            el.send_keys(login)
+
+            el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:password')))
+            el.send_keys(password)
+
+            btn = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:enterButton')))
+            btn.click()
+
+            url = webdriver.current_url
+            print(url)
+            if 'disconnect' in url:
+                raise WebDriverException
+
+            # WebDriverWait(webdriver, 1000).until(EC.invisibility_of_element_located((By.XPATH,
+            #                                                                         '//*[@id="blocker_blocker"]')))
+            # webdriver.find_element_by_xpath('//*[@id="accountsTable:j_idt255:0:j_idt258:showAllAccounts"]').click()
+
+            table = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'accountsTable_data')))
+
+            print(table.text)
+
+            temp = table.text
+            temp = temp.replace('$', 'USD')
+            temp = temp.replace('€', 'EUR')
+            temp = temp.replace('Br', 'BYN')
+
+            info = temp.split('\n')
+            info_new = [subj for subj in info if subj != '']
+            del info
+
+            accounts = [(info_new[i], round(float(info_new[i + 1].replace(',', '.'))), info_new[i + 2])
+                        for i in range(0, len(info_new), 3)]
+
+            for account in accounts:
+                Account.objects.update_or_create(user_id=user, name=account[0], currency=account[2],
+                                                 defaults={'user_id': user, 'is_debt_account': False,
+                                                           'take_into_balance': True, 'name': account[0],
+                                                           'currency': account[2], 'amount': account[1]})
+
+            print(accounts)
+
+            return True
+
+        except NoSuchElementException:
+            logging.warning('No such element!')
+            return False
+
+        except ElementClickInterceptedException:
+            logging.warning('The element is blocked!')
+            return False
+
+        except WebDriverException:
+            logging.warning('Disconnected!')
+            return False
+
+        finally:
+            #display.stop()
+            pass
+
 
 
 class ReportSender:

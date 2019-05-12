@@ -52,6 +52,7 @@ class ReportGenerationView(LoginRequiredMixin, View):
                                                       user_id=request.user.id) \
                 .prefetch_related('transaction_from', 'transaction_to').all()
 
+
         elif period == 'week':
             temp = date - datetime.timedelta(days=7)
             transactions = Transaction.objects.filter(
@@ -92,6 +93,8 @@ class ReportGenerationView(LoginRequiredMixin, View):
         if 'costs' in nodes:
             costs = Cost.objects.filter(user_id=request.user.id, delete=False)
             context['costs'] = costs
+
+        # print(context)
 
         pdf = PDFConverter.render_to_pdf('report/report.html', context)
 
