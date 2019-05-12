@@ -46,7 +46,7 @@ def calculate_income_amount(income):
 
 
 def calculate_account_amount(account):
-    amount = 0
+    amount = account.amount
     for transaction in account.destination.filter(delete=False).all():
         if account.currency == transaction.choice_currency:
             amount += transaction.amount
