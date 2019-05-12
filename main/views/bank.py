@@ -48,7 +48,7 @@ class UploadCSVView(View):
 
         cost, income, account = None, None, None
         with open(f'main\\static\\data\\csv{user.id}.csv',
-                  'r') as file:
+                  'r', errors='ignore') as file:
             reader = csv.reader(file)
             row_num = 0
             for row in reader:
