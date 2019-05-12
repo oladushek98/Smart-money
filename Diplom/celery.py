@@ -17,6 +17,6 @@ app.conf.beat_schedule = {
     },
     'send_email_every_three_minutes': {
         'task': 'main.tasks.send_reports',
-        'schedule': crontab()
+        'schedule': crontab(0, 0, day_of_month='1')
     }
 }
