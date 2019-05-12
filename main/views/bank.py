@@ -54,6 +54,7 @@ class UploadCSVView(View):
             for row in reader:
                 if row_num == 0:
                     account_name = row[0].split(':')[1].split('-')[0]
+                    account_name = account_name.strip()
                     amount = int(float(row[-7].split(':')[-1].split(' ')[0]))
                     acc_cur = row[-7].split(':')[-1].split(' ')[1]
                     account = Account.objects.filter(
