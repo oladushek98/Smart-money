@@ -1,8 +1,45 @@
-
 {% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Document</title>
+
+     <style>
+            /*@font-face {
+                font-family: 'DejaVu Sans';
+                src: url('/main/static/main/dejavusans.ttf');
+            }
+    */
+            td{
+                margin-top: 3px;
+                text-align: center;
+                padding: 5px;
+                color: green;
+                width: max-content;
+                font-size: large;
+            }
+
+            th{
+                margin-top: 3px;
+                padding: 5px;
+                font-size: large;
+            }
+
+            html {
+                font-family: Ubuntu;
+            }
 
 
-    <img src="../../main/static/main/img/pointer.png" >
+    </style>
+
+</head>
+<body>
 
     <center><h2>{{ user }} {{ period }}</h2></center>
 
@@ -36,6 +73,7 @@
         <br><br>
     {% endif %}
 
+
     {% if incomes %}
     <h1>Incomes</h1>
         <table class="incomes" border="1">
@@ -65,7 +103,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Account</th>
+                    <th>Amount</th>
                     <th>Currency</th>
                 </tr>
             </thead>
@@ -105,21 +143,10 @@
     <br><br>
     {% endif %}
 
-    <style>
-        td{
-            margin-top: 3px;
-            text-align: center;
-            padding: 5px;
-            color: green;
-            width: max-content;
-            font-size: large;
-        }
+{{ static }}
 
-        th{
-            margin-top: 3px;
-            padding: 5px;
-            font-size: large;
-        }
 
-    </style>
+</body>
+</html>
+
 

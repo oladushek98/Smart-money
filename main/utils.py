@@ -3,11 +3,13 @@ import logging
 import os
 
 from pyvirtualdisplay import Display
-from selenium.webdriver import Firefox
+from selenium.webdriver import Firefox, PhantomJS, Chrome
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, WebDriverException
+from phantomjs_bin import executable_path
 import datetime
 
 from io import BytesIO
@@ -18,6 +20,8 @@ from django.template.loader import get_template
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.contrib.auth.models import User
 
+from Diplom.settings import STATIC_URL
+
 from xhtml2pdf import pisa
 
 from main.models import Income, Transaction, Account, Cost
@@ -27,10 +31,11 @@ class PDFConverter:
 
     @staticmethod
     def render_to_pdf(template_src, context_dict={}):
+        context_dict.update({'static': STATIC_URL})
         template = get_template(template_src)
         html = template.render(context_dict)
         result = BytesIO()
-        pdf = pisa.pisaDocument(BytesIO(html.encode('utf-8')), result)
+        pdf = pisa.pisaDocument(BytesIO(html.encode('cp1251')), result, encoding='cp1251')
 
         if not pdf.err:
             return HttpResponse(result.getvalue(), content_type='application/pdf')
@@ -42,19 +47,29 @@ class BankAccountIntegration:
 
     @staticmethod
     def get_accounts(login, password, user):
-        display = Display(visible=0, size=(800, 600))
-        display.start()
+        # display = Display(visible=0, size=(800, 600))
+        # display.start()
 
         alphabank = 'https://click.alfa-bank.by/webBank2/login.xhtml'
-        driver_path = os.path.join(os.getcwd(), 'main/geckodriver')
+        # driver_path = os.path.join(os.getcwd(), 'main/geckodriver')
+
+        chrome_options = Options()
+        chrome_options.binary_location = GOOGLE_CHROME_BIN
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--no-sandbox')
+        webdriver = Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
 
         try:
 
-            webdriver = Firefox(
-                executable_path=driver_path
-            )
+            # webdriver = PhantomJS(
+            #     # executable_path=driver_path
+            #     # executable_path='/usr/local/lib/node_modules/phantomjs/lib/phantom/bin/phantomjs'
+            #     executable_path=executable_path
+            # )
+            webdriver.set_window_size(1080, 720)
             webdriver.get(alphabank)
             print(webdriver.title)
+            print(webdriver.page_source)
 
             el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:login')))
             el.send_keys(login)
@@ -113,7 +128,8 @@ class BankAccountIntegration:
             return False
 
         finally:
-            display.stop()
+            #display.stop()
+            pass
 
 
 class ReportSender:

@@ -52,6 +52,7 @@ class ReportGenerationView(LoginRequiredMixin, View):
                                                       # data_from__year=temp.year,
                                                       user_id=request.user.id).prefetch_related('transaction_from',
                                                                                                 'transaction_to').all()
+            # print(transactions)
 
         elif period == 'week':
             temp = date - datetime.timedelta(days=7)
@@ -74,7 +75,7 @@ class ReportGenerationView(LoginRequiredMixin, View):
                                                                                                 'transaction_to').all()
 
         context = {
-            'transaction': transactions,
+            'transactions': transactions,
             'period': f', your report from {temp} to {date}',
             'user': f'Dear {request.user.username.title()}',
         }
@@ -88,6 +89,8 @@ class ReportGenerationView(LoginRequiredMixin, View):
         if 'costs' in nodes:
             costs = Cost.objects.filter(user_id=request.user.id, delete=False)
             context['costs'] = costs
+
+        # print(context)
 
         pdf = PDFConverter.render_to_pdf('report/report.html', context)
 
