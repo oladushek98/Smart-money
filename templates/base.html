@@ -22,18 +22,7 @@
           rel="stylesheet">
 
     <link type="text/css" rel="stylesheet"
-          href="{% static 'main/stylesheet/styles.css' %}">
-
-    {#    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"#}
-    {#            integrity="sha256-xKeoJ50pzbUGkpQxDYHD7o7hxe0LaOGeguUidbq6vis="#}
-    {#            crossorigin="anonymous"></script>#}
-    {#    <link rel="stylesheet"#}
-    {#          href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"#}
-    {#          integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E="#}
-    {#          crossorigin="anonymous"/>#}
-    {#    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"#}
-    {#            integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw="#}
-    {#            crossorigin="anonymous"></script>#}
+          href="{% static 'main/stylesheet/styles.min.css' %}">
 
 </head>
 <body>
@@ -52,7 +41,16 @@
         </div>
         <div class="header-right">
             {% if request.user.is_authenticated %}
-                <span class="username">{{ user.username.title }}</span>
+                <span class="username">
+                {% if user.first_name %}
+                    {{ user.first_name.title }}
+                    {% if user.last_name %}
+                        {{ user.last_name.title }}
+                    {% endif %}
+                {% else %}
+                    {{ user.username.title }}
+                {% endif %}
+                </span>
                 <a href="{% url 'logout' %}"
                    class="btn waves-effect waves-light {{ button_color }}"
                    type="submit">LogOut</a>
@@ -82,7 +80,13 @@
                         href="{% url 'edit_user' %}">User info</a></li>
                 <li class="tab"><a
                         {% if request.path|is_current_page == 4 %}class="active" {% endif %}
-                        href="{% url 'transactions' %}?start=0&end=10">transactions</a></li>
+                        href="{% url 'transactions' %}?start=0&end=5">transactions</a>
+                </li>
+                <li class="tab"><a
+                        {% if request.path|is_current_page == 5 %}class="active" {% endif %}
+                        href="{% url 'bank_integration' %}">Integrate with
+                    bank</a>
+                </li>
             </ul>
         </div>
     </div>

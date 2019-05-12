@@ -2,16 +2,14 @@
 {% load static %}
 
 {% block content %}
-    <script src="{% static 'main/scripts/api/transactionApi.js' %}"></script>
+    <script src="{% static 'main/scripts/api/transactionApi.min.js' %}"></script>
 
     <div class="sm-dashboard">
         <div class="sm-dashboard-body">
-            <div class="sm-dashboard-column">
+            <div class="sm-dashboard-row">
                 <div class="sm-update-form z-depth-1">
                     {% include 'forms/update_delete_form_transaction.html' %}
                 </div>
-            </div>
-            <div class="sm-dashboard-column">
                 <div class="chart" id="myPieChart"/>
             </div>
         </div>

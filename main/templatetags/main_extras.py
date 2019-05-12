@@ -10,6 +10,7 @@ def is_checkbox(field):
         'edit': 3,
         'parameters': 2,
         'transaction': 4,
+        'bank': 5,
     }
 
     return var[field.split('/')[-1] if field.split('/')[-1]
@@ -46,7 +47,7 @@ def get_data_tail(field, count):
     if start and count:
         return str(int(start) + int(count))
     else:
-        return False
+        return 0
 
 
 @register.filter(name='get_date_end')
@@ -64,4 +65,4 @@ def get_date_count(field):
     if start and end:
         return str(int(end) - int(start))
     else:
-        return False
+        return 0

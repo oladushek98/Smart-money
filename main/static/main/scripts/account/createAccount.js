@@ -1,4 +1,4 @@
-let accountCreate = async (event) => {
+async function accountCreate(event){
     let body = {
         name: $('#title1').val(),
         amount: $('#amount').val(),
@@ -35,8 +35,8 @@ let accountCreate = async (event) => {
             resp_body.take_into_balance
         );
     }
-};
+}
 
-$(document).ready(() => {
+$(document).ready(function(){
     $('#add-account').on('click', accountCreate)
 });

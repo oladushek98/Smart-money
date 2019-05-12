@@ -1,5 +1,6 @@
 import json
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Sum
 from django.shortcuts import render
 from django.views import View
@@ -12,7 +13,7 @@ from django.views.generic import FormView
 from main.views.index import UserpageView
 
 
-class TransactionUpdateView(FormView):
+class TransactionUpdateView(LoginRequiredMixin, FormView):
     form_class = TransactionUpdateForm
     template_name = 'transaction/update_transaction.html'
 
@@ -71,7 +72,7 @@ class TransactionUpdateView(FormView):
         return context
 
 
-class TransactionList(View):
+class TransactionList(LoginRequiredMixin, View):
     def get(self, request):
         if 'end' in request.GET and 'start' in request.GET:
             start = int(request.GET['start'])

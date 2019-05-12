@@ -100,7 +100,6 @@ class TransactionCreateForm(Form):
 
 
 class ReportGenerationForm(Form):
-
     period_choices = [('day', 'Day'),
                       ('week', 'Week'),
                       ('month', 'Month'),
@@ -128,3 +127,7 @@ class TransactionUpdateForm(Form):
     amount = forms.IntegerField(label='сумма')
     data_from = forms.DateField(widget=forms.SelectDateWidget, disabled=True,
                                 label='дата', required=False)
+
+
+class UploadFile(forms.Form):
+    file = forms.FileField()

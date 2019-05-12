@@ -15,7 +15,7 @@ function drawChart() {
         pieStartAngle: 100,
         colors: ['red', 'rgb(255, 162, 47)'],
         fontSize: 14,
-        width: '100%',
+        width: '520',
         fontName: 'Roboto',
     };
 
@@ -37,6 +37,7 @@ function drawChart1() {
         width: 555,
         fontSize: 14,
         fontName: 'Roboto',
+        fill: 'rgba(255, 249, 249, 0)',
     };
 
     // Instantiate and draw the chart.
@@ -65,7 +66,7 @@ function drawChart2() {
     chart.draw(data, options);
 }
 
-let deleteNode = async (id) => {
+async function deleteNode(id){
     const body = {
         'id': id
     };
@@ -87,4 +88,4 @@ let deleteNode = async (id) => {
     if (response.ok) {
         goToPage('/')
     }
-};
+}

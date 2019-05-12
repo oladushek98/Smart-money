@@ -2,6 +2,7 @@ import requests
 import logging
 import os
 
+
 from pyvirtualdisplay import Display
 from selenium.webdriver import Firefox, PhantomJS, Chrome
 from selenium.webdriver.chrome.options import Options
@@ -10,6 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, WebDriverException
 from phantomjs_bin import executable_path
+
 import datetime
 
 from io import BytesIO
@@ -24,10 +26,16 @@ from Diplom.settings import STATIC_URL
 
 from xhtml2pdf import pisa
 
+from Diplom import settings
 from main.models import Income, Transaction, Account, Cost
 
 
 class PDFConverter:
+
+    @staticmethod
+    def fetch_pdf_resources(uri, rel):
+        path = 'main' + uri
+        return path
 
     @staticmethod
     def render_to_pdf(template_src, context_dict={}):
@@ -35,12 +43,16 @@ class PDFConverter:
         template = get_template(template_src)
         html = template.render(context_dict)
         result = BytesIO()
-        pdf = pisa.pisaDocument(BytesIO(html.encode('cp1251')), result, encoding='cp1251')
+        pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')),
+                                result,
+                                encoding='utf-8',
+                                link_callback=PDFConverter.fetch_pdf_resources)
 
         if not pdf.err:
             return HttpResponse(result.getvalue(), content_type='application/pdf')
 
         return None
+
 
 
 class BankAccountIntegration:
@@ -130,6 +142,7 @@ class BankAccountIntegration:
         finally:
             #display.stop()
             pass
+
 
 
 class ReportSender:

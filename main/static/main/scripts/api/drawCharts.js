@@ -1,9 +1,1 @@
-let parse_data = (row_data) => {
-    row_data = row_data.replace(/&quot;/g, '"');
-    row_data = JSON.parse(row_data);
-    try {
-        row_data.forEach((element)=> {element[0] = element[0].replace(/~/g, '"')});
-    } catch (err) {
-    }
-    return row_data
-};
+function parse_data(a){a=a.replace(/&quot;/g,'"'),a=JSON.parse(a);try{a.forEach(function(a){a[0]=a[0].replace(/~/g,'"')})}catch(a){}return a}

@@ -22,7 +22,7 @@ $('#id_amount').val(100);
 
 let s = $('#id_choice_currency');
 
-btn_add.on('click', async (event) => {
+btn_add.on('click', async function(event){
     let body;
 
     body = {
@@ -39,11 +39,6 @@ btn_add.on('click', async (event) => {
 
     res = await createTransaction(body);
     if (res.ok) {
-        addNewTransaction(res.body.id,
-            res.body.transaction_from,
-            res.body.transaction_to,
-            res.body.amount,
-            res.body.date);
         if (s.parent()[0].getAttribute('style') !== 'display: none;') {
             if (res.body.currency === source_select.val().split('/')[0]) {
                 updateAmount(source_select.val().split('/')[2],
@@ -102,7 +97,7 @@ step_1.remove();
 const span = $('#add-transaction_placeholder');
 
 
-add_transaction_container.on('click', async (event) => {
+add_transaction_container.on('click', async function(event){
     if (add_transaction_container.children()[0] === span[0]) {
         wrapper.append(fade, wrapper.children()[0]);
         span.remove();

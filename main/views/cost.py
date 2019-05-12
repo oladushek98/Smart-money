@@ -1,5 +1,6 @@
 import json
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Sum
 from django.shortcuts import render
 
@@ -9,21 +10,7 @@ from django.urls import reverse_lazy
 from django.views.generic import UpdateView, FormView
 
 
-# class CostUpdateView(UpdateView):
-#     model = Cost
-#     fields = ['id', 'name', 'monthly_plan', 'currency']
-#     template_name = 'cost/update_cost.html'
-#
-#     def get_success_url(self):
-#         return reverse_lazy('userpage')
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['id'] = self.object.id
-#         return context
-
-
-class CostUpdateView(FormView):
+class CostUpdateView(LoginRequiredMixin, FormView):
 
     form_class = CostForm
     template_name = 'cost/update_cost.html'

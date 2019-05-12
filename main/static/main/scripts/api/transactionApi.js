@@ -3,32 +3,35 @@ let header = new Headers();
 header.append('X-CSRFToken', csrftoken);
 
 
-let getTransactionSourse = async () => {
+async function getTransactionSourse() {
     try {
-        fetch('api/transaction/getsourse', {
+        let res = await fetch('api/transaction/getsourse', {
             method: "GET",
             headers: header,
             credentials: 'same-origin'
-        }).then(r => r.json().then(data => ({
-            status: r.status, body: data.body
-        }))).then(obj => {
-            let flag = false;
-            if (obj.body.length == 0) {
-                btn_add[0].setAttribute("disabled", false);
-                source_select[0].setAttribute("disabled", false);
-                obj.body = [{id: -1, name: 'нет источника'}];
-                flag = true;
-            }
-            let option = null;
-            source_select.children().remove();
-            for (i = 0; i < obj.body.length; i++) {
-                option = document.createElement('option');
-                option.setAttribute('value', obj.body[i].id);
-                option.textContent = obj.body[i].name;
-                source_select.append(option);
-            }
-            if(flag){ return false; }
         });
+        let res2 = await res.json();
+        let obj = {status: res.status, body: res2.body};
+
+        let flag = false;
+        if (obj.body.length == 0) {
+            btn_add[0].setAttribute("disabled", false);
+            source_select[0].setAttribute("disabled", false);
+            obj.body = [{id: -1, name: 'нет источника'}];
+            flag = true;
+        }
+        let option = null;
+        source_select.children().remove();
+        for (i = 0; i < obj.body.length; i++) {
+            option = document.createElement('option');
+            option.setAttribute('value', obj.body[i].id);
+            option.textContent = obj.body[i].name;
+            source_select.append(option);
+        }
+        if (flag) {
+            return false;
+        }
+
         source_select[0].removeAttribute('disabled');
         btn_add[0].removeAttribute('disabled');
         return true;
@@ -37,43 +40,48 @@ let getTransactionSourse = async () => {
     }
 };
 
-let getTransactionDestination = (id) => {
-    if(id === undefined){ return false; }
+async function getTransactionDestination(id) {
+    if (id === undefined) {
+        return false;
+    }
     try {
-        fetch('api/transaction/getdest/' + id, {
+        let r = await fetch('api/transaction/getdest/' + id, {
             method: "GET",
             headers: header,
             credentials: 'same-origin'
-        }).then(r => r.json().then(data => ({
-            status: r.status, body: data.body
-        }))).then(obj => {
-            let flag = false;
-            if (obj.body.length == 0) {
-                btn_add[0].setAttribute("disabled", false);
-                destination_select[0].setAttribute("disabled", false);
-                obj.body = [{id: -1, name: 'нет пункта назначения'}]
-                flag = true;
-            }
-            let option = null;
-            destination_select.children().remove();
-            for (i = 0; i < obj.body.length; i++) {
-                option = document.createElement('option');
-                option.setAttribute('value', obj.body[i].id);
-                option.textContent = obj.body[i].name;
-                destination_select.append(option);
-            }
-            if(flag){ return false; }
         });
+        let data = await r.json();
+        let obj = {status: r.status, body: data.body};
+
+        let flag = false;
+        if (obj.body.length == 0) {
+            btn_add[0].setAttribute("disabled", false);
+            destination_select[0].setAttribute("disabled", false);
+            obj.body = [{id: -1, name: 'нет пункта назначения'}]
+            flag = true;
+        }
+        let option = null;
+        destination_select.children().remove();
+        for (i = 0; i < obj.body.length; i++) {
+            option = document.createElement('option');
+            option.setAttribute('value', obj.body[i].id);
+            option.textContent = obj.body[i].name;
+            destination_select.append(option);
+        }
+        if (flag) {
+            return false;
+        }
+
         destination_select[0].removeAttribute('disabled');
         btn_add[0].removeAttribute('disabled');
         return true;
     } catch (e) {
         console.log(e);
     }
-};
+}
 
 
-let createTransaction = async (body) => {
+async function createTransaction(body) {
     const response = await fetch('api/transaction/create', {
         method: 'PUT',
         body: JSON.stringify(body),
@@ -81,11 +89,10 @@ let createTransaction = async (body) => {
         credentials: 'same-origin'
     });
     const json = await response.json();
-
     return json;
-};
+}
 
-let compareCur = () => {
+function compareCur() {
     try {
         let cur_1 = source_select.val().split('/')[0];
         let cur_2 = destination_select.val().split('/')[0];
@@ -111,7 +118,7 @@ let compareCur = () => {
     }
 };
 
-let updateAmount = (id, value, opp) => {
+function updateAmount(id, value, opp) {
     switch (id.split('_')[0]) {
         case 'income':
             return updateIncomeAmount(id.split('_')[1], value, opp);
@@ -120,9 +127,9 @@ let updateAmount = (id, value, opp) => {
         case 'cost':
             return updateCostAmount(id.split('_')[1], value, opp);
     }
-};
+}
 
-let updateIncomeAmount = (id, value, opp) => {
+function updateIncomeAmount(id, value, opp) {
     let s = $('#finNode_' + id);
     let old_value = s.parent().children()[2].children[0].textContent;
     let cc;
@@ -133,9 +140,9 @@ let updateIncomeAmount = (id, value, opp) => {
     }
     let new_value = old_value.split(' ')[0] + ' ' + cc;
     s.parent().children()[2].children[0].textContent = new_value;
-};
+}
 
-let updateAccountAmount = (id, value, opp) => {
+function updateAccountAmount(id, value, opp) {
     let s = $('#finNode_' + id);
     let old_value = s.parent().children()[2].children[0].textContent;
     let cc;
@@ -146,18 +153,18 @@ let updateAccountAmount = (id, value, opp) => {
     }
     let new_value = old_value.split(' ')[0] + ' ' + cc;
     s.parent().children()[2].children[0].textContent = new_value;
-};
+}
 
-let updateCostAmount = (id, value, opp) => {
+function updateCostAmount(id, value, opp) {
     let s = $('#finNode_' + id);
     let old_value = s.parent().children()[2].children[0].textContent;
     let cc = +old_value.split(' ')[1] + +value;
 
     let new_value = old_value.split(' ')[0] + ' ' + cc;
     s.parent().children()[2].children[0].textContent = new_value;
-};
+}
 
-let deleteTransaction = async (id) => {
+async function deleteTransaction(id) {
     const response = await fetch('api/transaction/delete', {
         method: 'PUT',
         body: JSON.stringify({id: id}),
@@ -167,4 +174,4 @@ let deleteTransaction = async (id) => {
     const json = await response.json();
 
     return json;
-};
+}
