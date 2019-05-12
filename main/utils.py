@@ -3,14 +3,12 @@ import logging
 import os
 
 
-from pyvirtualdisplay import Display
-from selenium.webdriver import Firefox, PhantomJS, Chrome
+from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, WebDriverException
-from phantomjs_bin import executable_path
 
 import datetime
 
@@ -65,19 +63,14 @@ class BankAccountIntegration:
         alphabank = 'https://click.alfa-bank.by/webBank2/login.xhtml'
         # driver_path = os.path.join(os.getcwd(), 'main/geckodriver')
 
-        chrome_options = Options()
-        chrome_options.binary_location = GOOGLE_CHROME_BIN
-        chrome_options.add_argument('--disable-gpu')
-        chrome_options.add_argument('--no-sandbox')
-        webdriver = Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
+        # chrome_options = Options()
+        # chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN", "chromedriver")
+        # chrome_options.add_argument('--disable-gpu')
+        # chrome_options.add_argument('--no-sandbox')
+        # webdriver = Chrome(executable_path='/app/.chromedriver/bin/chromedriver', chrome_options=chrome_options)
+        webdriver = Chrome(executable_path='/app/.chromedriver/bin/chromedriver')
 
         try:
-
-            # webdriver = PhantomJS(
-            #     # executable_path=driver_path
-            #     # executable_path='/usr/local/lib/node_modules/phantomjs/lib/phantom/bin/phantomjs'
-            #     executable_path=executable_path
-            # )
             webdriver.set_window_size(1080, 720)
             webdriver.get(alphabank)
             print(webdriver.title)
@@ -96,10 +89,6 @@ class BankAccountIntegration:
             print(url)
             if 'disconnect' in url:
                 raise WebDriverException
-
-            # WebDriverWait(webdriver, 1000).until(EC.invisibility_of_element_located((By.XPATH,
-            #                                                                         '//*[@id="blocker_blocker"]')))
-            # webdriver.find_element_by_xpath('//*[@id="accountsTable:j_idt255:0:j_idt258:showAllAccounts"]').click()
 
             table = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'accountsTable_data')))
 
@@ -142,7 +131,6 @@ class BankAccountIntegration:
         finally:
             #display.stop()
             pass
-
 
 
 class ReportSender:
