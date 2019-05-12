@@ -3,9 +3,7 @@ import logging
 from smtplib import SMTPException
 from django.core import management
 from Diplom.celery import app
-from django.urls import reverse_lazy
-
-# from main.utils import BankAccountIntegration
+from main.utils import BankAccountIntegration
 
 from main.utils import ReportSender
 
@@ -32,5 +30,4 @@ def send_reports():
 
 @app.task
 def bank_integration(login, password, user):
-    pass
-    # BankAccountIntegration.get_accounts(login, password, user)
+    BankAccountIntegration.get_accounts(login, password, user)
