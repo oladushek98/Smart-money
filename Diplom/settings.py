@@ -154,6 +154,7 @@ EMAIL_HOST_USER = 'drakulaxxl3@gmail.com'
 EMAIL_HOST_PASSWORD = 'accbfpjkefvzzvtu'
 EMAIL_PORT = 587
 
-import django_heroku
+PYDEVD_USE_FRAME_EVAL = 'NO'
 
-django_heroku.settings(locals())
+# import django_heroku
+# django_heroku.settings(locals())

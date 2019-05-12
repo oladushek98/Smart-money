@@ -75,7 +75,7 @@ class UploadCSVView(View):
                         Q(delete=False)
                     ).first()
                     if not income:
-                        income = Income(name=account_name,
+                        income = Income(name=f'{account_name}_income',
                                         user=user,
                                         currency=acc_cur)
                         income.save()
@@ -86,7 +86,7 @@ class UploadCSVView(View):
                         Q(delete=False)
                     ).first()
                     if not cost:
-                        cost = Cost(name=account_name,
+                        cost = Cost(name=f'{account_name}_cost',
                                     user=user,
                                     currency=acc_cur)
                         cost.save()

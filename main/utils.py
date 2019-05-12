@@ -20,17 +20,26 @@ from django.contrib.auth.models import User
 
 from xhtml2pdf import pisa
 
+from Diplom import settings
 from main.models import Income, Transaction, Account, Cost
 
 
 class PDFConverter:
 
     @staticmethod
+    def fetch_pdf_resources(uri, rel):
+        path = 'main' + uri
+        return path
+
+    @staticmethod
     def render_to_pdf(template_src, context_dict={}):
         template = get_template(template_src)
         html = template.render(context_dict)
         result = BytesIO()
-        pdf = pisa.pisaDocument(BytesIO(html.encode('utf-8')), result)
+        pdf = pisa.pisaDocument(BytesIO(html.encode('UTF-8')),
+                                result,
+                                encoding='utf-8',
+                                link_callback=PDFConverter.fetch_pdf_resources)
 
         if not pdf.err:
             return HttpResponse(result.getvalue(), content_type='application/pdf')

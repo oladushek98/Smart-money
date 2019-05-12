@@ -43,47 +43,51 @@ class ReportGenerationView(LoginRequiredMixin, View):
             temp = date
             date += datetime.timedelta(days=1)
             transactions = Transaction.objects.filter(data_from=temp,
-                                                      user_id=request.user.id).prefetch_related('transaction_from',
-                                                                                                'transaction_to').all()
+                                                      user_id=request.user.id) \
+                .prefetch_related('transaction_from', 'transaction_to').all()
 
         elif period == 'month':
             temp = date - datetime.timedelta(days=30)
             transactions = Transaction.objects.filter(data_from__gte=temp,
-                                                      # data_from__year=temp.year,
-                                                      user_id=request.user.id).prefetch_related('transaction_from',
-                                                                                                'transaction_to').all()
+                                                      user_id=request.user.id) \
+                .prefetch_related('transaction_from', 'transaction_to').all()
 
         elif period == 'week':
             temp = date - datetime.timedelta(days=7)
             transactions = Transaction.objects.filter(
-                                                      data_from__gte=temp,
-                                                      user_id=request.user.id).prefetch_related('transaction_from',
-                                                                                                'transaction_to').all()
+                data_from__gte=temp,
+                user_id=request.user.id).prefetch_related('transaction_from',
+                                                          'transaction_to') \
+                .all()
 
         elif period == 'year':
             temp = date - datetime.timedelta(days=365)
             transactions = Transaction.objects.filter(
-                                                      data_from__gte=temp,
-                                                      user_id=request.user.id).prefetch_related('transaction_from',
-                                                                                                'transaction_to').all()
+                data_from__gte=temp,
+                user_id=request.user.id).prefetch_related('transaction_from',
+                                                          'transaction_to') \
+                .all()
 
         elif period == 'whole':
             temp = 'beginning'
             transactions = Transaction.objects.filter(
-                                                      user_id=request.user.id).prefetch_related('transaction_from',
-                                                                                                'transaction_to').all()
+                user_id=request.user.id).prefetch_related('transaction_from',
+                                                          'transaction_to') \
+                .all()
 
         context = {
-            'transaction': transactions,
-            'period': f', your report from {temp} to {date}',
+            'transactions': transactions,
+            'period': f'{temp} to {date}',
             'user': f'Dear {request.user.username.title()}',
         }
 
         if 'incomes' in nodes:
-            incomes = Income.objects.filter(user_id=request.user.id, delete=False)
+            incomes = Income.objects.filter(user_id=request.user.id,
+                                            delete=False)
             context['incomes'] = incomes
         if 'accounts' in nodes:
-            accounts = Account.objects.filter(user_id=request.user.id, delete=False)
+            accounts = Account.objects.filter(user_id=request.user.id,
+                                              delete=False)
             context['accounts'] = accounts
         if 'costs' in nodes:
             costs = Cost.objects.filter(user_id=request.user.id, delete=False)
