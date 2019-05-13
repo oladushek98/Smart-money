@@ -91,38 +91,38 @@ class UploadCSVView(View):
                                     currency=acc_cur)
                         cost.save()
                 elif row_num > 2:
+                    j = 0
                     for j in range(len(row) - 1, 0, -1):
                         if row[j] == '':
                             continue
-                        else:
-                            date = row[0].split('.')
-                            date.reverse()
-                            date = '-'.join(date)
-                            amount = int(float(row[j - 3]))
-                            cur = row[j - 2]
-                            comment = row[1].split()
-                            comment = ' '.join(comment)
-                            if amount > 0:
-                                Transaction(
-                                    data_from=date,
-                                    user=user,
-                                    transaction_from=income,
-                                    transaction_to=account,
-                                    choice_currency=cur,
-                                    amount=amount,
-                                    comment=comment[:100]
-                                ).save()
-                            else:
-                                Transaction(
-                                    data_from=date,
-                                    user=user,
-                                    transaction_from=account,
-                                    transaction_to=cost,
-                                    choice_currency=cur,
-                                    amount=-1 * amount,
-                                    comment=comment[:100]
-                                ).save()
-                            break
+                        break
+                    date = row[0].split('.')
+                    date.reverse()
+                    date = '-'.join(date)
+                    amount = int(float(row[j - 3]))
+                    cur = row[j - 2]
+                    comment = row[1].split()
+                    comment = ' '.join(comment)
+                    if amount > 0:
+                        Transaction(
+                            data_from=date,
+                            user=user,
+                            transaction_from=income,
+                            transaction_to=account,
+                            choice_currency=cur,
+                            amount=amount,
+                            comment=comment[:100]
+                        ).save()
+                    else:
+                        Transaction(
+                            data_from=date,
+                            user=user,
+                            transaction_from=account,
+                            transaction_to=cost,
+                            choice_currency=cur,
+                            amount=-1 * amount,
+                            comment=comment[:100]
+                        ).save()
                 row_num += 1
         os.remove(f'main\\static\\data\\csv{user.id}.csv')
 

@@ -2,14 +2,18 @@
 
 
 {% block content %}
-
-    <h2>Please, wait while your data is integrated into our system</h2>
-
-    <form method="post">
+<div class="banks">
+    <div class="bank-form">
+        <span style="font-size: 18px; font-family: 'Roboto', sans-serif">Load accounts list</span>
+        <form method="post">
         {% csrf_token %}
-        <button type="submit" id="integrate">Integrate
+        <input disabled type="text" class="" placeholder="login">
+        <input disabled type="text" class="" placeholder="password">
+        <button class="btn {{ button_color }}" type="submit" id="integrate">Integrate
         </button>
     </form>
+    </div>
+
     <div class="load_csv">
 
         <form method="post" action="{% url 'uploadcsv' %}" enctype="multipart/form-data">
@@ -18,7 +22,7 @@
             <button class="btn {{ button_color }}" type="submit">Load</button>
         </form>
     </div>
-
+</div>
 {% endblock %}
 
 

@@ -2,13 +2,13 @@ import requests
 import logging
 import os
 
-
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, WebDriverException
+from selenium.common.exceptions import NoSuchElementException, \
+    ElementClickInterceptedException, WebDriverException
 
 import datetime
 
@@ -47,10 +47,10 @@ class PDFConverter:
                                 link_callback=PDFConverter.fetch_pdf_resources)
 
         if not pdf.err:
-            return HttpResponse(result.getvalue(), content_type='application/pdf')
+            return HttpResponse(result.getvalue(),
+                                content_type='application/pdf')
 
         return None
-
 
 
 class BankAccountIntegration:
@@ -76,13 +76,16 @@ class BankAccountIntegration:
             print(webdriver.title)
             print(webdriver.page_source)
 
-            el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:login')))
+            el = WebDriverWait(webdriver, 1000).until(
+                EC.presence_of_element_located((By.ID, 'frmLogin:login')))
             el.send_keys(login)
 
-            el = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:password')))
+            el = WebDriverWait(webdriver, 1000).until(
+                EC.presence_of_element_located((By.ID, 'frmLogin:password')))
             el.send_keys(password)
 
-            btn = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'frmLogin:enterButton')))
+            btn = WebDriverWait(webdriver, 1000).until(
+                EC.presence_of_element_located((By.ID, 'frmLogin:enterButton')))
             btn.click()
 
             url = webdriver.current_url
@@ -90,7 +93,8 @@ class BankAccountIntegration:
             if 'disconnect' in url:
                 raise WebDriverException
 
-            table = WebDriverWait(webdriver, 1000).until(EC.presence_of_element_located((By.ID, 'accountsTable_data')))
+            table = WebDriverWait(webdriver, 1000).until(
+                EC.presence_of_element_located((By.ID, 'accountsTable_data')))
 
             print(table.text)
 
@@ -103,14 +107,21 @@ class BankAccountIntegration:
             info_new = [subj for subj in info if subj != '']
             del info
 
-            accounts = [(info_new[i], round(float(info_new[i + 1].replace(',', '.'))), info_new[i + 2])
+            accounts = [(info_new[i],
+                         round(float(info_new[i + 1].replace(',', '.'))),
+                         info_new[i + 2])
                         for i in range(0, len(info_new), 3)]
 
             for account in accounts:
-                Account.objects.update_or_create(user_id=user, name=account[0], currency=account[2],
-                                                 defaults={'user_id': user, 'is_debt_account': False,
-                                                           'take_into_balance': True, 'name': account[0],
-                                                           'currency': account[2], 'amount': account[1]})
+                Account.objects.update_or_create(user_id=user, name=account[0],
+                                                 currency=account[2],
+                                                 defaults={'user_id': user,
+                                                           'is_debt_account': False,
+                                                           'take_into_balance': True,
+                                                           'name': account[0],
+                                                           'currency': account[2],
+                                                           'amount': account[1],
+                                                           'delete': False})
 
             print(accounts)
 
@@ -129,7 +140,7 @@ class BankAccountIntegration:
             return False
 
         finally:
-            #display.stop()
+            # display.stop()
             pass
 
 
@@ -137,7 +148,6 @@ class ReportSender:
 
     @staticmethod
     def send_report(subject, text):
-
         users = User.objects.filter(~Q(email=''))
         messages = []
 
@@ -145,8 +155,9 @@ class ReportSender:
         connection.open()
 
         for user in users:
-
-            msg = EmailMultiAlternatives(subject=subject, body=f'Dear {user.username.title()}, {text}', to=[user.email])
+            msg = EmailMultiAlternatives(subject=subject,
+                                         body=f'Dear {user.username.title()}, {text}',
+                                         to=[user.email])
 
             incomes = Income.objects.filter(user_id=user.id, delete=False)
             accounts = Account.objects.filter(user_id=user.id, delete=False)
@@ -155,8 +166,9 @@ class ReportSender:
             date = datetime.datetime.today()
             temp = date - datetime.timedelta(days=30)
             transactions = Transaction.objects.filter(data_from__gte=temp,
-                                                      user_id=user.id).prefetch_related('transaction_from',
-                                                                                        'transaction_to').all()
+                                                      user_id=user.id).prefetch_related(
+                'transaction_from',
+                'transaction_to').all()
 
             context = {
                 'transactions': transactions,
@@ -200,13 +212,13 @@ def get_value_currency(currency: str):
 
 def convert_into_byn(amount: int, currency: str):
     rate = get_value_currency(currency)
-    result = int(amount)*rate
+    result = int(amount) * rate
     return result
 
 
 def convert_from_byn(amount: int, currency: str):
     rate = get_value_currency(currency)
-    result = int(amount)/rate
+    result = int(amount) / rate
     return result
 
 
@@ -215,7 +227,8 @@ def convert_currency(amount: int, convert_from: str, convert_to: str):
 
     if convert_from != "BYN" and convert_to != "BYN":
         convert_from_into_byn = convert_into_byn(amount, convert_from)
-        byn_into_convert_to = convert_from_byn(convert_from_into_byn, convert_to)
+        byn_into_convert_to = convert_from_byn(convert_from_into_byn,
+                                               convert_to)
         result = byn_into_convert_to
 
     elif convert_from == "BYN" and convert_to == "BYN":
