@@ -1,11 +1,10 @@
-Diplom/settings.py
 .idea/
 venv/*
-main/migrations/*
 Scripts/*
 Lib/*
 Diplom/__pycache__/*
+Diplom/settings.py
 main/__pycache__/*
 main/views/__pycache__/*
 *.cfg
-__pycache__/*
+*__pycache__*

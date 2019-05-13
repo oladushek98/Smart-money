@@ -20,7 +20,8 @@ class FinancialNode(models.Model):
     delete = models.BooleanField(default=False)
     user = models.ForeignKey(User,
                              related_name='financial_nodes',
-                             on_delete=models.CASCADE)
+                             on_delete=models.CASCADE,
+                             default=0)
     create_on = models.DateField(default=timezone.now().date())
 
 
@@ -32,7 +33,7 @@ class Income(FinancialNode):
     def __str__(self):
         return f'Доходы : {super().__str__()}'
 
-    monthly_plan = models.IntegerField(null=True, blank=True)
+    monthly_plan = models.IntegerField(default=0)
 
 
 # счета
@@ -45,8 +46,8 @@ class Account(FinancialNode):
             f'{super().__str__()}'
 
     amount = models.IntegerField(null=True, blank=True)
-    is_debt_account = models.BooleanField()
-    take_into_balance = models.BooleanField()
+    is_debt_account = models.BooleanField(default=False)
+    take_into_balance = models.BooleanField(default=True)
 
 
 # расходы
@@ -57,7 +58,7 @@ class Cost(FinancialNode):
     def __str__(self):
         return f'Расходы : {super().__str__()}'
 
-    monthly_plan = models.IntegerField(null=True, blank=True)
+    monthly_plan = models.IntegerField(default=0)
 
 
 # цель
@@ -102,7 +103,7 @@ class Transaction(models.Model):
     comment = models.CharField(max_length=100, default='')
     delete = models.BooleanField(default=False)
     user = models.ForeignKey(User,
-                             related_name='transactions',
+                             related_name='transaction',
                              on_delete=models.CASCADE,
                              null=True)
     choice_currency = models.CharField(max_length=3, default='BYN')
@@ -111,6 +112,8 @@ class Transaction(models.Model):
 class UserAdditionalInfo(models.Model):
 
     currency = models.CharField(max_length=3, default='BYN')
+    bank_login = models.CharField(max_length=50, null=True)
+    bank_password = models.CharField(max_length=50, null=True)
     user = models.ForeignKey(User,
                              related_name='additonal',
                              on_delete=models.CASCADE)

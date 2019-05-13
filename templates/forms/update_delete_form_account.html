@@ -19,7 +19,6 @@
 
 <script>
     $(document).ready(function () {
-        {#$('#id_take_into_balance').remove();#}
         $('form').children()[4].remove();
     });
 
@@ -35,7 +34,7 @@
         let header = new Headers();
         header.append('X-CSRFToken', csrftoken);
 
-        const response = await fetch("{% url 'update_account' form.id %}", {
+        const response = await fetch(submit_url, {
             method: 'POST',
             headers: header,
             body: body,
@@ -43,7 +42,7 @@
         });
 
         if(response.ok){
-            alert(response.body);
+            goToPage('/')
         }
     };
 

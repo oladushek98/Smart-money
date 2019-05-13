@@ -19,7 +19,7 @@ class GetTransactionSource(View):
             f'{"income" if isinstance(x, Income) else "account"}_{x.id}',
                                   'name': x.name},
                        income_source + account_source))
-        return JsonResponse({'body': res})
+        return JsonResponse({'body': res if len(res) > 0 else []})
 
 
 class GetTransactionDestination(View):

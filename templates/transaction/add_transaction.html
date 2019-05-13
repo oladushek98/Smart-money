@@ -1,13 +1,13 @@
 {% load static %}
 
 
-<script src="{% static 'main/scripts/api/transactionApi.js' %}"></script>
+<script src="{% static 'main/scripts/api/transactionApi.min.js' %}"></script>
 <div class="sm-dashboard-top">
     <div class="add-transaction_wrapper">
         <div class="add-transaction sm-add-transaction_state_standby">
             <span id="add-transaction_placeholder"
                   class="add-transaction_text add-transaction_placeholder">
-                из Кошелька в Продукты 1000 ₽ 12.04.2019 #метка комментарий
+                из Кошелька в Продукты 1000 ₽ 12.04.2019
             </span>
             <div id="steps" class="transaction-steps">
                 <div id="step_1" class="add-transaction_step">
@@ -38,4 +38,4 @@
     </div>
 </div>
 
-<script src="{% static 'main/scripts/api/transactionInit.js' %}"></script>
+<script src="{% static 'main/scripts/api/transactionInit.min.js' %}"></script>

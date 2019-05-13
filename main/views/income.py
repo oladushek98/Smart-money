@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 
 from main.forms import IncomeForm
@@ -6,7 +7,7 @@ from django.urls import reverse_lazy
 from django.views.generic import UpdateView, FormView, CreateView
 
 
-class IncomeUpdateView(FormView):
+class IncomeUpdateView(LoginRequiredMixin, FormView):
     form_class = IncomeForm
     template_name = 'income/update_income.html'
 
@@ -23,7 +24,8 @@ class IncomeUpdateView(FormView):
                                    'currency': currency})
 
         form.id = income.id
-        return render(request, template_name=self.template_name, context={'form': form})
+        return render(request, template_name=self.template_name,
+                      context={'form': form})
 
     def form_valid(self, form):
         name = form.cleaned_data.get('name')

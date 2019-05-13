@@ -1,11 +1,8 @@
 import datetime
 
 from django.http import HttpResponse
-from django.shortcuts import redirect
-from django.urls import reverse_lazy
 from django.views.generic import FormView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q, F
 
 from main.forms import ReportGenerationForm
 from main.models import Transaction, Income, Account, Cost
@@ -36,6 +33,7 @@ class ReportGenerationView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         transactions = None
+        temp = None
 
         period = request.GET['period']
         nodes = request.GET['nodes']
@@ -43,58 +41,66 @@ class ReportGenerationView(LoginRequiredMixin, View):
 
         if period == 'day':
             temp = date
-            transactions = Transaction.objects.filter(data_from=date,
-                                                      user_id=request.user.id).prefetch_related('transaction_from',
-                                                                                                'transaction_to').all()
+            date += datetime.timedelta(days=1)
+            transactions = Transaction.objects.filter(data_from=temp,
+                                                      user_id=request.user.id) \
+                .prefetch_related('transaction_from', 'transaction_to').all()
 
         elif period == 'month':
             temp = date - datetime.timedelta(days=30)
             transactions = Transaction.objects.filter(data_from__gte=temp,
-                                                      # data_from__year=temp.year,
-                                                      user_id=request.user.id).prefetch_related('transaction_from',
-                                                                                                'transaction_to').all()
+                                                      user_id=request.user.id) \
+                .prefetch_related('transaction_from', 'transaction_to').all()
+
 
         elif period == 'week':
             temp = date - datetime.timedelta(days=7)
             transactions = Transaction.objects.filter(
-                                                      data_from__gte=temp,
-                                                      user_id=request.user.id).prefetch_related('transaction_from',
-                                                                                                'transaction_to').all()
+                data_from__gte=temp,
+                user_id=request.user.id).prefetch_related('transaction_from',
+                                                          'transaction_to') \
+                .all()
 
         elif period == 'year':
             temp = date - datetime.timedelta(days=365)
             transactions = Transaction.objects.filter(
-                                                      data_from__gte=temp,
-                                                      user_id=request.user.id).prefetch_related('transaction_from',
-                                                                                                'transaction_to').all()
+                data_from__gte=temp,
+                user_id=request.user.id).prefetch_related('transaction_from',
+                                                          'transaction_to') \
+                .all()
 
         elif period == 'whole':
             temp = 'beginning'
             transactions = Transaction.objects.filter(
-                                                      user_id=request.user.id).prefetch_related('transaction_from',
-                                                                                                'transaction_to').all()
+                user_id=request.user.id).prefetch_related('transaction_from',
+                                                          'transaction_to') \
+                .all()
 
         context = {
             'transactions': transactions,
-            'period': f', your report from {temp} to {date}',
-            'user': request.user.username.title()
+            'period': f'{temp} to {date}',
+            'user': f'Dear {request.user.username.title()}',
         }
 
         if 'incomes' in nodes:
-            incomes = Income.objects.filter(user_id=request.user.id, delete=False)
+            incomes = Income.objects.filter(user_id=request.user.id,
+                                            delete=False)
             context['incomes'] = incomes
         if 'accounts' in nodes:
-            accounts = Account.objects.filter(user_id=request.user.id, delete=False)
+            accounts = Account.objects.filter(user_id=request.user.id,
+                                              delete=False)
             context['accounts'] = accounts
         if 'costs' in nodes:
             costs = Cost.objects.filter(user_id=request.user.id, delete=False)
             context['costs'] = costs
 
+        # print(context)
+
         pdf = PDFConverter.render_to_pdf('report/report.html', context)
 
         if pdf:
             response = HttpResponse(pdf, content_type='application/pdf')
-            filename = f'Report_{request.user.username}_{request.path.split("/")[-2]}'
+            filename = f'Report_{request.user.username}_{period}_from_{temp}_to_{date}'
             content = f'inline; filename=\'{filename}\''
             download = request.GET.get("download")
 

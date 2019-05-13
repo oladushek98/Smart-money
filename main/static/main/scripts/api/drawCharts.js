@@ -1,0 +1,1 @@
+function parse_data(a){a=a.replace(/&quot;/g,'"'),a=JSON.parse(a);try{a.forEach(function(a){a[0]=a[0].replace(/~/g,'"')})}catch(a){}return a}
